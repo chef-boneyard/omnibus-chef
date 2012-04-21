@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Clean up binary symlinks if they exist
 # see: http://tickets.opscode.com/browse/CHEF-3022
