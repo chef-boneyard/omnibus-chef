@@ -159,6 +159,27 @@ default['chef_server']['chef-server-api']['web_ui_admin_user_name'] = "admin"
 default['chef_server']['chef-server-api']['web_ui_admin_default_password'] = "p@ssw0rd1"
 
 ####
+# Erlang Chef Server API
+####
+default['chef_server']['erchef']['enable'] = true
+default['chef_server']['erchef']['enable'] = true
+default['chef_server']['erchef']['ha'] = false
+default['chef_server']['erchef']['dir'] = "/var/opt/chef-server/erchef"
+default['chef_server']['erchef']['log_directory'] = "/var/log/chef-server/erchef"
+default['chef_server']['erchef']['svlogd_size'] = 1000000
+default['chef_server']['erchef']['svlogd_num'] = 10
+default['chef_server']['erchef']['vip'] = '127.0.0.1'
+default['chef_server']['erchef']['listen'] = '127.0.0.1'
+default['chef_server']['erchef']['port'] = 8000
+default['chef_server']['erchef']['auth_skew'] = '900'
+default['chef_server']['erchef']['bulk_fetch_batch_size'] = '5'
+default['chef_server']['erchef']['max_cache_size'] = '10000'
+default['chef_server']['erchef']['cache_ttl'] = '3600'
+default['chef_server']['erchef']['db_pool_size'] = '20'
+default['chef_server']['erchef']['couchdb_max_conn'] = '100'
+default['chef_server']['erchef']['s3_bucket'] = 'bookshelf'
+
+####
 # Chef Server WebUI
 ####
 default['chef_server']['chef-server-webui']['enable'] = true

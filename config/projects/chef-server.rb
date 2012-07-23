@@ -43,6 +43,7 @@ deps << "chef-sql-schema" # required to migrate the DB.
 
 # the front-end services
 deps << "chef-server-api"
+deps << "erchef"
 deps << "chef-server-webui"
 
 # version manifest file
