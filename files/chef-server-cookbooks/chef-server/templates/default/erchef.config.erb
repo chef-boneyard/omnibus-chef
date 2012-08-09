@@ -47,11 +47,11 @@
                 {solr_url, "http://<%= node['chef_server']['chef-solr']['vip'] %>:<%= node['chef_server']['chef-solr']['port'] %>/solr"}
                ]},
   {chef_objects, [
-                  {s3_access_key_id, "<%= node['chef_server']['aws']['aws_key'] %>"},
-                  {s3_secret_key_id, "<%= node['chef_server']['aws']['aws_secret'] %>"},
+                  {s3_access_key_id, "<%= node['chef_server']['bookshelf']['access_key_id'] %>"},
+                  {s3_secret_key_id, "<%= node['chef_server']['bookshelf']['secret_access_key'] %>"},
                   %% this is hard-coded until bookshelf gets integrated.
-                  {s3_url, "https://s3.amazonaws.com"},
-                  {s3_platform_bucket_name, "<%= node['chef_server']['aws']['s3_bucket'] %>"}
+                  {s3_url, "https://<%= node['fqdn'] %>"},
+                  {s3_platform_bucket_name, "<%= node['chef_server']['erchef']['s3_bucket'] %>"}
                  ]},
   {stats_hero, [
                {udp_socket_pool_size, 1 },
