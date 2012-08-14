@@ -3,7 +3,7 @@ version "master"
 
 dependencies ["erlang", "rsync"]
 
-source :git => "git@github.com:opscode/opscode-chef-api-erlang"
+source :git => "git@github.com:opscode/erchef"
 
 relative_path "erchef"
 
