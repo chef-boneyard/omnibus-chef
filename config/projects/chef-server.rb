@@ -25,7 +25,7 @@ build_iteration "1"
 deps = []
 
 # global
-deps << "chef"
+deps << "chef-gem"
 deps << "preparation"
 deps << "chef-server-cookbooks"
 deps << "chef-server-scripts"
@@ -34,7 +34,6 @@ deps << "runit"
 deps << "unicorn"
 
 # the backend
-deps << "couchdb"
 deps << "postgresql"
 deps << "rabbitmq"
 deps << "chef-solr"
@@ -43,9 +42,9 @@ deps << "chef-sql-schema" # required to migrate the DB.
 deps << "bookshelf"
 
 # the front-end services
-deps << "chef-server-api"
 deps << "erchef"
-deps << "chef-server-webui"
+# FIXME: uncomment when ready to tackle webui
+# deps << "chef-server-webui"
 
 # version manifest file
 deps << "version-manifest"

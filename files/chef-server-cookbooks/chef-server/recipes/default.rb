@@ -63,15 +63,14 @@ include_recipe "runit"
 
 # Configure Services
 [
-  "couchdb",
   "rabbitmq",
   "postgresql",
   "chef-solr",
   "chef-expander",
   "bookshelf",
-  "chef-server-api",
   "erchef",
-  "chef-server-webui",
+ # FIXME: uncomment when we are ready to tackle the webui
+ # "chef-server-webui",
   "nginx"
 ].each do |service|
   if node["chef_server"][service]["enable"]
@@ -88,15 +87,15 @@ file "/etc/chef-server/chef-server-running.json" do
   content Chef::JSONCompat.to_json_pretty({ "chef_server" => node['chef_server'].to_hash, "run_list" => node.run_list })
 end
 
-ruby_block "wait for certificate creation" do
-  block do
-    unless File.exists?("/etc/chef-server/validation.pem") && File.exists?("/etc/chef-server/webui.pem")
-      raise "Still waiting on certificates!"
-    end
-  end
-  retry_delay 10
-  retries 20
-end
+# ruby_block "wait for certificate creation" do
+#   block do
+#     unless File.exists?("/etc/chef-server/validation.pem") && File.exists?("/etc/chef-server/webui.pem")
+#       raise "Still waiting on certificates!"
+#     end
+#   end
+#   retry_delay 10
+#   retries 20
+# end
 
 directory "fix up /etc/chef-server" do
   path "/etc/chef-server"
@@ -115,4 +114,3 @@ file "/etc/chef-server/webui.pem" do
   group node["chef_server"]['user']['username']
   mode "0640"
 end
-
