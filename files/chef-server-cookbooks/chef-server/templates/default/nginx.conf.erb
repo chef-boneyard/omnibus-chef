@@ -123,8 +123,9 @@ http {
       proxy_cache_valid 404 1m;
     }
 
-    location / {
-    <%= select_upstream("chef_server_api", "chef_server_webui") %>
+    location ~ "^/.*" {
+    # FIXME: webui temp disable
+    <%= select_upstream("erchef", "erchef") %>
     }
   }
 }
