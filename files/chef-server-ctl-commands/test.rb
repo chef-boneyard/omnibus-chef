@@ -15,24 +15,11 @@
 # limitations under the License.
 #
 
-bootstrap_status_file = "/var/opt/chef-server/bootstrapped"
-erchef_dir = "/opt/chef-server/embedded/service/erchef"
-
-execute "verify-system-status" do
-  command "curl -sf http://localhost:8000/_status"
-  retries 20
-  not_if { File.exists?(bootstrap_status_file) }
-end
-
-execute "boostrap-chef-server" do
-  command "bin/bootstrap-chef-server"
-  cwd erchef_dir
-  not_if { File.exists?(bootstrap_status_file) }
-end
-
-file bootstrap_status_file do
-  owner "root"
-  group "root"
-  mode "0600"
-  content "All your bootstraps are belong to Chef"
+add_command "test", "Run the API test suite against localhost." do
+  ENV["PATH"] = "#{File.join(base_path, "bin")}:#{ENV['PATH']}"
+  pedant_args = ARGV[2..-1]
+  Dir.chdir(File.join(base_path, "embedded", "service", "chef-pedant"))
+  pedant_config = File.join(etc_path, "pedant_config.rb")
+  bundle = File.join(base_path, "embedded", "bin", "bundle")
+  exec("#{bundle} exec ./opscode-pedant -c #{pedant_config} #{pedant_args.join(' ')}")
 end

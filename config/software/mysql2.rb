@@ -15,24 +15,26 @@
 # limitations under the License.
 #
 
-bootstrap_status_file = "/var/opt/chef-server/bootstrapped"
-erchef_dir = "/opt/chef-server/embedded/service/erchef"
+#
+# Enable MySQL support by adding the following to '/etc/chef-server/chef-server.rb':
+#
+#   postgresql['enable'] = false
+#   mysql['enable'] = true
+#   mysql['destructive_migrate'] = true
+#
+# Then run 'chef-server-ctl reconfigure'
+#
 
-execute "verify-system-status" do
-  command "curl -sf http://localhost:8000/_status"
-  retries 20
-  not_if { File.exists?(bootstrap_status_file) }
-end
+name "mysql2"
+versions_to_install = [ "0.3.6", "0.3.7" ]
+version versions_to_install.join("-")
 
-execute "boostrap-chef-server" do
-  command "bin/bootstrap-chef-server"
-  cwd erchef_dir
-  not_if { File.exists?(bootstrap_status_file) }
-end
+dependencies ["ruby", "bundler"]
 
-file bootstrap_status_file do
-  owner "root"
-  group "root"
-  mode "0600"
-  content "All your bootstraps are belong to Chef"
+build do
+  gem "install rake-compiler"
+  command "mkdir -p #{install_dir}/embedded/service/gem/ruby/1.9.1/cache"
+  versions_to_install.each do |ver|
+    gem "fetch mysql2 --version #{ver}", :cwd => "#{install_dir}/embedded/service/gem/ruby/1.9.1/cache"
+  end
 end
