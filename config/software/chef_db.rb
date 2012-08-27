@@ -15,13 +15,17 @@
 # limitations under the License.
 #
 
-name "chef-server-scripts"
+name "chef_db"
+version "master"
 
-dependencies [ "rsync" ]
+dependencies ["postgresql", "rsync"]
 
-source :path => File.expand_path("files/chef-server-scripts", Omnibus.root)
+# TODO: use the public git:// uri once this repo is public
+source :git => "git://github.com/opscode/chef_db.git"
+
+relative_path "chef_db"
 
 build do
-  command "mkdir -p #{install_dir}/embedded/bin"
-  command "#{install_dir}/embedded/bin/rsync -a ./ #{install_dir}/bin/"
+  command "mkdir -p #{install_dir}/embedded/service/chef_db"
+  command "#{install_dir}/embedded/bin/rsync -a --delete --exclude=.git/*** --exclude=.gitignore ./ #{install_dir}/embedded/service/chef_db/"
 end

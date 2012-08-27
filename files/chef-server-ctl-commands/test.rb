@@ -15,7 +15,11 @@
 # limitations under the License.
 #
 
-runit_service "chef-server-api" do
-  action :disable
+add_command "test", "Run the API test suite against localhost." do
+  ENV["PATH"] = "#{File.join(base_path, "bin")}:#{ENV['PATH']}"
+  pedant_args = ARGV[2..-1]
+  Dir.chdir(File.join(base_path, "embedded", "service", "chef-pedant"))
+  pedant_config = File.join(etc_path, "pedant_config.rb")
+  bundle = File.join(base_path, "embedded", "bin", "bundle")
+  exec("#{bundle} exec ./opscode-pedant -c #{pedant_config} #{pedant_args.join(' ')}")
 end
-

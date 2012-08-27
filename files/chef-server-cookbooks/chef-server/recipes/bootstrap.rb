@@ -15,13 +15,24 @@
 # limitations under the License.
 #
 
-name "chef-server-scripts"
+bootstrap_status_file = "/var/opt/chef-server/bootstrapped"
+erchef_dir = "/opt/chef-server/embedded/service/erchef"
 
-dependencies [ "rsync" ]
+execute "verify-system-status" do
+  command "curl -sf http://localhost:8000/_status"
+  retries 20
+  not_if { File.exists?(bootstrap_status_file) }
+end
 
-source :path => File.expand_path("files/chef-server-scripts", Omnibus.root)
+execute "boostrap-chef-server" do
+  command "bin/bootstrap-chef-server"
+  cwd erchef_dir
+  not_if { File.exists?(bootstrap_status_file) }
+end
 
-build do
-  command "mkdir -p #{install_dir}/embedded/bin"
-  command "#{install_dir}/embedded/bin/rsync -a ./ #{install_dir}/bin/"
+file bootstrap_status_file do
+  owner "root"
+  group "root"
+  mode "0600"
+  content "All your bootstraps are belong to Chef"
 end
