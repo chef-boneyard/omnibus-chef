@@ -35,7 +35,6 @@ if node['chef_server']['mysql']['install_libs']
 end
 
 bundles = {
-  "chef-sql-schema" => false,
   "chef-expander" => false,
   # "chef-server-webui" => "integration_test dev" # FIXME: uncomment when we are ready to tackle the webui
 }
@@ -75,14 +74,9 @@ end
 
 if !File.exists?("/var/opt/chef-server/mysql-bootstrap")
   if node["chef_server"]["mysql"]["destructive_migrate"] && node['chef_server']['bootstrap']['enable']
-    execute "migrate_database_1" do
-      command "/opt/chef-server/embedded/bin/bundle exec sequel -m db/migrate mysql2://#{node['chef_server']['mysql']['sql_user']}:#{node['chef_server']['mysql']['sql_password']}@#{node['chef_server']['mysql']['vip']}/opscode_chef -M 0"
-      cwd "/opt/chef-server/embedded/service/chef-sql-schema"
-    end
-
-    execute "migrate_database_2" do
-      command "/opt/chef-server/embedded/bin/bundle exec sequel -m db/migrate mysql2://#{node['chef_server']['mysql']['sql_user']}:#{node['chef_server']['mysql']['sql_password']}@#{node['chef_server']['mysql']['vip']}/opscode_chef"
-      cwd "/opt/chef-server/embedded/service/chef-sql-schema"
+    execute "migrate_database" do
+      command "mysql -h #{node['chef_server']['mysql']['vip']} -u #{node['chef_server']['mysql']['sql_user']} -p#{node['chef_server']['mysql']['sql_password']} opscode_chef < mysql_schema.sql"
+      cwd "/opt/chef-server/embedded/service/chef_db/priv"
     end
   end
 
