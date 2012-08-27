@@ -139,14 +139,14 @@ if node['chef_server']['bootstrap']['enable']
   end
 
   execute "migrate_database" do
-    command "/opt/chef-server/embedded/bin/bundle exec /opt/chef-server/embedded/bin/rake pg:remigrate"
-    cwd "/opt/chef-server/embedded/service/chef-sql-schema"
+    command "/opt/chef-server/embedded/bin/psql opscode_chef < pgsql_schema.sql"
+    cwd "/opt/chef-server/embedded/service/chef_db/priv"
     user node['chef_server']['postgresql']['username']
     action :nothing
   end
 
   execute "/opt/chef-server/embedded/bin/psql -d 'opscode_chef' -c \"CREATE USER #{node['chef_server']['postgresql']['sql_user']} WITH SUPERUSER ENCRYPTED PASSWORD '#{node['chef_server']['postgresql']['sql_password']}'\"" do
-    cwd "/opt/chef-server/embedded/service/chef-sql-schema"
+    cwd "/opt/chef-server/embedded/service/chef_db/priv"
     user node['chef_server']['postgresql']['username']
     notifies :run, "execute[grant opscode_chef privileges]", :immediately
     not_if user_exists
@@ -159,7 +159,7 @@ if node['chef_server']['bootstrap']['enable']
   end
 
   execute "/opt/chef-server/embedded/bin/psql -d 'opscode_chef' -c \"CREATE USER #{node['chef_server']['postgresql']['sql_ro_user']} WITH SUPERUSER ENCRYPTED PASSWORD '#{node['chef_server']['postgresql']['sql_ro_password']}'\"" do
-    cwd "/opt/chef-server/embedded/service/chef-sql-schema"
+    cwd "/opt/chef-server/embedded/service/chef_db/priv"
     user node['chef_server']['postgresql']['username']
     notifies :run, "execute[grant opscode_chef_ro privileges]", :immediately
     not_if ro_user_exists
