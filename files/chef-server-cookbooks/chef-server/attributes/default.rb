@@ -231,6 +231,7 @@ default['chef_server']['nginx']['cache_max_size'] = '5000m'
 # MySQL
 ###
 default['chef_server']['mysql']['enable'] = false
+default['chef_server']['mysql']['username'] = "root"
 default['chef_server']['mysql']['sql_user'] = "opscode_chef"
 default['chef_server']['mysql']['sql_password'] = "snakepliskin"
 default['chef_server']['mysql']['vip'] = "127.0.0.1"

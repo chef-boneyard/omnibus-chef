@@ -18,6 +18,7 @@
 #
 # Enable MySQL support by adding the following to '/etc/chef-server/chef-server.rb':
 #
+#   database_type = "mysql"
 #   postgresql['enable'] = false
 #   mysql['enable'] = true
 #   mysql['destructive_migrate'] = true
@@ -25,58 +26,45 @@
 # Then run 'chef-server-ctl reconfigure'
 #
 
-if node['chef_server']['mysql']['install_libs']
-  case node["platform"]
-  when "ubuntu"
-    package "libmysqlclient-dev"
-  when "centos","redhat","scientific"
-    package "libmysql-devel"
-  end
-end
-
-bundles = {
-  "chef-expander" => false,
-  # "chef-server-webui" => "integration_test dev" # FIXME: uncomment when we are ready to tackle the webui
-}
-
-node['chef_server']['mysql']['mysql2_versions'].each do |mysql2_version|
-  execute "/opt/chef-server/embedded/bin/gem unpack /opt/chef-server/embedded/service/gem/ruby/1.9.1/cache/mysql2-#{mysql2_version}.gem" do
-    cwd "/opt/chef-server/embedded/service/gem/ruby/1.9.1/gems"
-    not_if { File.directory?("/opt/chef-server/embedded/service/gem/ruby/1.9.1/gems/mysql2-#{mysql2_version}") }
-  end
-  mysql2_base = "/opt/chef-server/embedded/service/gem/ruby/1.9.1/gems/mysql2-#{mysql2_version}"
-  mysql2_base_safe = mysql2_base.gsub('/', '\/')
-  execute "sed -i -e 's/s.files = `git ls-files`/s.files = `find #{mysql2_base_safe} -type f`/' #{mysql2_base}/mysql2.gemspec"
-  execute "sed -i -e 's/s.test_files = `git ls-files spec examples`/s.test_files = `find #{mysql2_base_safe}\\/spec examples -type f`/' #{mysql2_base}/mysql2.gemspec"
-
-  execute "compile mysql2 #{mysql2_version}" do
-    command "/opt/chef-server/embedded/bin/rake compile"
-    cwd mysql2_base
-    not_if { File.directory?("#{mysql2_base}/lib/mysql2/mysql2.so") }
-  end
-
-  ruby_block "create mysql2 gemspec #{mysql2_version}" do
-    block do
-      gemspec = Gem::Specification.load("#{mysql2_base}/mysql2.gemspec").to_ruby_for_cache
-      File.open("/opt/chef-server/embedded/service/gem/ruby/1.9.1/specifications/mysql2-#{mysql2_version}.gemspec", "w") do |spec_file|
-        spec_file.print gemspec
-      end
-    end
-    not_if { File.exists?("/opt/chef-server/embedded/service/gem/ruby/1.9.1/specifications/mysql2-#{mysql2_version}.gemspec") }
-  end
-end
-
-bundles.each do |name, without_list|
-  execute "sed -i -e 's/mysql://g' /opt/chef-server/embedded/service/#{name}/.bundle/config"
-  execute "sed -i -e 's/:mysql//g' /opt/chef-server/embedded/service/#{name}/.bundle/config"
-  execute "sed -i -e 's/mysql//g' /opt/chef-server/embedded/service/#{name}/.bundle/config"
-end
-
 if !File.exists?("/var/opt/chef-server/mysql-bootstrap")
   if node["chef_server"]["mysql"]["destructive_migrate"] && node['chef_server']['bootstrap']['enable']
+
+    ###
+    # Create the database, migrate it, and create the users we need, and grant them
+    # privileges.
+    ###
+    chpst = "/opt/chef-server/embedded/bin/chpst -u#{node['chef_server']['mysql']['username']}"
+    mysql = "mysql -h#{node['chef_server']['mysql']['vip']}"
+    sql_user = node['chef_server']['mysql']['sql_user']
+    sql_password = node['mysql']['sql_password']
+
+    database_exists = "#{chpst} mysqlshow | grep #{db_name}"
+    user_exists     = "#{chpst} #{mysql} -e \"SELECT User FROM mysql.user\" | grep #{sql_user}"
+
+    execute "#{mysql} -e \"CREATE DATABASE IF NOT EXISTS #{db_name};\"" do
+      user node['chef_server']['mysql']['username']
+      not_if database_exists
+      retries 30
+      notifies :run, "execute[migrate_database]", :immediately
+    end
+
     execute "migrate_database" do
-      command "mysql -h #{node['chef_server']['mysql']['vip']} -u #{node['chef_server']['mysql']['sql_user']} -p#{node['chef_server']['mysql']['sql_password']} opscode_chef < mysql_schema.sql"
+      command "#{mysql} -d#{db_name} < mysql_schema.sql"
+      user node['chef_server']['mysql']['username']
       cwd "/opt/chef-server/embedded/service/chef_db/priv"
+      action :nothing
+    end
+
+    execute "#{mysql} -e \"CREATE USER #{sql_user} IDENTIFIED BY PASSWORD '#{sql_password}'\"" do
+      user node['chef_server']['mysql']['username']
+      notifies :run, "execute[grant opscode_chef privileges]", :immediately
+      not_if user_exists
+    end
+
+    execute "grant opscode_chef privileges" do
+      command "#{mysql} -d#{db_name} -e \"GRANT ALL ON #{db_name}.* TO '#{sql_user}'@'#{db_vip}'\""
+      user node['chef_server']['mysql']['username']
+      action :nothing
     end
   end
 
