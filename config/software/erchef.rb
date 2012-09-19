@@ -20,7 +20,7 @@ version "master"
 
 dependencies ["erlang", "rsync", "curl"]
 
-source :git => "git://github.com/opscode/erchef"
+source :git => "git://github.com/opscode/erchef", :version => "kas_git_retries"
 
 relative_path "erchef"
 
