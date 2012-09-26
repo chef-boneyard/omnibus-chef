@@ -37,6 +37,9 @@ sudo env OMNIBUS_GEM_PATH=$(bundle show omnibus) chef-solo -c jenkins-solo.rb -j
 # copy config into place
 cp omnibus.rb.example omnibus.rb
 
+# copy the setup.sh script into place
+cp $(pwd)/jenkins/setup.sh /opt/chef/
+
 # Aaand.. new ruby
 export PATH=/usr/local/bin:$PATH
 if [ "$CLEAN" = "true" ]; then
