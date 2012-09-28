@@ -18,7 +18,8 @@
 name "chef-setup"
 
 build do 
-  command "cp files/chef-setup/setup.sh #{install_dir}"
+  expanded_path = File.expand_path("files/chef-setup", Omnibus.root)
+  command "cp #{expanded_path}/setup.sh #{install_dir}"
 end
     
 
