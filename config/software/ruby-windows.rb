@@ -15,10 +15,15 @@
 # limitations under the License.
 #
 
-name "chef-windows"
+name "ruby-windows"
 
-install_path    "C:\\opscode\\chef"
-build_version   Omnibus::BuildVersion.full
-build_iteration 4
+version "1.9.3-p286"
 
-dependencies ["ruby-windows"]
+relative_path "ruby-#{version}-i386-mingw32"
+
+source :url => "http://rubyforge.org/frs/download.php/76528/ruby-#{version}-i386-mingw32.7z",
+       :md5 => "8ba0d2203590dbf8e9d59d9d731c05d0"
+
+build do
+  command "robocopy . #{install_dir}\\embedded\\ /MIR"
+end
