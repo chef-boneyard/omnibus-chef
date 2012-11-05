@@ -63,14 +63,13 @@ fi
 if [ "$CLEAN" = "true" ]; then
   sudo rm -rf "/opt/${project_name}" || true
   sudo mkdir -p "/opt/${project_name}" && sudo chown jenkins-node "/opt/${project_name}"
-  sudo rm -r /var/cache/omnibus/pkg/* || true
-  sudo rm -r /var/cache/omnibus/src/* || true
-  sudo rm /var/cache/omnibus/build/*/*.manifest || true
-  sudo rm pkg/* || true
-  bundle update
-else
-  bundle install
+  sudo rm -rf /var/cache/omnibus/pkg/* || true
+  sudo rm -rf /var/cache/omnibus/src/* || true
+  sudo rm -f /var/cache/omnibus/build/*/*.manifest || true
+  sudo rm -f pkg/* || true
 fi
+bundle install
+
 
 # Omnibus build server prep tasks, including build ruby
 sudo -i env PATH=$PATH OMNIBUS_GEM_PATH=$(bundle show omnibus) chef-solo -c $(pwd)/jenkins/solo.rb -j $(pwd)/jenkins/dna.json -l debug
@@ -80,11 +79,7 @@ cp omnibus.rb.example omnibus.rb
 
 # Aaand.. new ruby
 export PATH=/usr/local/bin:$PATH
-if [ "$CLEAN" = "true" ]; then
-  bundle update
-else
-  bundle install
-fi
+bundle install
 
 rake "projects:${project_name}"
 
