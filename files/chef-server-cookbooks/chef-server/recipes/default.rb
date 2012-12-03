@@ -22,7 +22,7 @@ ENV['PATH'] = "/opt/chef-server/bin:/opt/chef-server/embedded/bin:#{ENV['PATH']}
 directory "/etc/chef-server" do
   owner "root"
   group "root"
-  mode "0775"
+  mode "0700"
   action :nothing
 end.run_action(:create)
 
