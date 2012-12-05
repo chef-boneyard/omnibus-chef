@@ -4,7 +4,7 @@
 #
 
 CONFIG_DIR=/etc/chef
-USAGE="usage: $0 [-v validation_key] ([-o organization] || [-u url])"
+USAGE="usage: $0 [-v validation_key] ([-h hosted_chef_org] || [-u url])"
 
 validation_key=
 organization=
@@ -14,7 +14,7 @@ while getopts o:u:v: opt
 do
     case "$opt" in
       v)  validation_key="${OPTARG}";;
-      o)  organization="${OPTARG}"; chef_url="https://api.opscode.com/organizations/${OPTARG}";;
+      h)  organization="${OPTARG}"; chef_url="https://api.opscode.com/organizations/${OPTARG}";;
       u)  chef_url="${OPTARG}";;
       \?)		# unknown flag
       	  echo >&2 ${USAGE}

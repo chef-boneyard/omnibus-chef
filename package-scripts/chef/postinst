@@ -26,5 +26,6 @@ ln -sf $INSTALLER_DIR/bin/shef /usr/bin || error_exit "Cannot link shef to /usr/
 ln -sf $INSTALLER_DIR/bin/ohai /usr/bin || error_exit "Cannot link ohai to /usr/bin"
 
 echo "Thank you for installing Chef!"
+echo "You can configure this client again using /opt/chef/setup.sh"
 
 exit 0
