@@ -42,27 +42,28 @@ fi
 # create the build timestamp file for fingerprinting if it doesn't exist (manual build execution)
 if [ ! -f build_timestamp ]
 then
-  date > build_timstamp
+  date > build_timestamp
   echo "$BUILD_TAG / $BUILD_ID" > build_timestamp
 fi
 
-mkdir -p jenkins/chef-solo/cache
-
 if [ "$CLEAN" = "true" ]; then
-  sudo rm -rf "/opt/${project_name}" || true
-  sudo mkdir -p "/opt/${project_name}"
-  sudo chown jenkins-node "/opt/${project_name}" || sudo chown jenkins "/opt/${project_name}"
-  sudo rm -rf /var/cache/omnibus/pkg/* || true
-  sudo rm -rf /var/cache/omnibus/src/* || true
-  sudo rm -f /var/cache/omnibus/build/*/*.manifest || true
+  sudo rm -rf /opt/$project_name || true
+  sudo rm -rf /var/cache/omnibus || true
   sudo rm -f pkg/* || true
 fi
+
+# create required build dirs and set ownership
+for BUILD_DIR in /opt/$project_name /var/cache/omnibus
+do
+  sudo mkdir -p $BUILD_DIR
+  sudo chown $(whoami) $BUILD_DIR
+done
 
 # copy config into place
 cp omnibus.rb.example omnibus.rb
 
+# execute build via omnibus rake task
 bundle install --deployment
-
 bundle exec rake "projects:${project_name}"
 
 # Sign the package on some platforms:
