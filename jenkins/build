@@ -61,7 +61,7 @@ fi
 # copy config into place
 cp omnibus.rb.example omnibus.rb
 
-bundle install
+bundle install --deployment
 
 bundle exec rake "projects:${project_name}"
 
