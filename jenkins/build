@@ -48,18 +48,6 @@ fi
 
 mkdir -p jenkins/chef-solo/cache
 
-export PATH=/opt/ruby1.9/bin:/usr/local/bin:$PATH
-if ! exists chef-solo;
-then
-  sudo gem install chef --no-ri --no-rdoc
-fi
-
-# ensure bundler is installed
-if ! exists bundle;
-then
-  sudo gem install bundler --no-ri --no-rdoc
-fi
-
 if [ "$CLEAN" = "true" ]; then
   sudo rm -rf "/opt/${project_name}" || true
   sudo mkdir -p "/opt/${project_name}"
@@ -69,17 +57,10 @@ if [ "$CLEAN" = "true" ]; then
   sudo rm -f /var/cache/omnibus/build/*/*.manifest || true
   sudo rm -f pkg/* || true
 fi
-bundle install
-
-
-# Omnibus build server prep tasks, including build ruby
-sudo -i env PATH=$PATH OMNIBUS_GEM_PATH=$(bundle show omnibus) chef-solo -c $(pwd)/jenkins/solo.rb -j $(pwd)/jenkins/dna.json -l debug
 
 # copy config into place
 cp omnibus.rb.example omnibus.rb
 
-# Aaand.. new ruby
-export PATH=/usr/local/bin:$PATH
 bundle install
 
 bundle exec rake "projects:${project_name}"
