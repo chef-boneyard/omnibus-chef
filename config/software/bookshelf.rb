@@ -16,7 +16,7 @@
 #
 
 name "bookshelf"
-version "4b2721362596262527f4bff70e97bff56204d957"
+version "sf/finish_request"
 
 dependencies ["erlang", "rebar", "rsync"]
 
