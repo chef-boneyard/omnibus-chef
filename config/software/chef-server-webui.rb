@@ -16,7 +16,7 @@
 #
 
 name "chef-server-webui"
-version "11.0.0"
+version "post-11.0.2-fixes"
 
 dependencies ["ruby", "bundler", "libxml2", "libxslt", "curl", "rsync"]
 
