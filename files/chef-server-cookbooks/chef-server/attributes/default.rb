@@ -137,7 +137,7 @@ default['chef_server']['erchef']['root_metric_key'] = "chefAPI"
 ####
 # Chef Server WebUI
 ####
-default['chef_server']['chef-server-webui']['enable'] = true
+default['chef_server']['chef-server-webui']['enable'] = false
 default['chef_server']['chef-server-webui']['ha'] = false
 default['chef_server']['chef-server-webui']['dir'] = "/var/opt/chef-server/chef-server-webui"
 default['chef_server']['chef-server-webui']['log_directory'] = "/var/log/chef-server/chef-server-webui"
