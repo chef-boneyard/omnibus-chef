@@ -13,14 +13,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-name "chef"
 
-replaces        "chef-full"
-install_path    "/opt/chef"
-build_version   Omnibus::BuildVersion.full
-build_iteration "4"
+name "chef-setup"
 
-dependencies ["preparation","chef", "chef-setup", "version-manifest"]
+build do 
+  expanded_path = File.expand_path("files/chef-setup", Omnibus.root)
+  command "cp #{expanded_path}/setup.sh #{install_dir}"
+end
+    
+
 
