@@ -219,12 +219,14 @@ class ShipIt
     artifacts.each do |artifact|
       artifact.add_to_release_manifest!(metadata)
       artifact.add_to_v2_release_manifest!(v2_metadata)
-      upload_package(artifact.path, artifact.relpath)
+      if not s3_file_exists?(artifact.relpath)
+        upload_package(artifact.path, artifact.relpath)
+      end
     end
-    upload_platform_name_map(artifact_collection.platform_name_map_path)
-    upload_manifest(metadata)
+    #upload_platform_name_map(artifact_collection.platform_name_map_path)
+    #upload_manifest(metadata)
     if upload_v2_manifest?
-      upload_v2_platform_name_map(artifact_collection.platform_name_map_path)
+      #upload_v2_platform_name_map(artifact_collection.platform_name_map_path)
       upload_v2_manifest(v2_metadata)
     end
   end
@@ -313,6 +315,17 @@ class ShipIt
     shell = Mixlib::ShellOut.new(s3_cmd, shellout_opts)
     shell.run_command
     shell.error!
+  end
+
+  def s3_file_exists?(s3_path)
+    s3_com = ["s3cmd",
+              "-c #{options[:package_s3_config_file]}",
+              "ls",
+              "s3://#{options[:bucket]}#{s3_path}"].join(" ")
+    shell = Mixlib::ShellOut.new(s3_cmd, shellout_opts)
+    shell.run_command
+    shell.error!
+    not shell.stdout.empty?
   end
 
   def upload_manifest(manifest)
