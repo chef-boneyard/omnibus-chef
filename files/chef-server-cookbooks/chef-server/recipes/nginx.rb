@@ -101,12 +101,40 @@ end
 
 nginx_config = File.join(nginx_etc_dir, "nginx.conf")
 
+chef_lb_configs = {
+  :chef_https_config => File.join(nginx_etc_dir, "chef_https_lb.conf"),
+  :chef_http_config => File.join(nginx_etc_dir, "chef_http_lb.conf")
+}
+
+nginx_vars = node['chef_server']['nginx'].to_hash
+
+# Chef API lb config for HTTPS and HTTP
+["https", "http"].each do |server_proto|
+  config_key = "chef_#{server_proto}_config".to_sym
+  lb_config = chef_lb_configs[config_key]
+
+  server_port = (server_proto == 'https') ?
+                 nginx_vars['ssl_port'] :
+                 nginx_vars['non_ssl_port']
+
+  template lb_config do
+    source "nginx_chef_api_lb.conf.erb"
+    owner "root"
+    group "root"
+    mode "0644"
+    variables(nginx_vars.merge(:server_proto => server_proto,
+                               :server_port => server_port))
+    notifies :restart, 'service[nginx]' if OmnibusHelper.should_notify?("nginx")
+  end
+
+end
+
 template nginx_config do
   source "nginx.conf.erb"
   owner "root"
   group "root"
   mode "0644"
-  variables(node['chef_server']['nginx'].to_hash)
+  variables(nginx_vars.merge(chef_lb_configs))
   notifies :restart, 'service[nginx]' if OmnibusHelper.should_notify?("nginx")
 end
 
