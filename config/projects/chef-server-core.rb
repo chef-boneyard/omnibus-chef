@@ -32,7 +32,6 @@ deps << "chef-server-scripts" # assorted scripts used by installed instance
 deps << "chef-server-ctl" # additional project-specific chef-server-ctl subcommands
 deps << "nginx" # load balacning
 deps << "runit"
-deps << "unicorn" # serves up Rack apps (chef-server-webui)
 
 # the backend
 deps << "postgresql"
@@ -43,7 +42,6 @@ deps << "bookshelf" # S3 API compatible object store
 
 # the front-end services
 deps << "erchef" # the actual Chef Server REST API
-deps << "chef-server-webui"
 
 # integration testing
 deps << "chef-pedant" # test ALL THE THINGS!
