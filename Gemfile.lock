@@ -1,7 +1,21 @@
 GIT
+  remote: git://github.com/opscode/omnibus-ruby.git
+  revision: 2326c133c20ffd9774e1228a00411f9c078d9f72
+  branch: CHEF-2576
+  specs:
+    omnibus (1.0.2)
+      fpm (= 0.3.11)
+      mixlib-config (~> 1.1.2)
+      mixlib-shellout (~> 1.0)
+      ohai (>= 0.6.12)
+      rake (>= 0.9)
+      thor (>= 0.16.0)
+      uber-s3
+
+GIT
   remote: git://github.com/opscode/omnibus-software.git
-  revision: a1f25d7ab6930826822323b373b8298bff02fed1
-  branch: master
+  revision: 9a7330ec50f3b1e2a7f0a72929c628d6868d7384
+  branch: CHEF-2576
   specs:
     omnibus-software (0.0.1)
 
@@ -27,14 +41,6 @@ GEM
       mixlib-shellout
       systemu
       yajl-ruby
-    omnibus (1.0.2)
-      fpm (= 0.3.11)
-      mixlib-config (~> 1.1.2)
-      mixlib-shellout (~> 1.0)
-      ohai (>= 0.6.12)
-      rake (>= 0.9)
-      thor (>= 0.16.0)
-      uber-s3
     rake (10.0.4)
     systemu (2.5.2)
     thor (0.18.1)
@@ -56,5 +62,5 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
-  omnibus (~> 1.0.0)
+  omnibus!
   omnibus-software!
