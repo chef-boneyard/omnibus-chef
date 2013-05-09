@@ -1,7 +1,7 @@
 GIT
   remote: git://github.com/opscode/omnibus-software.git
-  revision: 67307717f6525852c79b75107ba1f85f93c040e5
-  branch: master
+  revision: 9efe62f865260eb631ec30cd89eb3901140ff2f4
+  branch: dat-dependency-order
   specs:
     omnibus-software (0.0.1)
 
