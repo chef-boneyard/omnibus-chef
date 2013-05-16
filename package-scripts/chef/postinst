@@ -67,6 +67,8 @@ fi
 # rm -f before ln -sf is required for solaris 9
 rm -f $PREFIX/bin/chef-client
 rm -f $PREFIX/bin/chef-solo
+rm -f $PREFIX/bin/chef-apply
+rm -f $PREFIX/bin/chef-shell
 rm -f $PREFIX/bin/knife
 rm -f $PREFIX/bin/shef
 rm -f $PREFIX/bin/ohai
