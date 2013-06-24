@@ -100,7 +100,7 @@ build do
   rake "gem"
 
   gem ["install mixlib-shellout",
-       "--pre"].join(" "), :env => env
+       "--pre"].join(" ")
 
   gem ["install pkg/chef*.gem",
        "-n #{install_dir}/bin",
