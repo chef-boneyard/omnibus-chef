@@ -103,7 +103,10 @@ build do
        "--pre"].join(" ")
 
   gem ["install ohai",
-       "--pre"].join(" ")
+       "--pre",
+       "-n #{install_dir}/bin",
+       "--no-rdoc --no-ri"
+      ].join(" ")
 
   gem ["install pkg/chef*.gem",
        "-n #{install_dir}/bin",
