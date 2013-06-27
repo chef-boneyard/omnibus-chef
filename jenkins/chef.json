@@ -139,6 +139,7 @@
             "11.10",
             "x86_64"
         ]
+    ],
     "build_os=ubuntu-12-04,machine_architecture=x64,role=oss-builder": [
         [
             "ubuntu",
@@ -149,7 +150,8 @@
             "ubuntu",
             "12.10",
             "x86_64"
-        ],
+        ]
+    ],
     "build_os=ubuntu-13-04,machine_architecture=x64,role=oss-builder": [
         [
             "ubuntu",
@@ -168,6 +170,7 @@
             "11.10",
             "i686"
         ]
+    ],
     "build_os=ubuntu-12-04,machine_architecture=x86,role=oss-builder": [
         [
             "ubuntu",
@@ -179,6 +182,7 @@
             "12.10",
             "i686"
         ]
+    ],
     "build_os=ubuntu-13-04,machine_architecture=x86,role=oss-builder": [
         [
             "ubuntu",
@@ -186,36 +190,50 @@
             "i686"
         ]
     ],
+    "build_os=freebsd-9-1,machine_architecture=x64,role=oss-builder": [
+        [
+            "freebsd",
+            "9",
+            "amd64"
+        ]
+    ],
+    "build_os=freebsd-9-1,machine_architecture=x86,role=oss-builder": [
+        [
+            "freebsd",
+            "9",
+            "i386"
+        ]
+    ],
     "build_os=windows-2008r2,machine_architecture=x64,role=oss-builder": [
-	[
-	    "windows",
-	    "2008r2",
-	    "x86_64"
-	],
-	[
-	    "windows",
-	    "2003r2",
-	    "i686"
-	],
-	[
-	    "windows",
-	    "2003r2",
-	    "x86_64"
-	],
-	[
-	    "windows",
-	    "2008",
-	    "x86_64"
-	],
-	[
-	    "windows",
-	    "2008",
-	    "i686"
-	],
-	[
-	    "windows",
-	    "2012",
-	    "x86_64"
-	]
+        [
+            "windows",
+            "2008r2",
+            "x86_64"
+        ],
+        [
+            "windows",
+            "2003r2",
+            "i686"
+        ],
+        [
+            "windows",
+            "2003r2",
+            "x86_64"
+        ],
+        [
+            "windows",
+            "2008",
+            "x86_64"
+        ],
+        [
+            "windows",
+            "2008",
+            "i686"
+        ],
+        [
+            "windows",
+            "2012",
+            "x86_64"
+        ]
     ]
 }
