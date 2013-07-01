@@ -99,19 +99,6 @@ build do
 
   rake "gem"
 
-  gem ["install mixlib-shellout",
-       "--pre"].join(" ")
-
-  gem ["install ohai",
-       "--pre",
-       "-n #{install_dir}/bin",
-       "--no-rdoc --no-ri"
-      ].join(" ")
-
-  gem ["install pkg/chef*.gem",
-       "-n #{install_dir}/bin",
-       "--no-rdoc --no-ri"].join(" ")
-
   aux_gems = {
     "ffi"           => "1.3.1",
     "win32-api"     => "1.4.8",
@@ -126,12 +113,22 @@ build do
     "windows-pr"    => "1.2.2"
   }
 
-
-
   aux_gems.each do |gem_name, version|
     gem ["install", gem_name, "-v", version, "--no-rdoc --no-ri"].join(" ")
   end
 
+  gem ["install mixlib-shellout",
+       "--pre"].join(" ")
+
+  gem ["install ohai",
+       "--pre",
+       "-n #{install_dir}/bin",
+       "--no-rdoc --no-ri"
+      ].join(" ")
+
+  gem ["install pkg/chef*.gem",
+       "-n #{install_dir}/bin",
+       "--no-rdoc --no-ri"].join(" ")
 
   # render batch files
   #
