@@ -109,6 +109,7 @@ build do
     "win32-service" => "0.7.2",
     "rdp-ruby-wmi"  => "0.3.1",
     "win32-dir"     => "0.4.1",
+    "win32-ipc"     => "0.6.1",
     "win32-event"   => "0.6.0",
     "win32-mutex"   => "0.4.0",
     "win32-process" => "0.7.1",
@@ -120,7 +121,7 @@ build do
 
 
   aux_gems.each do |gem_name, version|
-    gem ["install", gem_name, "-v", version, "--no-rdoc --no-ri"].join(" ")
+    gem ["install", gem_name, "-v", version, "--no-rdoc --no-ri --ignore-dependencies"].join(" ")
   end
 
 
