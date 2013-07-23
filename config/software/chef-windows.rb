@@ -124,6 +124,12 @@ build do
     gem ["install", gem_name, "-v", version, "--no-rdoc --no-ri --ignore-dependencies"].join(" ")
   end
 
+  # Saddest hack:
+  # mixlib-shellout pulls in ffi 1.9.0 via win32-process/win32-pr.
+  # That version of ffi causes "System Error Message: The operation completed successfully" errors.
+  # So, remove it.
+  gem ["uninstall", "ffi", "-v", ">=1.9.0"].join(" ")
+
 
   # render batch files
   #
