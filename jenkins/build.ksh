@@ -1,0 +1,105 @@
+#!/bin/ksh
+#
+# Build you some jenkins
+#
+
+set -e
+set -x
+
+# Check whether a command exists - returns 0 if it does, 1 if it does not
+function exists {
+  if type $1 >/dev/null 2>&1
+  then
+    return 0
+  else
+    return 1
+  fi
+}
+
+function usage {
+  echo >&2 \
+  "usage: $0 [-p project_name]"
+}
+
+# Get command line arguments
+while getopts :p: opt
+do
+  echo $opt
+  case "$opt" in
+    p)  project_name="$OPTARG";;
+    [\?]|[\:]) usage; exit 1;;
+  esac
+done
+
+if [ -z $project_name ]
+then
+  usage
+  exit 1
+fi
+
+# create the build timestamp file for fingerprinting if it doesn't exist (manual build execution)
+if [ ! -f build_timestamp ]
+then
+  date > build_timestamp
+  echo "$BUILD_TAG / $BUILD_ID" > build_timestamp
+fi
+
+mkdir -p jenkins/chef-solo/cache
+
+export PATH=/opt/ruby1.9/bin:/usr/local/bin:$PATH
+if ! exists chef-solo;
+then
+  sudo gem install chef --no-ri --no-rdoc
+fi
+
+# ensure bundler is installed
+if ! exists bundle;
+then
+  sudo gem install bundler --no-ri --no-rdoc
+fi
+
+# ensure berkshelf is installed
+if ! exists berks;
+then
+  sudo gem install berkshelf --no-ri --no-rdoc
+fi
+
+# install omnibus cookbook and dependencies
+berks install --path=vendor/cookbooks
+
+if [ -f "/etc/release" ] && [ -n "$(cat /etc/release | grep -i solaris)" ]; then
+  dna=$(pwd)/jenkins/dna-solaris2.json
+else
+  dna=$(pwd)/jenkins/dna.json
+fi
+# Omnibus build server prep tasks, including build ruby
+sudo -i env PATH=$PATH chef-solo -c $(pwd)/jenkins/solo.rb -j $dna -l debug
+
+if [ "$CLEAN" = "true" ]; then
+  sudo rm -rf "/opt/${project_name}" || true
+  sudo mkdir -p "/opt/${project_name}"
+  sudo chown jenkins-node "/opt/${project_name}" || sudo chown jenkins "/opt/${project_name}"
+  sudo rm -rf /var/cache/omnibus/pkg/* || true
+  sudo rm -rf /var/cache/omnibus/src/* || true
+  sudo rm -f /var/cache/omnibus/build/*/*.manifest || true
+  sudo rm -f pkg/* || true
+fi
+
+# copy config into place
+cp omnibus.rb.example omnibus.rb
+
+# Aaand.. new ruby
+export PATH=/usr/local/bin:$PATH
+
+# docs do not install on solaris 9
+bundle install --without docs
+
+if [ "$RELEASE_BUILD" = "true" ]; then
+  bundle exec omnibus build project $project_name --no-timestamp
+else
+  bundle exec omnibus build project $project_name
+fi
+
+# Dump the build-generated version so the Omnitruck release script uses the
+# correct version string format.
+echo "`awk -v p=$project_name '$1 == p {print $2}' /opt/${project_name}/version-manifest.txt`" > pkg/BUILD_VERSION
