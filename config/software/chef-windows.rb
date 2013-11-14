@@ -21,6 +21,7 @@ dependency "ruby-windows" #includes rubygems
 dependency "ruby-windows-devkit"
 dependency "bundler"
 dependency "cacerts"
+dependency "berkshelf"
 
 version ENV['CHEF_GIT_REV'] || "master"
 
