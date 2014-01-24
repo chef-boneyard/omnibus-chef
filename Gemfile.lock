@@ -14,7 +14,7 @@ GIT
 
 GIT
   remote: git://github.com/opscode/omnibus-software.git
-  revision: d3fc96476b989285aed01a0738cbc34e56062020
+  revision: 36d9617999a5cbba3e407c9f659d308c0b817bf4
   branch: lcg/include-berkshelf
   specs:
     omnibus-software (0.0.1)
