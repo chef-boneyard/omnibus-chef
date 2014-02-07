@@ -27,3 +27,8 @@ dependency "preparation"
 dependency "chefdk"
 dependency "ohai" if ENV["OHAI_GIT_REV"]
 dependency "version-manifest"
+
+software_version_pinning = {
+   "ruby" => "2.1.0",
+   "rubygems" => "2.2.1"
+}
