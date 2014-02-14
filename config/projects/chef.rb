@@ -27,4 +27,5 @@ build_iteration 4
 dependency "preparation"
 dependency "chef"
 dependency "ohai" if ENV["OHAI_GIT_REV"]
+dependency "opscode-pushy-client"
 dependency "version-manifest"
