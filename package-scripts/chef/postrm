@@ -28,4 +28,5 @@ if [ ! -f /etc/redhat-release -o "x$1" = "x0" ]; then
   rm -f $PREFIX/bin/shef
   rm -f $PREFIX/bin/knife
   rm -f $PREFIX/bin/ohai
+  rm -f $PREFIX/bin/pushy-client
 fi
