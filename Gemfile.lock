@@ -1,7 +1,7 @@
 GIT
   remote: git://github.com/opscode/omnibus-software.git
-  revision: f37700aaa3752d98d2e3d38cb6704bd850efc8ba
-  branch: master
+  revision: 404aca69008e49e75c8e99f563f47a66857ac18a
+  branch: lcg/include-pushy-client
   specs:
     omnibus-software (0.0.1)
 
