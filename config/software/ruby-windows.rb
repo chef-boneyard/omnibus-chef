@@ -20,11 +20,11 @@ version "1.9.3-p484"
 
 relative_path "ruby-#{version}-i386-mingw32"
 
-source :url => "http://dl.bintray.com/oneclick/rubyinstaller/ruby-#{version}-i386-mingw32.7z?direct",
-       :md5 => "a0665113aaeea83f1c4bea02fcf16694"
+source url: "http://dl.bintray.com/oneclick/rubyinstaller/ruby-#{version}-i386-mingw32.7z?direct",
+       md5: "a0665113aaeea83f1c4bea02fcf16694"
 
 build do
   # Robocopy's return code is 1 if it succesfully copies over the
   # files and 0 if the files are already existing at the destination
-  command "robocopy . #{install_dir}\\embedded\\ /MIR", :returns => [0, 1]
+  command "robocopy . #{install_dir}\\embedded\\ /MIR", returns: [0, 1]
 end

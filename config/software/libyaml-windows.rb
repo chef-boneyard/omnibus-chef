@@ -29,8 +29,8 @@ version "0.1.5"
 
 dependency "ruby-windows"
 
-source :url => "http://packages.openknapsack.org/libyaml/libyaml-0.1.5-x86-windows.tar.lzma",
-       :md5 => "16d2e890a176b4dbac547f2044577115"
+source url: "http://packages.openknapsack.org/libyaml/libyaml-0.1.5-x86-windows.tar.lzma",
+       md5: "16d2e890a176b4dbac547f2044577115"
 
 build do
   temp_directory = File.join(cache_dir, "libyaml-cache")

@@ -41,7 +41,6 @@ require 'mixlib/shellout'
 # finding the artifacts and dealing with the mapping between build platform and
 # install platforms.
 class ArtifactCollection
-
   class MissingArtifact < RuntimeError
   end
 
@@ -74,16 +73,16 @@ class ArtifactCollection
   end
 
   def package_paths
-    @package_paths ||= Dir['**/pkg/*'].
-      reject {|path| path.include?("BUILD_VERSION") }.
-      reject {|path| path.include?("metadata.json") }
+    @package_paths ||= Dir['**/pkg/*']
+      .reject { |path| path.include?("BUILD_VERSION") }
+      .reject { |path| path.include?("metadata.json") }
   end
 
   def artifacts
     artifacts = []
     missing_packages = []
     platform_map.each do |build_platform_spec, supported_platforms|
-      if path = package_paths.find { |p| p.include?(build_platform_spec) }
+      if ( path = package_paths.find { |p| p.include?(build_platform_spec) } )
         artifacts << Artifact.new(path, supported_platforms, config)
       else
         missing_packages << build_platform_spec
@@ -109,7 +108,6 @@ end
 
 # Represents an individual package which has one or more supported platforms.
 class Artifact
-
   attr_reader :path
   attr_reader :platforms
   attr_reader :config
@@ -156,7 +154,7 @@ class Artifact
       pkg_info = {
         "relpath" => relpath,
         "md5" => md5,
-        "sha256" => sha256
+        "sha256" => sha256,
       }
 
       release_manifest[distro] ||= {}
@@ -192,7 +190,7 @@ class Artifact
   def digest(digest_class)
     digest = digest_class.new
     File.open(path) do |io|
-      while chunk = io.read(1024 * 8)
+      while ( chunk = io.read(1024 * 8) )
         digest.update(chunk)
       end
     end
@@ -204,9 +202,9 @@ class ShipIt
   attr_reader :argv
   attr_reader :options
 
-  def initialize(argv=[])
+  def initialize(argv = [])
     @argv = argv
-    @options = {:package_s3_config_file => "~/.s3cfg"}
+    @options = { package_s3_config_file: "~/.s3cfg" }
   end
 
   def release_it
@@ -227,7 +225,7 @@ class ShipIt
 
   def option_parser
     @option_parser ||= OptionParser.new do |opts|
-      opts.banner = "Usage: #{$0} [options]"
+      opts.banner = "Usage: #{$PROGRAM_NAME} [options]"
 
       opts.on("-p", "--project PROJECT", "the project to release") do |project|
         options[:project] = project
@@ -253,8 +251,7 @@ class ShipIt
         options[:metadata_s3_config_file] = config_path
       end
 
-      opts.on("--ignore-missing-packages",
-              "indicates the release should continue if any build packages are missing") do |missing|
+      opts.on("--ignore-missing-packages", "indicates the release should continue if any build packages are missing") do |missing|
         options[:ignore_missing_packages] = missing
       end
     end
@@ -271,20 +268,20 @@ class ShipIt
     end
 
     required = [:project, :version, :bucket, :metadata_bucket, :metadata_s3_config_file]
-    missing = required.select {|param| options[param].nil?}
-    if !missing.empty?
+    missing = required.select { |param| options[param].nil? }
+    unless missing.empty?
       puts "Missing required options: #{missing.join(', ')}"
       puts option_parser
       exit 1
     end
   rescue OptionParser::InvalidOption, OptionParser::MissingArgument
-    puts $!.to_s
+    puts $ERROR_INFO.to_s
     puts option_parser
     exit 1
   end
 
   def shellout_opts
-    {:timeout => 1200, :live_stream => STDOUT}
+    { timeout: 1200, live_stream: STDOUT }
   end
 
   def progress
@@ -296,29 +293,33 @@ class ShipIt
   end
 
   def upload_package(local_path, s3_path)
-    s3_cmd = ["s3cmd",
-              "-c #{options[:package_s3_config_file]}",
-              "put",
-              progress,
-              "--acl-public",
-              local_path,
-              "s3://#{options[:bucket]}#{s3_path}"].join(" ")
+    s3_cmd = [
+      "s3cmd",
+      "-c #{options[:package_s3_config_file]}",
+      "put",
+      progress,
+      "--acl-public",
+      local_path,
+      "s3://#{options[:bucket]}#{s3_path}",
+    ].join(" ")
     shell = Mixlib::ShellOut.new(s3_cmd, shellout_opts)
     shell.run_command
     shell.error!
   end
 
   def upload_v2_manifest(manifest)
-    File.open("v2-release-manifest.json", "w") {|f| f.puts JSON.pretty_generate(manifest)}
+    File.open("v2-release-manifest.json", "w") { |f| f.puts JSON.pretty_generate(manifest) }
 
     s3_location = "s3://#{options[:metadata_bucket]}/#{options[:project]}-release-manifest/#{options[:version]}.json"
     puts "UPLOAD: v2-release-manifest.json -> #{s3_location}"
-    s3_cmd = ["s3cmd",
-              "-c #{options[:metadata_s3_config_file]}",
-              "put",
-              "--acl-public",
-              "v2-release-manifest.json",
-              s3_location].join(" ")
+    s3_cmd = [
+      "s3cmd",
+      "-c #{options[:metadata_s3_config_file]}",
+      "put",
+      "--acl-public",
+      "v2-release-manifest.json",
+      s3_location,
+    ].join(" ")
     shell = Mixlib::ShellOut.new(s3_cmd, shellout_opts)
     shell.run_command
     shell.error!
@@ -327,12 +328,14 @@ class ShipIt
   def upload_v2_platform_name_map(platform_names_file)
     s3_location = "s3://#{options[:metadata_bucket]}/#{options[:project]}-release-manifest/#{options[:project]}-platform-names.json"
     puts "UPLOAD: #{options[:project]}-platform-names.json -> #{s3_location}"
-    s3_cmd = ["s3cmd",
-              "-c #{options[:metadata_s3_config_file]}",
-              "put",
-              "--acl-public",
-              platform_names_file,
-              s3_location].join(" ")
+    s3_cmd = [
+      "s3cmd",
+      "-c #{options[:metadata_s3_config_file]}",
+      "put",
+      "--acl-public",
+      platform_names_file,
+      s3_location,
+    ].join(" ")
     shell = Mixlib::ShellOut.new(s3_cmd, shellout_opts)
     shell.run_command
     shell.error!
@@ -343,8 +346,7 @@ class ShipIt
   end
 end
 
-
-if !$0.include?("rspec")
+if !$PROGRAM_NAME.include?("rspec")
   ShipIt.new(ARGV).release_it
 else
   describe ArtifactCollection do
@@ -477,10 +479,10 @@ E
         centos5_64bit_artifact = artifact_collection.artifacts.first
 
         path = "build_os=centos-5,machine_architecture=x64,role=oss-builder/pkg/demoproject-10.22.0-1.el5.x86_64.rpm"
-        centos5_64bit_artifact.path.should == path
+        centos5_64bit_artifact.path.should eql(path)
 
-        platforms = [ [ "el", "5", "x86_64" ], [ "sles","11.2","x86_64" ] ]
-        centos5_64bit_artifact.platforms.should == platforms
+        platforms = [ %w(el 5 x86_64), [ "sles", "11.2", "x86_64" ] ]
+        centos5_64bit_artifact.platforms.should eql(platforms)
       end
 
       context "and some expected packages are missing" do
@@ -497,7 +499,7 @@ E
 
         it "errors out verifying all packages are available" do
           err_msg = "Missing packages for config(s): 'build_os=centos-5,machine_architecture=x64,role=oss-builder'"
-          lambda {artifact_collection.artifacts}.should raise_error(ArtifactCollection::MissingArtifact, err_msg)
+          lambda { artifact_collection.artifacts }.should raise_error(ArtifactCollection::MissingArtifact, err_msg)
         end
 
       end
@@ -515,9 +517,9 @@ E
 
     let(:sha256) { "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" }
 
-    let(:platforms) { [ [ "el", "5", "x86_64" ], [ "sles","11.2","x86_64" ] ] }
+    let(:platforms) { [ %w(el 5 x86_64), [ "sles", "11.2", "x86_64" ] ] }
 
-    let(:artifact) { Artifact.new(path, platforms, { :version => "11.4.0-1" }) }
+    let(:artifact) { Artifact.new(path, platforms,  version: "11.4.0-1" ) }
 
     it "has the path to the package" do
       artifact.path.should == path
@@ -540,11 +542,19 @@ E
     it "adds the package to a release manifest" do
       expected = {
         "el" => {
-          "5" => { "x86_64" => { "11.4.0-1" => "/el/5/x86_64/demoproject-11.4.0-1.el5.x86_64.rpm" } }
+          "5" => {
+            "x86_64" => {
+              "11.4.0-1" => "/el/5/x86_64/demoproject-11.4.0-1.el5.x86_64.rpm",
+            },
+          },
         },
         "sles" => {
-          "11.2" => { "x86_64" => { "11.4.0-1" => "/el/5/x86_64/demoproject-11.4.0-1.el5.x86_64.rpm" } }
-        }
+          "11.2" => {
+            "x86_64" => {
+              "11.4.0-1" => "/el/5/x86_64/demoproject-11.4.0-1.el5.x86_64.rpm",
+            },
+          },
+        },
       }
 
       manifest = artifact.add_to_release_manifest!({})
@@ -555,23 +565,27 @@ E
       File.should_receive(:open).with(path).twice.and_return(content)
       expected = {
         "el" => {
-          "5" => { "x86_64" => { "11.4.0-1" => {
-            "relpath" => "/el/5/x86_64/demoproject-11.4.0-1.el5.x86_64.rpm",
-            "md5" => md5,
-            "sha256" => sha256
-              }
-            }
-          }
+          "5" => {
+            "x86_64" => {
+              "11.4.0-1" => {
+                "relpath" => "/el/5/x86_64/demoproject-11.4.0-1.el5.x86_64.rpm",
+                "md5" => md5,
+                "sha256" => sha256,
+              },
+            },
+          },
         },
         "sles" => {
-          "11.2" => { "x86_64" => { "11.4.0-1" => {
-            "relpath" => "/el/5/x86_64/demoproject-11.4.0-1.el5.x86_64.rpm",
-            "md5" => md5,
-            "sha256" => sha256
-              }
-            }
-          }
-        }
+          "11.2" => {
+            "x86_64" => {
+              "11.4.0-1" => {
+                "relpath" => "/el/5/x86_64/demoproject-11.4.0-1.el5.x86_64.rpm",
+                "md5" => md5,
+                "sha256" => sha256,
+              },
+            },
+          },
+        },
       }
       v2_manifest = artifact.add_to_v2_release_manifest!({})
       v2_manifest.should == expected
@@ -579,4 +593,3 @@ E
 
   end
 end
-
