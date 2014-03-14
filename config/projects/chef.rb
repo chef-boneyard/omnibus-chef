@@ -25,6 +25,8 @@ build_version   Omnibus::BuildVersion.full
 build_iteration 4
 mac_pkg_identifier "com.getchef.pkg.chef-client"
 
+override :chef,      version: "ohai7-alpha-rel"
+
 dependency "preparation"
 dependency "chef"
 dependency "version-manifest"
