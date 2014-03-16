@@ -27,7 +27,7 @@ build_version   Omnibus::BuildVersion.full
 build_iteration 4
 package_name    "chef-client"
 
-override "chef-windows",      version: "ohai7-alpha-rel"
+override "chef-windows",      version: "11.12.0.alpha.1"
 
 dependency "preparation"
 dependency "ruby-windows"
