@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-unless password = ARGV[0] and package = ARGV[1]
+unless ( password = ARGV[0] ) && ( package = ARGV[1] )
   STDERR.puts "Usage: sign-rpm PASSWORD PACKAGE"
   exit 1
 end
@@ -10,7 +10,7 @@ require 'pty'
 rpm_cmd = "rpm --addsign #{package}"
 
 puts rpm_cmd
-PTY.spawn(rpm_cmd) do |r,w,pid|
+PTY.spawn(rpm_cmd) do |r, w, pid|
   prompt = r.read(19)
 
   # match the expected prompt exactly, since that's the only way we know if
@@ -38,4 +38,3 @@ PTY.spawn(rpm_cmd) do |r,w,pid|
     end
   end
 end
-

@@ -17,15 +17,15 @@
 
 name "chef-client-msi"
 
-source :path => File.expand_path("files/msi", Omnibus.project_root)
+source path: File.expand_path("files/msi", Omnibus.project_root)
 
 build do
   # harvest with heat.exe
   # recursively generate fragment for chef-client directory
   block do
-    src_dir = self.project_dir
+    src_dir = project_dir
 
-    shell = Mixlib::ShellOut.new("heat.exe dir \"#{install_dir}\" -nologo -srd -gg -cg ChefClientDir -dr CHEFLOCATION -var var.ChefClientSourceDir -out chef-client-Files.wxs", :cwd => src_dir)
+    shell = Mixlib::ShellOut.new("heat.exe dir \"#{install_dir}\" -nologo -srd -gg -cg ChefClientDir -dr CHEFLOCATION -var var.ChefClientSourceDir -out chef-client-Files.wxs", cwd: src_dir)
     shell.run_command
     shell.error!
   end
@@ -34,7 +34,7 @@ build do
   block do
     require 'erb'
 
-    File.open("#{project_dir}\\templates\\chef-client-Config.wxi.erb") { |file|
+    File.open("#{project_dir}\\templates\\chef-client-Config.wxi.erb") do |file|
       # build_version looks something like this:
       # dev builds => 0.10.8-299-g360818f
       # rel builds => 0.10.8-299
@@ -42,12 +42,12 @@ build do
       @major_version = versions[0]
       @minor_version = versions[1]
       @micro_version = versions[2]
-      @build_version = build_version.split("-")[1] || self.project.build_iteration
+      @build_version = build_version.split("-")[1] || project.build_iteration
 
       # Find path in which chef gem is installed to.
       # Note that install_dir is something like: c:\\opscode\\chef
       chef_path_regex = "#{install_dir.gsub(File::ALT_SEPARATOR, File::SEPARATOR)}/**/gems/chef-[0-9]*"
-      chef_gem_paths = Dir[chef_path_regex].select{ |path| File.directory?(path) }
+      chef_gem_paths = Dir[chef_path_regex].select { |path| File.directory?(path) }
       raise "Expected one but found #{chef_gem_paths.length} installation directories for chef gem using: #{chef_path_regex}. Found paths: #{chef_gem_paths.inspect}." unless chef_gem_paths.length == 1
       @chef_gem_path = chef_gem_paths.first
 
@@ -61,10 +61,10 @@ build do
       @guid = "D607A85C-BDFA-4F08-83ED-2ECB4DCD6BC5"
 
       erb = ERB.new(file.read)
-      File.open("#{project_dir}\\ChefClient-Config.wxi", "w") { |out|
+      File.open("#{project_dir}\\ChefClient-Config.wxi", "w") do |out|
         out.write(erb.result(binding))
-      }
-    }
+      end
+    end
   end
 
   # Create temporary directory to store the files required for msi
@@ -72,16 +72,16 @@ build do
   command "IF exist #{install_dir}\\msi-tmp (echo msi-tmp is found on the system) ELSE (mkdir #{install_dir}\\msi-tmp && echo msi-tmp directory is created.) "
 
   # Copy the localization file into the temporary file directory for packaging
-  command "xcopy chef-client-en-us.wxl #{install_dir}\\msi-tmp /Y", :cwd => source[:path]
+  command "xcopy chef-client-en-us.wxl #{install_dir}\\msi-tmp /Y", cwd: source[:path]
 
   # Copy the asset files into the temporary file directory for packaging
-  command "xcopy assets #{install_dir}\\msi-tmp\\assets /I /Y", :cwd => source[:path]
+  command "xcopy assets #{install_dir}\\msi-tmp\\assets /I /Y", cwd: source[:path]
 
   # compile with candle.exe
   block do
-    src_dir = self.project_dir
+    src_dir = project_dir
 
-    shell = Mixlib::ShellOut.new("candle.exe -nologo -out #{install_dir}\\msi-tmp\\ -dChefClientSourceDir=\"#{install_dir}\" chef-client-Files.wxs chef-client.wxs", :cwd => src_dir)
+    shell = Mixlib::ShellOut.new("candle.exe -nologo -out #{install_dir}\\msi-tmp\\ -dChefClientSourceDir=\"#{install_dir}\" chef-client-Files.wxs chef-client.wxs", cwd: src_dir)
     shell.run_command
     shell.error!
   end

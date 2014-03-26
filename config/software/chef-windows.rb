@@ -17,14 +17,14 @@
 
 name "chef-windows"
 
-dependency "ruby-windows" #includes rubygems
+dependency "ruby-windows" # includes rubygems
 dependency "ruby-windows-devkit"
 dependency "bundler"
 dependency "cacerts"
 
 default_version "master"
 
-source :git => "git://github.com/opscode/chef"
+source git: "git://github.com/opscode/chef"
 
 relative_path "chef"
 
@@ -49,9 +49,8 @@ build do
     project = self.project
     if project.name == "chef-windows"
       git_cmd = "git describe --tags"
-      src_dir = self.project_dir
-      shell = Mixlib::ShellOut.new(git_cmd,
-                                   :cwd => src_dir)
+      src_dir = project_dir
+      shell = Mixlib::ShellOut.new(git_cmd, cwd: src_dir)
       shell.run_command
       shell.error!
       build_version = shell.stdout.chomp
@@ -66,8 +65,8 @@ build do
   # and 11 releases our software definition need to handle both cases
   # gracefully.
   block do
-    build_commands = self.builder.build_commands
-    chef_root = File.join(self.project_dir, "chef")
+    build_commands = builder.build_commands
+    chef_root = File.join(project_dir, "chef")
     if File.exists?(chef_root)
       build_commands.each_index do |i|
         cmd = build_commands[i].dup
@@ -77,7 +76,7 @@ build do
             cmd_opts[:cwd] = chef_root
             cmd << cmd_opts
           else
-            cmd << {:cwd => chef_root}
+            cmd << { cwd: chef_root }
           end
           build_commands[i] = cmd
         end
@@ -87,24 +86,35 @@ build do
 
   # symlink required unix tools
   # we need tar for 'knife cookbook site install' to function correctly
-  {"tar.exe" => "bsdtar.exe",
+  {
+    "tar.exe" => "bsdtar.exe",
     "libarchive-2.dll" => "libarchive-2.dll",
     "libexpat-1.dll" => "libexpat-1.dll",
     "liblzma-1.dll" => "liblzma-1.dll",
     "libbz2-2.dll" => "libbz2-2.dll",
-    "libz-1.dll" => "libz-1.dll"
+    "libz-1.dll" => "libz-1.dll",
   }.each do |target, to|
     command "mklink #{File.expand_path(File.join(install_dir, "bin", target)).gsub(/\//, "\\")} #{File.expand_path(File.join(install_dir, "embedded", "mingw", "bin", to)).gsub(/\//, "\\")}"
   end
 
   rake "gem"
 
-  gem ["install pkg/chef*mingw32.gem",
-       "-n #{install_dir}/bin",
-       "--no-rdoc --no-ri"].join(" ")
+  gem [
+    "install pkg/chef*mingw32.gem",
+    "-n #{install_dir}/bin",
+    "--no-rdoc --no-ri",
+  ].join(" ")
+
+  bundle_bust_env = {
+    "PATH" => "#{install_dir}/embedded/bin;#{install_dir}/embedded/mingw/bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem",
+    "BUNDLE_BIN_PATH" => "#{install_dir}/embedded/bin/bundle",
+    "BUNDLE_GEMFILE" => nil, "GEM_HOME" => "#{install_dir}/embedded/lib/ruby/gems/1.9.1",
+    "GEM_PATH" => "#{install_dir}/embedded/lib/ruby/gems/1.9.1",
+    "RUBYOPT" => nil,
+  }
 
   # XXX: doing a normal bundle_bust here results in gems installed into the outer bundle...
-  command "bundle install", :env => { "PATH" => "#{install_dir}/embedded/bin;#{install_dir}/embedded/mingw/bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem", "BUNDLE_BIN_PATH" => "#{install_dir}/embedded/bin/bundle" , "BUNDLE_GEMFILE" => nil, "GEM_HOME" => "#{install_dir}/embedded/lib/ruby/gems/1.9.1", "GEM_PATH" => "#{install_dir}/embedded/lib/ruby/gems/1.9.1", "RUBYOPT" => nil }
+  command "bundle install", env: bundle_bust_env
 
   # render batch files
   #
