@@ -25,6 +25,8 @@ build_version   Omnibus::BuildVersion.new.git_describe
 build_iteration 4
 mac_pkg_identifier "com.getchef.pkg.chef"
 
+override :chef, version: "ci-spec-updates"
+
 dependency "preparation"
 dependency "chef"
 dependency "version-manifest"
