@@ -1,7 +1,7 @@
 GIT
   remote: git://github.com/opscode/omnibus-ruby.git
-  revision: 515247e5e9a488dd59151c293f367b96e525a113
-  branch: master
+  revision: 8c94b4b51ceb3315e21774a10b7b7c4c9362cb5a
+  branch: dmg-setup-fix
   specs:
     omnibus (3.0.0)
       chef-sugar (~> 1.2)
