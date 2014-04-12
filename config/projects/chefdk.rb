@@ -27,6 +27,7 @@ mac_pkg_identifier "com.getchef.pkg.chefdk"
 resources_path File.join(files_path, name)
 
 override :berkshelf, version: "master"
+override :berkshelf, source: {:git => "git://github.com/sersut/berkshelf"}
 override :bundler,   version: "1.5.2"
 override :libedit,   version: "20130712-3.1"
 override :libtool,   version: "2.4.2"
