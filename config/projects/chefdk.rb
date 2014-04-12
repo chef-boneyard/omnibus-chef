@@ -37,6 +37,7 @@ override :ruby,      version: "2.1.1"
 override :rubygems,  version: "2.2.1"
 override :yajl,      version: "1.2.0"
 override :zlib,      version: "1.2.8"
+override :chefdk,    version: "0.0.1.alpha.1"
 
 dependency "preparation"
 dependency "chefdk"
