@@ -39,7 +39,7 @@ override :yajl,      version: "1.2.0"
 override :zlib,      version: "1.2.8"
 
 override :chef, version: "11.12.2"
-override :chefdk, version: "0.0.1.alpha.1"
+override :chefdk, version: "0.0.1"
 override :"test-kitchen", version: "v1.2.1"
 # We need to ship with berks master because we need to pick up:
 # https://github.com/berkshelf/berkshelf/commit/47dc6576e0dfec4412a84970ba8654dfcc99a604
