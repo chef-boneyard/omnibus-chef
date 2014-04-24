@@ -30,6 +30,8 @@ package_name    "chef-client"
 override :"chef-windows",   version: "11.12.4.rc.0"
 override :ohai,             version: "7.0.4.rc.0"
 
+
 dependency "preparation"
+dependency "ohai"
 dependency "chef-windows"
 dependency "chef-client-msi"
