@@ -32,6 +32,7 @@ override :ohai,             version: "7.0.4.rc.0"
 
 
 dependency "preparation"
+dependency "ruby-windows-devkit"
 dependency "ohai"
 dependency "chef-windows"
 dependency "chef-client-msi"
