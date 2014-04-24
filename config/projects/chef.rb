@@ -27,8 +27,8 @@ build_iteration 4
 mac_pkg_identifier "com.getchef.pkg.chef"
 resources_path File.join(files_path, name)
 
-override :chef,             version: "11.12.4"
-override :ohai,             version: "7.0.4"
+override :chef,             version: "11.12.4.rc.0"
+override :ohai,             version: "7.0.4.rc.0"
 
 dependency "preparation"
 dependency "chef"
