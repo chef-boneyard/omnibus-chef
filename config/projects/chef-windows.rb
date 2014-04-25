@@ -27,7 +27,7 @@ build_version   Omnibus::BuildVersion.new.git_describe
 build_iteration 4
 package_name    "chef-client"
 
-override :"chef-windows",   version: "11.12.4.rc.0"
+override :"chef-windows",   version: "rel-11.12.4.rc.1"
 
 dependency "preparation"
 dependency "chef-windows"
