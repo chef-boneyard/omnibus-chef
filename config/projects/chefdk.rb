@@ -26,6 +26,7 @@ build_iteration 1
 mac_pkg_identifier "com.getchef.pkg.chefdk"
 resources_path File.join(files_path, name)
 
+override :chefdk, version: "0.1.0"
 override :berkshelf, version: "master"
 override :bundler,   version: "1.5.2"
 override :libedit,   version: "20130712-3.1"
