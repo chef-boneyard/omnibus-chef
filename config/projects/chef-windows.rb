@@ -27,6 +27,8 @@ build_version   Omnibus::BuildVersion.new.git_describe
 build_iteration 4
 package_name    "chef-client"
 
+override :"chef-windows",   version: "11.12.4"
+
 dependency "preparation"
 dependency "chef-windows"
 dependency "chef-client-msi"

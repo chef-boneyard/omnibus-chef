@@ -27,6 +27,8 @@ build_iteration 4
 mac_pkg_identifier "com.getchef.pkg.chef"
 resources_path File.join(files_path, name)
 
+override :chef,   version: "11.12.4"
+
 dependency "preparation"
 dependency "chef"
 dependency "version-manifest"
