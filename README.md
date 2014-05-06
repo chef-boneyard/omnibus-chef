@@ -118,9 +118,10 @@ section:
 ```shell
 $ kitchen login ubuntu-12.04
 [vagrant@ubuntu...] $ cd omnbius-chef
+[vagrant@ubuntu...] $ cp omnibus.rb.example omnibus.rb # enables S3 caching
 [vagrant@ubuntu...] $ bundle install --binstubs
 [vagrant@ubuntu...] $ ...
-[vagrant@ubuntu...] $ bundle exec omnibus build <PROJECT NAME>
+[vagrant@ubuntu...] $ bundle exec omnibus build project <PROJECT NAME>
 ```
 
 If you are building the Chef project you will need to purge the Chef package
