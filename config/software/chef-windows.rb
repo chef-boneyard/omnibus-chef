@@ -29,36 +29,15 @@ source :git => "git://github.com/opscode/chef"
 
 relative_path "chef"
 
+always_build (self.project.name == "chef-windows")
+
 build do
-  #####################################################################
-  #
-  # nasty nasty nasty hack for setting artifact version
-  #
-  #####################################################################
-  #
-  # since omnibus-ruby is not architected to intentionally let the
-  # software definitions define the #build_version and
-  # #build_iteration of the package artifact, we're going to implement
-  # a temporary hack here that lets us do so. this type of use case
-  # will become a feature of omnibus-ruby in the future, but in order
-  # to get things shipped, we'll hack it up here.
-  #
-  # <3 Stephen
-  #
-  #####################################################################
+  # Nasty hack to set the artifact version until this gets fixed:
+  # https://github.com/opscode/omnibus-ruby/issues/134
   block do
     project = self.project
     if project.name == "chef-windows"
-      git_cmd = "git describe --tags"
-      src_dir = self.project_dir
-      shell = Mixlib::ShellOut.new(git_cmd,
-                                   :cwd => src_dir)
-      shell.run_command
-      shell.error!
-      build_version = shell.stdout.chomp
-
-      project.build_version   build_version
-      project.build_iteration ENV["CHEF_PACKAGE_ITERATION"].to_i || 1
+      project.build_version Omnibus::BuildVersion.new(self.project_dir).semver
     end
   end
 
@@ -110,49 +89,9 @@ build do
        "-n #{install_dir}/bin",
        "--no-rdoc --no-ri"].join(" ")
 
-  # XXX: doing a normal bundle_bust here results in gems installed into the outer bundle...
-  command "bundle install", :env => { "PATH" => "#{install_dir}/embedded/bin;#{install_dir}/embedded/mingw/bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem", "BUNDLE_BIN_PATH" => "#{install_dir}/embedded/bin/bundle" , "BUNDLE_GEMFILE" => nil, "GEM_HOME" => "#{install_dir}/embedded/lib/ruby/gems/1.9.1", "GEM_PATH" => "#{install_dir}/embedded/lib/ruby/gems/1.9.1", "RUBYOPT" => nil }
+  # Depending on which shell is being used, the path environment variable can
+  # be "PATH" or "Path". If *both* are set, only one is honored.
+  path_key = ENV.keys.grep(/\Apath\Z/i).first
 
-  # render batch files
-  #
-  # TODO:
-  #  I'd love to move this out to a top-level 'template' operation in omnibus, but it currently
-  #  requires pretty deep inspection of the Rubygems structure of the installed chef and ohai
-  #  gems
-  #
-  block do
-    require 'erb'
-    require 'rubygems/format'
-
-    batch_template = ERB.new <<EOBATCH
-@ECHO OFF
-IF NOT "%~f0" == "~f0" GOTO :WinNT
-@"%~dp0\\..\\embedded\\bin\\ruby.exe" "%~dp0/<%= @bin %>" %1 %2 %3 %4 %5 %6 %7 %8 %9
-GOTO :EOF
-:WinNT
-@"%~dp0\\..\\embedded\\bin\\ruby.exe" "%~dpn0" %*
-EOBATCH
-
-    gem_executables = []
-    %w{chef}.each do |gem|
-      puts "#{install_dir.gsub(/\\/, '/')}/embedded/**/cache/#{gem}*mingw32.gem"
-      require 'pp'
-      pp Dir["#{install_dir.gsub(/\\/, '/')}/embedded/**/cache/#{gem}*mingw32.gem"]
-      gem_file = Dir["#{install_dir.gsub(/\\/, '/')}/embedded/**/cache/#{gem}*mingw32.gem"].first
-      gem_executables << Gem::Format.from_file_by_path(gem_file).spec.executables
-    end
-
-    # XXX: need to fix ohai to use own gemspec as well and eliminate copypasta
-    %w{ohai}.each do |gem|
-      gem_file = Dir["#{install_dir.gsub(/\\/, '/')}/embedded/**/cache/#{gem}*.gem"].first
-      gem_executables << Gem::Format.from_file_by_path(gem_file).spec.executables
-    end
-
-    gem_executables.flatten.each do |bin|
-      @bin = bin
-      File.open("#{install_dir}/bin/#{@bin}.bat", "w") do |f|
-        f.puts batch_template.result(binding)
-      end
-    end
-  end
+  bundle "install", :env => { path_key => "#{install_dir}\\embedded\\bin;#{install_dir}\\embedded\\mingw\\bin;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem"}
 end

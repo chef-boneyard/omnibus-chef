@@ -16,15 +16,15 @@
 #
 
 name       "chefdk"
-friendly_name "Chef DK"
-maintainer "Opscode, Inc."
-homepage   "http://www.opscode.com"
+friendly_name "Chef Development Kit"
+maintainer "Chef Software, Inc."
+homepage   "http://www.getchef.com"
 
 install_path    "/opt/chefdk"
 build_version   Omnibus::BuildVersion.new.semver
 build_iteration 1
 mac_pkg_identifier "com.getchef.pkg.chefdk"
-resources_path File.join(files_path, name)
+resources_path File.join(files_path, "chefdk")
 
 override :berkshelf, version: "master"
 override :bundler,   version: "1.5.2"
