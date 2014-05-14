@@ -34,6 +34,9 @@ end
 mac_pkg_identifier "com.getchef.pkg.chefdk"
 resources_path File.join(files_path, "chefdk")
 
+# Pin Chef DK version for release.
+override :chefdk,    version: "0.1.1"
+
 override :berkshelf, version: "master"
 override :bundler,   version: "1.5.2"
 override :libedit,   version: "20130712-3.1"
