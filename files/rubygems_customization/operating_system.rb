@@ -3,10 +3,6 @@
 # from the stuff we bundle with omnibus and any other ruby installations on the
 # system.
 
-# Always install and update new gems in "user install mode"
-Gem::ConfigFile::OPERATING_SYSTEM_DEFAULTS["install"] = "--user"
-Gem::ConfigFile::OPERATING_SYSTEM_DEFAULTS["update"] = "--user"
-
 module Gem
 
   ##
@@ -18,5 +14,21 @@ module Gem
     File.join parts
   end
 
+end
+
+class Gem::Installer
+
+  #
+  # override the gem installer to default to user mode installation for non-root users
+  #
+
+  old_initialize = instance_method(:initialize)
+  define_method(:initialize) do |gem, options|
+    options ||= {}
+    unless Process.euid == 0
+      options[:user_install] = true
+    end
+    old_initialize.bind(self).(gem, options)
+  end
 end
 
