@@ -45,6 +45,7 @@ override :rubygems,  version: "2.2.1"
 override :yajl,      version: "1.2.0"
 override :zlib,      version: "1.2.8"
 
+dependency "libffi" if debian?
 dependency "preparation"
 dependency "chefdk"
 dependency "rubygems-customization"
