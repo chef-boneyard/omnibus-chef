@@ -39,5 +39,6 @@ override :chef, version: "adamed/wmi-lite"
 override :ohai, version: "adamed/wmi-lite"
 
 dependency "preparation"
+dependency "ohai"
 dependency "chef"
 dependency "version-manifest"
