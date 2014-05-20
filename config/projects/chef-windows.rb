@@ -37,8 +37,8 @@ end
 package_name    "chef-client"
 
 # You can pin the components to specific versions as below
-# override :"chef-windows", version: "11.12.4"
-# override :ohai, version: "7.0.4"
+override :ohai,            version: "adamed/wmi-lite"
+override :"chef-windows",  version: "adamed/wmi-lite"
 
 dependency "preparation"
 dependency "chef-windows"

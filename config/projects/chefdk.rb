@@ -44,6 +44,9 @@ override :ruby,      version: "2.1.1"
 override :rubygems,  version: "2.2.1"
 override :yajl,      version: "1.2.0"
 override :zlib,      version: "1.2.8"
+override :ohai,      version: "adamed/wmi-lite"
+override :chef,      version: "adamed/wmi-lite"
+
 
 dependency "preparation"
 dependency "chefdk"

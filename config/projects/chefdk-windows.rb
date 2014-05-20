@@ -48,6 +48,8 @@ override :'ruby-windows', version: "2.0.0-p451"
 override :rubygems,  version: "2.2.1"
 override :yajl,      version: "1.2.0"
 override :zlib,      version: "1.2.8"
+override :ohai,      version: "adamed/wmi-lite"
+override :"chef-windows",  version: "adamed/wmi-lite"
 
 dependency "preparation"
 dependency "ruby-windows"
