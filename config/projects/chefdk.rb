@@ -49,6 +49,7 @@ override :chef,      version: "adamed/wmi-lite"
 
 
 dependency "preparation"
+dependency "ohai"
 dependency "chefdk"
 dependency "rubygems-customization"
 dependency "version-manifest"

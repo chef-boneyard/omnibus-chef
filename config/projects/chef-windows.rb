@@ -41,6 +41,7 @@ override :ohai,            version: "adamed/wmi-lite"
 override :"chef-windows",  version: "adamed/wmi-lite"
 
 dependency "preparation"
+dependency "ohai"
 dependency "chef-windows"
 
 resources_path File.join(files_path, "chef")
