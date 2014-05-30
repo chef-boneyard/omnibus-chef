@@ -36,6 +36,8 @@ end
 
 package_name    "chef-dk"
 
+override :'chefdk-windows', version: "sersut/windows-ruby-20-compat"
+
 override :berkshelf, version: "master"
 override :bundler,   version: "1.5.2"
 override :libedit,   version: "20130712-3.1"

@@ -34,6 +34,8 @@ end
 mac_pkg_identifier "com.getchef.pkg.chefdk"
 resources_path File.join(files_path, "chefdk")
 
+override :chefdk, version: "sersut/windows-ruby-20-compat"
+
 override :berkshelf, version: "master"
 override :bundler,   version: "1.5.2"
 override :libedit,   version: "20130712-3.1"
