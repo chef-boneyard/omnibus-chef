@@ -26,12 +26,21 @@ is_smartos()
 {
   uname -v | grep "^joyent" 2>&1 >/dev/null
 }
+is_freebsd()
+{
+  uname -v | grep "^FreeBSD" 2>&1 >/dev/null
+}
 
 if is_smartos; then
     PREFIX="/opt/local"
+elif is_freebsd; then
+    PREFIX="/usr/local"
+    DEST_DIR="$PREFIX/chef"
+    CONFIG_DIR="$PREFIX/etc/chef"
 else
     PREFIX="/usr"
 fi
+
 
 validation_key=
 organization=
