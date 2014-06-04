@@ -20,8 +20,6 @@ if is_smartos; then
     PREFIX="/opt/local"
 elif is_freebsd; then
     PREFIX="/usr/local"
-    DEST_DIR="$PREFIX/chef"
-    CONFIG_DIR="$PREFIX/etc/chef"
 else
     PREFIX="/usr"
 fi
