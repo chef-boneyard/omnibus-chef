@@ -36,7 +36,7 @@ end
 
 package_name    "chef-dk"
 
-override :berkshelf, version: "master"
+override :berkshelf, version: "v3.1.2"
 override :bundler,   version: "1.5.2"
 override :libedit,   version: "20130712-3.1"
 override :libtool,   version: "2.4.2"
