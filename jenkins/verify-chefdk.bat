@@ -29,4 +29,4 @@ FOR %%b IN (
   ECHO(
 )
 
-chef verify
+chef verify --unit --integration
