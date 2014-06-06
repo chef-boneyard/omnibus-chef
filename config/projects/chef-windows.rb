@@ -25,7 +25,7 @@ homepage "http://www.getchef.com"
 #       which is only fixable if everyone in the world fixes their Makefiles
 install_path    "c:\\opscode\\chef"
 
-build_iteration 1
+build_iteration 2
 build_version do
   # Use chef to determine the build version
   source :git, from_dependency: 'chef-windows'
