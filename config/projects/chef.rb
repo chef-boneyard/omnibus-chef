@@ -20,7 +20,7 @@ friendly_name "Chef Client"
 maintainer "Chef Software, Inc."
 homepage "http://www.getchef.com"
 
-build_iteration 1
+build_iteration 3
 build_version do
   # Use chef to determine the build version
   source :git, from_dependency: 'chef'
@@ -35,7 +35,7 @@ resources_path File.join(files_path, "chef")
 mac_pkg_identifier "com.getchef.pkg.chef"
 
 # You can pin the components to specific versions as below
-# override :chef, version: "11.12.4"
+override :chef, version: "10.32.2"
 # override :ohai, version: "7.0.4"
 
 dependency "preparation"
