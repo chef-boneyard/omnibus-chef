@@ -65,7 +65,12 @@ msi_parameters do
   chef_gem_path.slice!(install_path.gsub(File::SEPARATOR, File::ALT_SEPARATOR) + File::ALT_SEPARATOR)
   msi_parameters[:chef_gem_path] = chef_gem_path
 
+  # The Product Code is the same as the Product ID and should be changed for major releases only.
+  # Acceptable GUIDs can be generated using: http://www.guidgen.com/ but should be uppercase for consistency.
+  msi_parameters[:product_code] = "F00E9344-7D6D-4D9F-B0D3-672934D3CD31"
+
   # Upgrade code for Chef MSI
+  # This GUID should never change as it is used to associate different versions of the same package to enable upgrades
   msi_parameters[:upgrade_code] = "D607A85C-BDFA-4F08-83ED-2ECB4DCD6BC5"
 
   msi_parameters
