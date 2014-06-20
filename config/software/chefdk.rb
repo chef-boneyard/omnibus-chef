@@ -51,19 +51,17 @@ build do
 
 
   def appbuilder(app_path, bin_path)
-    path_key = ENV.keys.grep(/\Apath\Z/i).first
-    path = path_with_embedded
-
     gemfile = File.join(app_path, "Gemfile.lock")
-    command("#{install_dir}/embedded/bin/appbundler #{app_path} #{bin_path}",
-            :env => {
+
+    env = with_embedded_path({
       'RUBYOPT'         => nil,
       'BUNDLE_BIN_PATH' => nil,
       'BUNDLE_GEMFILE'  => gemfile,
       'GEM_PATH'        => nil,
-      'GEM_HOME'        => nil,
-      path_key          => path
+      'GEM_HOME'        => nil
     })
+
+    command("#{install_dir}/embedded/bin/appbundler #{app_path} #{bin_path}", :env => env)
   end
 
   bundle "install", :env => {path_key => path}
