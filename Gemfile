@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'omnibus-software', :github => 'opscode/omnibus-software',
+gem 'omnibus-software', :git => 'opscode/omnibus-software',
   :branch => 'master'
 
 gem 'omnibus', :github => 'opscode/omnibus-ruby',
