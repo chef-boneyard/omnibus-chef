@@ -36,6 +36,9 @@ mac_pkg_identifier "com.getchef.pkg.chef"
 
 override :rubygems, version: "1.8.29"
 
+# Override chef version for release
+override :chef, version: "11.14.0.rc.2"
+
 dependency "preparation"
 dependency "chef"
 dependency "version-manifest"
