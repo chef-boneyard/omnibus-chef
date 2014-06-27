@@ -6,6 +6,9 @@
   <?define VersionNumber="<%= @msi_version %>" ?>
   <?define DisplayVersionNumber="<%= @msi_display_version %>" ?>
 
+  <!-- This changes for major releases only -->
+  <?define ProductCode="<%= msi_parameters[:product_code] %>" ?>
+
   <?define ChefGemPath="<%= msi_parameters[:chef_gem_path] %>" ?>
   <!--
     Upgrade code HAS to be the same for all updates.
