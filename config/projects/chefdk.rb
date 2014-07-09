@@ -45,6 +45,10 @@ override :rubygems,  version: "2.2.1"
 override :yajl,      version: "1.2.0"
 override :zlib,      version: "1.2.8"
 
+# Release version overrides
+override :chef,      version: "11.14.0.rc.2"
+override :chefdk,    version: "0.2.0"
+
 dependency "preparation"
 dependency "chefdk"
 dependency "rubygems-customization"
