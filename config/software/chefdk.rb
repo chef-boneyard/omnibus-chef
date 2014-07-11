@@ -66,9 +66,9 @@ build do
   auxiliary_gems = []
 
   auxiliary_gems << {name: 'foodcritic',  version: '3.0.3'}
-  auxiliary_gems << {name: 'chefspec',    version: '3.4.0'}
+  auxiliary_gems << {name: 'chefspec',    version: '4.0.1'}
   auxiliary_gems << {name: 'rubocop',     version: '0.18.1'}
-  auxiliary_gems << {name: 'knife-spork', version: '1.3.2'}
+  auxiliary_gems << {name: 'knife-spork', version: '1.3.4'}
   auxiliary_gems << {name: 'kitchen-vagrant', version: '0.15.0'}
   # strainer build is hosed on windows
   # auxiliary_gems << {name: 'strainer',    version: '3.3.0'}

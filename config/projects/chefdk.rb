@@ -22,7 +22,7 @@ homepage   "http://www.getchef.com"
 
 install_path    "/opt/chefdk"
 
-build_iteration 1
+build_iteration 2
 build_version do
   # Use chefdk to determine the build version
   source :git, from_dependency: 'chefdk'
