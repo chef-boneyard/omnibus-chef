@@ -93,12 +93,9 @@ build do
       "--no-rdoc --no-ri"].join(" "), :env => env
   end
 
-  auxiliary_gems = []
-  auxiliary_gems << "ruby-shadow" unless platform == "aix"
-
-  gem ["install",
-       auxiliary_gems.join(" "),
-       "--no-rdoc --no-ri"].join(" "), :env => env
+  unless platform == "aix"
+    gem "install ruby-shadow -no-rdoc --no-ri", :env => env
+  end
 
   #
   # TODO: the "clean up" section below was cargo-culted from the
