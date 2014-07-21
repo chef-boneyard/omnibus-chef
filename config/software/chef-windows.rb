@@ -72,7 +72,7 @@ build do
   }.each do |target, to|
     source = File.expand_path(File.join(install_dir, "embedded", "mingw", "bin", to)).gsub(/\//, "\\")
     target = File.expand_path(File.join(install_dir, "bin", target)).gsub(/\//, "\\")
-    command "cp #{source}  #{target}"
+    copy(source, target)
   end
 
   rake "gem"
