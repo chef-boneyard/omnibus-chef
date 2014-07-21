@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/opscode/omnibus-ruby.git
-  revision: ed60550b9122a46f75a9501810f6b634d4e3aa2a
-  branch: master
+  revision: 4f7a651149b496e6d9b30954238d201d6146ec8e
+  branch: sethvargo/refactor_fetcher
   specs:
-    omnibus (3.2.0.rc.1)
+    omnibus (3.2.0.rc.2)
       bundler
       chef-sugar (~> 1.2)
       fpm (~> 0.4)
@@ -14,7 +14,7 @@ GIT
 
 GIT
   remote: git://github.com/opscode/omnibus-software.git
-  revision: 4f92644e5aa0e728b34b82b21170d553826d5f41
+  revision: 2904036a399b7e7b037068d4b47468e20408c3ee
   branch: master
   specs:
     omnibus-software (0.0.1)

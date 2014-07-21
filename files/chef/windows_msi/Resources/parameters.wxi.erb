@@ -6,11 +6,11 @@
   <?define VersionNumber="<%= @msi_version %>" ?>
   <?define DisplayVersionNumber="<%= @msi_display_version %>" ?>
 
-  <?define ChefGemPath="<%= msi_parameters[:chef_gem_path] %>" ?>
+  <?define ChefGemPath="<%= project.msi_parameters[:chef_gem_path] %>" ?>
   <!--
     Upgrade code HAS to be the same for all updates.
     Once you've chosen it don't change it.
   -->
-  <?define UpgradeCode="<%= msi_parameters[:upgrade_code] %>" ?>
+  <?define UpgradeCode="<%= project.msi_parameters[:upgrade_code] %>" ?>
 
 </Include>

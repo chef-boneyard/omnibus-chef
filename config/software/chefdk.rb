@@ -22,7 +22,7 @@ source :git => "git://github.com/opscode/chef-dk"
 
 relative_path "chef-dk"
 
-if platform == 'windows'
+if Ohai['platform'] == 'windows'
   dependency "chef-windows"
 else
   dependency "chef"
@@ -39,7 +39,7 @@ build do
   env = {
     # rubocop pulls in nokogiri 1.5.11, so needs PKG_CONFIG_PATH and
     # NOKOGIRI_USE_SYSTEM_LIBRARIES until rubocop stops doing that
-    "PKG_CONFIG_PATH" => "#{install_dir}/embedded/lib/pkgconfig",
+    "PKG_CONFIG_PATH" => "#{install_path}/embedded/lib/pkgconfig",
     "NOKOGIRI_USE_SYSTEM_LIBRARIES" => "true",
   }
   env = with_embedded_path(env)
@@ -54,7 +54,7 @@ build do
       'GEM_HOME'        => nil,
     }
     env = with_embedded_path(env)
-    command("#{install_dir}/embedded/bin/appbundler #{app_path} #{bin_path}", :env => env)
+    command("#{install_path}/embedded/bin/appbundler #{app_path} #{bin_path}", :env => env)
   end
 
   bundle "install", :env => env
@@ -75,15 +75,15 @@ build do
 
   # do multiple gem installs to better isolate/debug failures
   auxiliary_gems.each do |g|
-    gem "install #{g[:name]} -v #{g[:version]} -n #{install_dir}/bin --no-rdoc --no-ri --verbose", :env => env
+    gem "install #{g[:name]} -v #{g[:version]} -n #{install_path}/bin --no-rdoc --no-ri --verbose", :env => env
   end
 
-  block { FileUtils.mkdir_p("#{install_dir}/embedded/apps") }
+  block { FileUtils.mkdir_p("#{install_path}/embedded/apps") }
 
   appbundler_apps = %w[chef berkshelf test-kitchen chef-dk chef-vault ohai]
   appbundler_apps.each do |app_name|
-    block { FileUtils.cp_r("#{source_dir}/#{app_name}", "#{install_dir}/embedded/apps/") }
-    block { FileUtils.rm_rf("#{install_dir}/embedded/apps/#{app_name}/.git") }
-    appbuilder("#{install_dir}/embedded/apps/#{app_name}", "#{install_dir}/bin")
+    block { FileUtils.cp_r("#{source_dir}/#{app_name}", "#{install_path}/embedded/apps/") }
+    block { FileUtils.rm_rf("#{install_path}/embedded/apps/#{app_name}/.git") }
+    appbuilder("#{install_path}/embedded/apps/#{app_name}", "#{install_path}/bin")
   end
 end

@@ -60,12 +60,12 @@ build do
   # due to the fact that chefdk project has appbundler enabled.
   # Two differences are:
   #   1-) Order of bundle install & rake gem
-  #   2-) "-n #{install_dir}/bin" option for gem install
+  #   2-) "-n #{install_path}/bin" option for gem install
   # We don't expect any side effects from (1) other than not creating
   # link to erubis binary (which is not needed other than ruby 1.8.7 due to
   # change that switched the template syntax checking to native ruby code.
   # Not having (2) does not create symlinks for binaries under
-  # #{install_dir}/bin which gets created by appbundler later on.
+  # #{install_path}/bin which gets created by appbundler later on.
   if %w(chef angrychef chef-container).include?(project.name)
     # install chef first so that ohai gets installed into /opt/chef/bin/ohai
     rake "gem", :env => env
@@ -73,7 +73,7 @@ build do
     command "rm -f pkg/chef-*-x86-mingw32.gem"
 
     gem ["install pkg/chef-*.gem",
-      "-n #{install_dir}/bin",
+      "-n #{install_path}/bin",
       "--no-rdoc --no-ri"].join(" "), :env => env
 
     # install the whole bundle, so that we get dev gems (like rspec) and can later test in CI
@@ -87,13 +87,13 @@ build do
 
     command "rm -f pkg/chef-*-x86-mingw32.gem"
 
-    # Don't use -n #{install_dir}/bin. Appbundler will take care of them later
+    # Don't use -n #{install_path}/bin. Appbundler will take care of them later
     gem ["install pkg/chef-*.gem",
       "--no-rdoc --no-ri"].join(" "), :env => env
   end
 
   auxiliary_gems = []
-  auxiliary_gems << "ruby-shadow" unless platform == "aix"
+  auxiliary_gems << "ruby-shadow" unless Ohai['platform'] == "aix"
 
   gem ["install",
        auxiliary_gems.join(" "),
@@ -114,6 +114,6 @@ build do
    "ssl/man",
    "man",
    "info"].each do |dir|
-    command "rm -rf #{install_dir}/embedded/#{dir}"
+    command "rm -rf #{install_path}/embedded/#{dir}"
   end
 end

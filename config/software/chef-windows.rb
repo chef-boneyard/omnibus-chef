@@ -70,20 +70,20 @@ build do
     "libbz2-2.dll" => "libbz2-2.dll",
     "libz-1.dll" => "libz-1.dll"
   }.each do |target, to|
-    source = File.expand_path(File.join(install_dir, "embedded", "mingw", "bin", to)).gsub(/\//, "\\")
-    target = File.expand_path(File.join(install_dir, "bin", target)).gsub(/\//, "\\")
+    source = File.expand_path(File.join(install_path, "embedded", "mingw", "bin", to)).gsub(/\//, "\\")
+    target = File.expand_path(File.join(install_path, "bin", target)).gsub(/\//, "\\")
     command "cp #{source}  #{target}"
   end
 
   rake "gem"
 
   gem ["install pkg/chef*mingw32.gem",
-       "-n #{install_dir}/bin",
+       "-n #{install_path}/bin",
        "--no-rdoc --no-ri"].join(" ")
 
   # Depending on which shell is being used, the path environment variable can
   # be "PATH" or "Path". If *both* are set, only one is honored.
   path_key = ENV.keys.grep(/\Apath\Z/i).first
 
-  bundle "install", :env => { path_key => "#{install_dir}\\embedded\\bin;#{install_dir}\\embedded\\mingw\\bin;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem"}
+  bundle "install", :env => { path_key => "#{install_path}\\embedded\\bin;#{install_path}\\embedded\\mingw\\bin;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem"}
 end
