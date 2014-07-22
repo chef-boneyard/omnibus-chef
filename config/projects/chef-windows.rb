@@ -39,7 +39,7 @@ package_name    "chef-client"
 override :rubygems, version: "1.8.29"
 
 # Override Chef for release
-override :"chef-windows", version: "10.34.0.rc.0"
+override :"chef-windows", version: "10-stable"
 
 dependency "preparation"
 dependency "chef-windows"
