@@ -1,4 +1,17 @@
 GIT
+  remote: git://github.com/opscode/omnibus-ruby.git
+  revision: 7726e03182f6e360471f4eca1d10e633280de2c1
+  branch: sethvargo/dir_glob
+  specs:
+    omnibus (3.2.0.rc.3)
+      chef-sugar (~> 1.2)
+      fpm (~> 0.4)
+      mixlib-shellout (~> 1.4)
+      ohai (~> 7.2.0.rc)
+      thor (~> 0.18)
+      uber-s3
+
+GIT
   remote: git://github.com/opscode/omnibus-software.git
   revision: 381a7eec7cd6ad3617f22670bd1641f7eab248ee
   specs:
@@ -53,13 +66,6 @@ GEM
       mixlib-shellout (~> 1.2)
       systemu (~> 2.6.4)
       wmi-lite (~> 1.0)
-    omnibus (3.2.0.rc.3)
-      chef-sugar (~> 1.2)
-      fpm (~> 0.4)
-      mixlib-shellout (~> 1.4)
-      ohai (~> 7.2.0.rc)
-      thor (~> 0.18)
-      uber-s3
     systemu (2.6.4)
     thor (0.19.1)
     uber-s3 (0.2.4)
@@ -70,5 +76,5 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  omnibus (~> 3.2.0.rc)
+  omnibus!
   omnibus-software!
