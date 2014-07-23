@@ -1,10 +1,9 @@
 GIT
   remote: git://github.com/opscode/omnibus-ruby.git
-  revision: ed60550b9122a46f75a9501810f6b634d4e3aa2a
-  branch: master
+  revision: 5c5657102317eb15bf0b2b0b00348d7b4341a8cc
+  branch: sethvargo/dir_glob
   specs:
-    omnibus (3.2.0.rc.1)
-      bundler
+    omnibus (3.2.0.rc.3)
       chef-sugar (~> 1.2)
       fpm (~> 0.4)
       mixlib-shellout (~> 1.4)
@@ -14,8 +13,8 @@ GIT
 
 GIT
   remote: git://github.com/opscode/omnibus-software.git
-  revision: 4f92644e5aa0e728b34b82b21170d553826d5f41
-  branch: master
+  revision: a86b0f1335ccb823d2c7f7d691be5b0395a7476a
+  branch: sethvargo/windows_safe_path
   specs:
     omnibus-software (0.0.1)
 
