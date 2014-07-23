@@ -38,6 +38,9 @@ package_name    "chef-client"
 
 override :rubygems, version: "1.8.29"
 
+override :"chef-windows", version: "11-stable"
+
+
 dependency "preparation"
 dependency "chef-windows"
 
