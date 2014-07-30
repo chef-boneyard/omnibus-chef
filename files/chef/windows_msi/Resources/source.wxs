@@ -30,12 +30,19 @@
       <RemoveExistingProducts After="InstallValidate" />
     </InstallExecuteSequence>
 
+    <!-- Get language independent ADMIN account name using schema extensions -->
+    <!-- This name is used later when setting permissions in the file system -->
+    <!-- Use of this name extension requires light be run with the -ext option-->
+    <PropertyRef Id="WIX_ACCOUNT_ADMINISTRATORS" />
+
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="WindowsVolume">
         <!-- Service needs chef directory to be present. -->
         <Directory Id="CONFIGLOCATION" Name="chef">
           <Component Id="CONFIGLOCATIONDIR" Guid="{F66F6394-51A4-4C5D-908B-E55584473436}" >
-            <CreateFolder Directory="CONFIGLOCATION" />
+            <CreateFolder Directory="CONFIGLOCATION" >
+              <Permission Append="No" User="[WIX_ACCOUNT_ADMINISTRATORS]" GenericAll="yes" />
+            </CreateFolder>
           </Component>
         </Directory>
         <Directory Id="INSTALLLOCATION" Name="opscode">

@@ -1,7 +1,7 @@
 GIT
   remote: git://github.com/opscode/omnibus-ruby.git
-  revision: 6c099d5e0c1231efbb51e985a8e6c1c7f25b372a
-  branch: master
+  revision: f2c3b8b29eda215c2c97f406aabd6368569121fa
+  branch: adamed/msi-configdir-permissions
   specs:
     omnibus (3.2.0.rc.3)
       chef-sugar (~> 1.2)
