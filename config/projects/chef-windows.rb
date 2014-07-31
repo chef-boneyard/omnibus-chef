@@ -43,6 +43,8 @@ dependency "chef-windows"
 
 resources_path File.join(files_path, "chef")
 
+wix_candle_extension 'WixUtilExtension'
+
 msi_parameters do
   # Find path in which chef gem is installed to.
   # Note that install_dir is something like: c:/opscode/chef

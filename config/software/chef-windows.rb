@@ -25,7 +25,7 @@ dependency "cacerts"
 
 default_version "master"
 
-source :git => "git://github.com/opscode/chef"
+source :path => "\"C:\\Users\\Jay\ Mundrawala\\workspace\\chef\""
 
 relative_path "chef"
 
@@ -80,4 +80,9 @@ build do
       windows_safe_path('C:/Windows/System32/Wbem'),
     ].join(File::PATH_SEPARATOR)
   }
+
+  command "windmc.exe \"#{windows_safe_path(project.files_path, 'chef', 'logging', 'chef-log.mc')}\""
+  command "windres.exe -i \"#{windows_safe_path(project_dir, 'chef-log.rc')}\" -o resource.o"
+  command "gcc.exe -shared -o chef-log.dll \"#{windows_safe_path(project_dir, 'resource.o')}\""
+  copy "#{project_dir}/chef-log.dll", "#{install_dir}/bin/chef-log.dll"
 end
