@@ -37,6 +37,7 @@ end
 package_name    "chef-client"
 
 override :rubygems, version: "1.8.29"
+override :"ffi-yajl", version: "0.2.0"
 
 dependency "preparation"
 dependency "chef-windows"
