@@ -37,6 +37,9 @@ install_path "/opt/angrychef"
 resources_path File.join(files_path, "chef")
 mac_pkg_identifier "com.getchef.pkg.angrychef"
 
+# Override chef version for release
+override :chef, version: "11.14.2"
+
 dependency "preparation"
 dependency "chef"
 dependency "version-manifest"
