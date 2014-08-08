@@ -23,7 +23,7 @@ friendly_name "Angry Chef Client"
 maintainer "Chef Software, Inc."
 homepage "http://www.getchef.com"
 
-build_iteration 1
+build_iteration 2
 build_version do
   # Use chef to determine the build version
   source :git, from_dependency: 'chef'
