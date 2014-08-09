@@ -36,9 +36,7 @@ mac_pkg_identifier "com.getchef.pkg.chef"
 
 override :rubygems, version: "1.8.29"
 override :chef, version: ENV['CHEF_VERSION'] || "master"
-override :ohai, version: ENV['OHAI_VERSION'] || "master"
 
 dependency "preparation"
-dependency "ohai"
 dependency "chef"
 dependency "version-manifest"
