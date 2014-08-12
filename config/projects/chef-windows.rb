@@ -38,6 +38,8 @@ package_name    "chef-client"
 
 override :rubygems, version: "1.8.29"
 
+override :chef, version: 'adamedx/11-stable-issue-1754'
+
 dependency "preparation"
 dependency "chef-windows"
 
