@@ -31,7 +31,6 @@ end
 
 install_dir    "/opt/chef"
 
-resources_path File.join(files_path, "chef")
 mac_pkg_identifier "com.getchef.pkg.chef"
 
 override :rubygems, version: "1.8.29"

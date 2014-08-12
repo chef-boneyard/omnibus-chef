@@ -53,7 +53,7 @@ build do
     # install chef first so that ohai gets installed into /opt/chef/bin/ohai
     rake "gem", env: env
 
-    command "rm -f pkg/chef-*-x86-mingw32.gem"
+    delete "pkg/chef-*-x86-mingw32.gem"
 
     gem "install pkg/chef-*.gem" \
         " --bindir '#{install_dir}/bin'" \
@@ -69,7 +69,7 @@ build do
 
     rake "gem", env: env
 
-    command "rm -f pkg/chef-*-x86-mingw32.gem"
+    delete "pkg/chef-*-x86-mingw32.gem"
 
     # Don't use -n #{install_dir}/bin. Appbundler will take care of them later
     gem "install pkg/chef-*.gem " \
