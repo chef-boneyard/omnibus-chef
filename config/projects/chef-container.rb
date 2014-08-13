@@ -20,7 +20,7 @@ friendly_name "Chef Container"
 maintainer "Chef Software, Inc"
 homepage "http://www.getchef.com"
 
-build_iteration  2
+build_iteration  3
 build_version do
   # Use chef to determine the build version
   source :git, from_dependency: 'chef'
@@ -37,8 +37,9 @@ mac_pkg_identifier "com.getchef.pkg.chef-container"
 # use the same rubygems as the chef project
 override :rubygems, version: "1.8.29"
 
-# hardcode the version of chef
+# hardcode the version of chef and chef-init
 override :chef, version: "11.12.8"
+override :'chef-init', version: "0.3.1"
 
 dependency "preparation"
 dependency "chef"
