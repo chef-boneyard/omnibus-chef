@@ -24,7 +24,7 @@ dependency "bundler"
 dependency "cacerts"
 dependency "ohai"
 
-default_version "platform/dsc-script"
+default_version "jdmundrawala/dsc-script-ohai"
 
 source :git => "git://github.com/opscode/chef"
 
@@ -79,6 +79,12 @@ build do
       windows_safe_path('C:/Windows/system32'),
       windows_safe_path('C:/Windows'),
       windows_safe_path('C:/Windows/System32/Wbem'),
+      # Because I don't want bundler to freak on when it cant use git
+      # We need this because our Gemfile is pointing Ohai at github,
+      # meaning its going to want to use git.
+      windows_safe_path('C:/Program Files (x86)/Git/bin'),
+      windows_safe_path('C:/Program Files/Git/bin'),
+      windows_safe_path('C:/git/bin'),
     ].join(File::PATH_SEPARATOR)
   }
 end
