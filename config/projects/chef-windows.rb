@@ -38,6 +38,8 @@ package_name    "chef-client"
 
 override :rubygems, version: "1.8.29"
 
+override :ohai, version: 'f4ac76fe2103a060ab0a773e6d0450249ac8fdae'
+
 dependency "preparation"
 dependency "chef-windows"
 

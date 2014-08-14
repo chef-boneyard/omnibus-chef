@@ -22,8 +22,9 @@ dependency "openssl-windows"
 dependency "ruby-windows-devkit"
 dependency "bundler"
 dependency "cacerts"
+dependency "ohai"
 
-default_version "master"
+default_version "platform/dsc-script"
 
 source :git => "git://github.com/opscode/chef"
 
