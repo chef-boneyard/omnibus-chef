@@ -41,6 +41,10 @@
                   <Environment Id="Environment"
                                Name="PATH" Action="set" Part="last" System="yes" Value="[PROJECTLOCATION]bin;[PROJECTLOCATION]embedded\bin" />
                 </Component>
+                <Component Id="SslCertPath" Guid="{CE028376-9253-4AD4-A4FE-D5020D22ECFD}" >
+                  <Environment Id="SslEnvironment"
+                               Name="SSL_CERT_FILE" Action="create" System="yes" Value="[PROJECTLOCATION]embedded\ssl\certs\cacert.pem" />
+                </Component>
               </Directory>
             </Directory>
           </Directory>
@@ -52,6 +56,7 @@
     <Feature Id="ChefDkFeature" Title="!(loc.FeatureMainName)" Absent="disallow" AllowAdvertise="no" Level="1" ConfigurableDirectory="INSTALLLOCATION">
       <ComponentGroupRef Id="ProjectDir" />
       <ComponentRef Id="ChefDkPath" />
+      <ComponentRef Id="SslCertPath" />
     </Feature>
 
     <!--
