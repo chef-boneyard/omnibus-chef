@@ -48,6 +48,9 @@ override :chef,      version: "11.14.6"
 override :"chef-windows",      version: "11.14.6"
 override :"test-kitchen",      version: "v1.2.1"
 
+# Override chef-dk for release
+override :chefdk, version: "0.2.1"
+
 dependency "preparation"
 dependency "chefdk"
 dependency "rubygems-customization"

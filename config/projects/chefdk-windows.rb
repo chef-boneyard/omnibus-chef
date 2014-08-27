@@ -49,6 +49,9 @@ override :rubygems,  version: "2.2.1"
 override :yajl,      version: "1.2.0"
 override :zlib,      version: "1.2.8"
 
+# Override chef-dk for release
+override :"chefdk-windows", version: "0.2.1"
+
 dependency "preparation"
 dependency "ruby-windows"
 dependency "ruby-windows-devkit"
