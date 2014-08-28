@@ -23,7 +23,7 @@ dependency "bundler"
 
 default_version "master"
 
-source :git => "git://github.com/opscode/chef"
+source git: "git://github.com/opscode/chef"
 
 relative_path "chef"
 
@@ -53,7 +53,7 @@ build do
     # install chef first so that ohai gets installed into /opt/chef/bin/ohai
     rake "gem", env: env
 
-    command "rm -f pkg/chef-*-x86-mingw32.gem"
+    delete "pkg/chef-*-x86-mingw32.gem"
 
     gem "install pkg/chef-*.gem" \
         " --bindir '#{install_dir}/bin'" \
@@ -69,7 +69,7 @@ build do
 
     rake "gem", env: env
 
-    command "rm -f pkg/chef-*-x86-mingw32.gem"
+    delete "pkg/chef-*-x86-mingw32.gem"
 
     # Don't use -n #{install_dir}/bin. Appbundler will take care of them later
     gem "install pkg/chef-*.gem " \
@@ -77,7 +77,7 @@ build do
   end
 
   auxiliary_gems = {}
-  auxiliary_gems['ruby-shadow'] = '>= 0.0.0' unless Ohai['platform'] == 'aix'
+  auxiliary_gems['ruby-shadow'] = '>= 0.0.0' unless aix?
 
   auxiliary_gems.each do |name, version|
     gem "install #{name}" \
@@ -87,11 +87,11 @@ build do
   end
 
   # Clean up
-  delete("#{install_dir}/embedded/docs")
-  delete("#{install_dir}/embedded/share/man")
-  delete("#{install_dir}/embedded/share/doc")
-  delete("#{install_dir}/embedded/share/gtk-doc")
-  delete("#{install_dir}/embedded/ssl/man")
-  delete("#{install_dir}/embedded/man")
-  delete("#{install_dir}/embedded/info")
+  delete "#{install_dir}/embedded/docs"
+  delete "#{install_dir}/embedded/share/man"
+  delete "#{install_dir}/embedded/share/doc"
+  delete "#{install_dir}/embedded/share/gtk-doc"
+  delete "#{install_dir}/embedded/ssl/man"
+  delete "#{install_dir}/embedded/man"
+  delete "#{install_dir}/embedded/info"
 end
