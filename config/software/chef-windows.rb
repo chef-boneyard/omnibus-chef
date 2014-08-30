@@ -25,7 +25,7 @@ dependency "cacerts"
 
 default_version "master"
 
-source :git => "git://github.com/opscode/chef", :branch => 'adamedx/windows_paths'
+source :git => "git://github.com/opscode/chef", :ref => 'd680be8271d5e347dcf9d6216fc75bd3d1bb118d'
 
 relative_path "chef"
 
