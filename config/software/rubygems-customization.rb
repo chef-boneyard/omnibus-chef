@@ -19,49 +19,29 @@ name "rubygems-customization"
 
 default_version "0.1.0"
 
-if platform == 'windows'
+source path: "#{project.resources_path}/#{name}"
+
+if windows?
   dependency "ruby-windows"
 else
   dependency "ruby"
   dependency "rubygems"
 end
 
-
-
-#/opt/chefdk/embedded/bin/ruby -e 'puts Gem.dir'
-# => /opt/chefdk/embedded/lib/ruby/gems/2.1.0
-#
-# /opt/chefdk/embedded/bin/ruby -rrbconfig -e "puts RbConfig::CONFIG['sitelibdir']"
-# => /opt/chefdk/embedded/lib/ruby/site_ruby/2.1.0
-
-# result should be /opt/chefdk/embedded/lib/ruby/site_ruby/2.1.0/rubygems/defaults/operating_system.rb
-
-
 build do
-  sitelibdir_cmd = %Q{#{install_dir}/embedded/bin/ruby -rrbconfig -e "puts RbConfig::CONFIG['sitelibdir']"}
-
-  # TODO: use +windows_safe_path+
-  sitelibdir_cmd.gsub!('/', '\\') if platform == "windows"
-
-  block do
-    source_customization_file = File.join(project.files_path, "rubygems_customization", "operating_system.rb")
-    embedded_ruby_site_dir = ""
-    Bundler.with_clean_env do
-      embedded_ruby_site_dir = %x{#{sitelibdir_cmd}}.strip
+  block "Add Rubygems customization file" do
+    site_ruby = Bundler.with_clean_env do
+      ruby = windows_safe_path("#{install_dir}/embedded/bin/ruby")
+      %x|#{ruby} -rrbconfig -e "puts RbConfig::CONFIG['sitelibdir']"|.strip
     end
 
-    raise "could not determine embedded ruby's site dir" if embedded_ruby_site_dir.empty?
-
-    if sysdrive = ENV['SYSTEMDRIVE']
-      match_drive = Regexp.new(Regexp.escape(sysdrive), Regexp::IGNORECASE)
-      embedded_ruby_site_dir.sub!(match_drive, '')
+    if site_ruby.nil? || site_ruby.empty?
+      raise "Could not determine embedded Ruby's site directory, aborting!"
     end
 
-    destination_dir = File.join(embedded_ruby_site_dir, 'rubygems', 'defaults')
-    destination = File.join(destination_dir, "operating_system.rb")
+    destination = "#{site_ruby}/rubygems/defaults"
 
-    FileUtils.mkdir_p destination_dir
-    FileUtils.cp source_customization_file, destination
+    FileUtils.mkdir_p destination
+    FileUtils.cp "#{project_dir}/operating_system.rb", destination
   end
 end
-

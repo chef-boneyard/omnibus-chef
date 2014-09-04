@@ -1,6 +1,5 @@
 #
-# Copyright:: Copyright (c) 2012 Chef Software, Inc.
-# License:: Apache License, Version 2.0
+# Copyright 2012-2014 Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,12 +17,12 @@
 name "chef-windows"
 friendly_name "Chef Client"
 maintainer "Chef Software, Inc."
-homepage "http://www.getchef.com"
+homepage "https://www.getchef.com"
 
 # NOTE: Ruby DevKit fundamentally CANNOT be installed into "Program Files"
 #       Native gems will use gcc which will barf on files with spaces,
 #       which is only fixable if everyone in the world fixes their Makefiles
-install_dir    "c:/opscode/chef"
+install_dir "#{default_root}/chef"
 
 build_iteration 1
 build_version do
@@ -34,8 +33,6 @@ build_version do
   output_format :semver
 end
 
-package_name    "chef-client"
-
 override :bundler,  version: "1.7.0"
 override :ruby,     version: "2.1.2"
 override :rubygems, version: "2.2.1"
@@ -45,7 +42,9 @@ dependency "chef-windows"
 
 resources_path File.join(files_path, "chef")
 
-msi_parameters do
+package :msi do
+  upgrade_code "D607A85C-BDFA-4F08-83ED-2ECB4DCD6BC5"
+
   # Find path in which chef gem is installed to.
   # Note that install_dir is something like: c:/opscode/chef
   search_pattern = "#{install_dir}/**/gems/chef-[0-9]*"
@@ -62,12 +61,10 @@ msi_parameters do
     .relative_path_from(Pathname.new(install_dir))
     .to_s
 
-  # Return the result as a hash
-  {
+  parameters {
     # We are going to use this path in the startup command of chef
     # service. So we need to change file seperators to make windows
     # happy.
     chef_gem_path: relative_path.gsub(File::SEPARATOR, File::ALT_SEPARATOR),
-    upgrade_code:  'D607A85C-BDFA-4F08-83ED-2ECB4DCD6BC5',
   }
 end

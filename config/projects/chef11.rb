@@ -1,6 +1,5 @@
 #
-# Copyright:: Copyright (c) 2014 Chef Software, Inc.
-# License:: Apache License, Version 2.0
+# Copyright 2014 Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,7 +17,7 @@
 name "chef11"
 friendly_name "Chef Client"
 maintainer "Chef Software, Inc."
-homepage "http://www.getchef.com"
+homepage "https://www.getchef.com"
 
 build_iteration 1
 build_version do
@@ -29,10 +28,9 @@ build_version do
   output_format :semver
 end
 
-install_dir    "/opt/chef"
+install_dir "#{default_root}/chef"
 
 resources_path File.join(files_path, "chef")
-mac_pkg_identifier "com.getchef.pkg.chef"
 
 override :chef,     version: "11-stable"
 override :bundler,  version: "1.5.2"
@@ -42,3 +40,10 @@ override :rubygems, version: "1.8.29"
 dependency "preparation"
 dependency "chef"
 dependency "version-manifest"
+
+package :pkg do
+  identifier "com.getchef.pkg.chef"
+  signing_identity "Developer ID Installer: Opscode Inc. (9NBR9JL2R2)"
+end
+
+compress :dmg

@@ -8,16 +8,20 @@ Gem::ConfigFile::OPERATING_SYSTEM_DEFAULTS["install"] = "--user"
 Gem::ConfigFile::OPERATING_SYSTEM_DEFAULTS["update"] = "--user"
 
 module Gem
-
-  ##
-  # Override user_dir to live inside of ~/.chefdk
-
+  #
+  # Override +user_dir+ to live inside of +~/.chefdk+.
+  #
+  # @return [String]
+  #
   def self.user_dir
     parts = [Gem.user_home, '.chefdk', 'gem', ruby_engine]
-    parts << RbConfig::CONFIG['ruby_version'] unless RbConfig::CONFIG['ruby_version'].empty?
-    File.join parts
-  end
 
+    unless RbConfig::CONFIG['ruby_version'].empty?
+      parts << RbConfig::CONFIG['ruby_version']
+    end
+
+    File.join(*parts)
+  end
 end
 
 # :DK-BEG: override 'gem install' to enable RubyInstaller DevKit usage
