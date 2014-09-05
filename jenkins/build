@@ -157,7 +157,7 @@ fi
 bundle install --without docs
 
 if [ "$RELEASE_BUILD" = "true" ]; then
-  bundle exec omnibus build $OMNIBUS_PROJECT_NAME -l debug --no-timestamp
+  bundle exec omnibus build $OMNIBUS_PROJECT_NAME -l debug --override append_timestamp:false
 else
   bundle exec omnibus build $OMNIBUS_PROJECT_NAME -l debug
 fi
