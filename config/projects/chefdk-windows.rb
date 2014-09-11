@@ -36,16 +36,17 @@ end
 
 package_name    "chef-dk"
 
+override :bundler,  version: "1.7.2"
+override :ruby,     version: "2.1.2"
+override :rubygems, version: "2.4.1"
+
 override :berkshelf, version: "master"
-override :bundler,   version: "1.5.2"
 override :libedit,   version: "20130712-3.1"
 override :libtool,   version: "2.4.2"
 override :libxml2,   version: "2.9.1"
 override :libxslt,   version: "1.1.28"
 override :nokogiri,  version: "1.6.1"
-override :ruby,      version: "2.1.1"
 override :'ruby-windows', version: "2.0.0-p451"
-override :rubygems,  version: "2.2.1"
 override :yajl,      version: "1.2.0"
 override :zlib,      version: "1.2.8"
 
