@@ -37,6 +37,8 @@ install_dir "/opt/angrychef"
 resources_path File.join(files_path, "chef")
 mac_pkg_identifier "com.getchef.pkg.angrychef"
 
+override :chef, version: 'platform/dsc-phase-1'
+
 dependency "preparation"
 dependency "chef"
 dependency "version-manifest"

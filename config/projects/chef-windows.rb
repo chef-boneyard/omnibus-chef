@@ -39,6 +39,7 @@ package_name    "chef-client"
 override :bundler,  version: "1.7.0"
 override :ruby,     version: "2.1.2"
 override :rubygems, version: "2.2.1"
+override :chef, version: 'platform/dsc-phase-1'
 
 dependency "preparation"
 dependency "chef-windows"
