@@ -34,6 +34,8 @@ else
   install_dir "#{default_root}/#{name}"
 end
 
+override :chefdk,         version: "0.2.2"
+
 override :berkshelf,      version: "v3.1.5"
 override :bundler,        version: "1.7.2"
 override :chef,           version: "11.16.0"
