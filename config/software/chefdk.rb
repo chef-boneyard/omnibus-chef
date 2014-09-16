@@ -44,6 +44,14 @@ build do
     "NOKOGIRI_USE_SYSTEM_LIBRARIES" => "true",
   )
 
+  #
+  # HACK to install chef-12.0.0.alpha.1 instead of alpha.2 because mixlib-shellout 2.x
+  #
+  gem "install chef" \
+      " --version '12.0.0.alpha.1'" \
+      " --no-ri --no-rdoc" \
+      " --verbose", env: env
+
   bundle "install", env: env
   gem "build chef-dk.gemspec", env: env
   gem "install chef-dk*.gem" \
