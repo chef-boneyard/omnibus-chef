@@ -33,9 +33,6 @@ install_dir "#{default_root}/chef"
 # use the same rubygems as the chef project
 override :rubygems, version: "1.8.29"
 
-# hardcode the version of chef
-override :chef, version: "11.12.8"
-
 dependency "preparation"
 dependency "chef"
 dependency "chef-init"
