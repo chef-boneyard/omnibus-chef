@@ -33,27 +33,12 @@ relative_path "chef"
 always_build (self.project.name == "chef-windows")
 
 build do
-  # COMPAT HACK :( - Chef 11 finally has the core Chef code in the root of the
-  # project repo. Since the Chef Client pipeline needs to build/test Chef 10.x
-  # and 11 releases our software definition need to handle both cases
-  # gracefully.
   block do
-    build_commands = self.builder.build_commands
-    chef_root = File.join(self.project_dir, "chef")
-    if File.exists?(chef_root)
-      build_commands.each_index do |i|
-        cmd = build_commands[i].dup
-        if cmd.is_a? Array
-          if cmd.last.is_a? Hash
-            cmd_opts = cmd.pop.dup
-            cmd_opts[:cwd] = chef_root
-            cmd << cmd_opts
-          else
-            cmd << {:cwd => chef_root}
-          end
-          build_commands[i] = cmd
-        end
-      end
+    if File.exist?("#{project_dir}/chef")
+      # We are on Chef 10 and need to adjust the relative path. In Chef 10, the
+      # Chef Client and Chef Server were in the same repo (like Rails), but in
+      # Chef 11, the server has been moved to its own project.
+      software.relative_path('chef/chef')
     end
   end
 
