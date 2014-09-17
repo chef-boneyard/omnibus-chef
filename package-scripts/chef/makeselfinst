@@ -85,6 +85,11 @@ ln -sf $DEST_DIR/bin/knife $PREFIX/bin || error_exit "Cannot link knife to $PREF
 ln -sf $DEST_DIR/bin/shef $PREFIX/bin || error_exit "Cannot link shef to $PREFIX/bin"
 ln -sf $DEST_DIR/bin/ohai $PREFIX/bin || error_exit "Cannot link ohai to $PREFIX/bin"
 
+# Ensure all files/directories in $DEST_DIR are owned by root. This
+# has been fixed on new installs but upgrades from old installs need to
+# be manually fixed.
+chown -Rh 0:0 $DEST_DIR
+
 echo "Thank you for installing Chef!"
 
 exit 0
