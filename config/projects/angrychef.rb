@@ -37,6 +37,11 @@ install_path "/opt/angrychef"
 resources_path File.join(files_path, "chef")
 mac_pkg_identifier "com.getchef.pkg.angrychef"
 
+override :rubygems, version: "1.8.29"
+
+# Override Chef for release
+override :chef, version: "10.34.4"
+
 dependency "preparation"
 dependency "chef"
 dependency "version-manifest"
