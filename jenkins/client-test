@@ -140,8 +140,10 @@ if [ ! -f "/opt/chef/bin/ohai" ]; then
   exit 1
 fi
 
-# we test using the specs packaged in the gem
-cd /opt/chef/embedded/lib/ruby/gems/1.9.1/gems/chef-[0-9]*
+# we test using the specs packaged in the gem --
+# note that this path could change depending on the
+# packaged version of Ruby
+cd /opt/chef/embedded/lib/ruby/gems/2.0.0/gems/chef-[0-9]*
 
 # test against the rspec and gems in the omnibus build
 PATH=/opt/chef/bin:/opt/chef/embedded/bin:$PATH

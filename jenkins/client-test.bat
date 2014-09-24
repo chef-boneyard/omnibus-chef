@@ -21,7 +21,9 @@ set PATH=C:\opscode\chef\bin;C:\opscode\chef\embedded\bin;%PATH%
 
 rem # run against the specs that are packaged in the chef gem
 rem # sorry about the chef-20 bug on the line below, but this really needs to be rewritten in powershell before then...
-cd c:\opscode\chef\embedded\lib\ruby\gems\1.9.1\gems\chef-1*
+rem Note that this path could change depending on the
+rem packaged version of Ruby
+cd c:\opscode\chef\embedded\lib\ruby\gems\2.0.0\gems\chef-1*
 
 rem # run the tests -- exclude spec/stress on windows
 rem # we do not bundle exec here in order to test against the gems in the omnibus package
