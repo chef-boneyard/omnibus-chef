@@ -44,6 +44,8 @@ end
 
 resources_path "#{Omnibus::Config.project_root}/files/chef"
 
+override :chef, version: "adamedx/ffiyajl-workaround"
+
 dependency "preparation"
 dependency "chef"
 dependency "version-manifest"
