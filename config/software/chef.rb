@@ -21,7 +21,7 @@ dependency "rubygems"
 dependency "libffi"
 dependency "bundler"
 
-default_version "master"
+default_version "jdmundrawala/11-windows-env-fix"
 
 source :git => "git://github.com/opscode/chef"
 
