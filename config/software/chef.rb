@@ -21,7 +21,7 @@ dependency "rubygems"
 dependency "libffi"
 dependency "bundler"
 
-default_version "11-stable"
+default_version "master"
 
 source :git => "git://github.com/opscode/chef"
 

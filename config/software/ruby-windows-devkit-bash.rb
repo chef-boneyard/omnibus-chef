@@ -18,20 +18,20 @@
 name "ruby-windows-devkit-bash"
 default_version "3.1.22-4-msys-1.0.18"
 
-dependency "ruby-windows"
+dependency "ruby-windows-devkit"
 
 source :url => "https://github.com/jdmundrawala/bash-test/releases/download/bash-#{version}/bash-#{version}-bin.tar.lzma",
        :md5 => "7182920ebb3fd81f80defd550a8380af"
 
 build do
   temp_directory = File.join(cache_dir, "bash-cache")
-  FileUtils.mkdir_p(temp_directory)
+  mkdir temp_directory
   # First extract the tar file out of lzma archive.
   command "7z.exe x #{project_file} -o#{temp_directory} -r -y"
   # Now extract the files out of tar archive.
   command "7z.exe x #{File.join(temp_directory, "bash-#{version}-bin.tar")} -o#{temp_directory} -r -y"
   # Copy over the required bins into embedded/bin
   ["bash.exe", "sh.exe", "bashbug"].each do |exe|
-    command "cp #{File.join(temp_directory, "bin", exe)} #{File.join(install_dir, "embedded", "bin", exe)}"
+    copy "#{temp_directory}/bin/#{exe}", "#{install_dir}/embedded/bin/#{exe}"
   end
 end
