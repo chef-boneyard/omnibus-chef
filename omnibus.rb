@@ -7,4 +7,3 @@ solaris_compiler "gcc"
 build_dmg true
 sign_pkg true
 signing_identity "Developer ID Installer: Opscode Inc. (9NBR9JL2R2)"
-
