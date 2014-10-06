@@ -25,7 +25,7 @@ dependency "ruby-windows-devkit-bash"
 dependency "bundler"
 dependency "cacerts"
 
-default_version "jdmundrawala/11-windows-env-fix"
+default_version "11-stable"
 
 source :git => "git://github.com/opscode/chef"
 
