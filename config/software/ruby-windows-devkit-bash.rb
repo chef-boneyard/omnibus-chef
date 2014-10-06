@@ -15,8 +15,8 @@
 # limitations under the License.
 #
 
-name "openssl-windows"
-default_version "3.2.22-4-msys-1.0.18"
+name "ruby-windows-devkit-bash"
+default_version "3.1.22-4-msys-1.0.18"
 
 dependency "ruby-windows"
 
