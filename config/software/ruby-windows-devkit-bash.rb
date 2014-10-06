@@ -20,7 +20,7 @@ default_version "3.2.22-4-msys-1.0.18"
 
 dependency "ruby-windows"
 
-source :url => "https://github.com/jdmundrawala/bash-test/releases/download/bash-#{version}/bash-#{version}-bin.tar.lzma"
+source :url => "https://github.com/jdmundrawala/bash-test/releases/download/bash-#{version}/bash-#{version}-bin.tar.lzma",
        :md5 => "7182920ebb3fd81f80defd550a8380af"
 
 build do
