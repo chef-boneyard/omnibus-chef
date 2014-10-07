@@ -30,7 +30,7 @@ build do
   # Now extract the files out of tar archive.
   command "7z.exe x #{File.join(temp_directory, "bash-#{version}-bin.tar")} -o#{temp_directory} -r -y"
   # Copy over the required bins into embedded/bin
-  ["bash.exe", "sh.exe", "bashbug"].each do |exe|
+  ["bash.exe", "sh.exe"].each do |exe|
     copy "#{temp_directory}/bin/#{exe}", "#{install_dir}/embedded/bin/#{exe}"
   end
 end
