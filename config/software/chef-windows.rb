@@ -21,6 +21,7 @@ dependency "ruby-windows" #includes rubygems
 dependency "libyaml-windows"
 dependency "openssl-windows"
 dependency "ruby-windows-devkit"
+dependency "ruby-windows-devkit-bash"
 dependency "bundler"
 dependency "cacerts"
 
