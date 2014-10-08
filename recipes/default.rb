@@ -1,9 +1,7 @@
-%w{chef rubies}.each do |opt_dir|
-  directory "/opt/#{opt_dir} is vagrant:vagrant" do
-    path "/opt/#{opt_dir}"
-    owner "vagrant"
-    group "vagrant"
-    recursive true
+# terrible hack because the omnibus build fails as vagrant.
+%w{/opt/chef /opt/rubies}.each do |dir|
+  execute "chown -R vagrant:vagrant #{dir}" do
+    only_if { ::Dir.exists?(dir) }
   end
 end
 
