@@ -1,5 +1,7 @@
 source 'https://api.berkshelf.com'
 
+metadata
+
 cookbook 'omnibus'
 cookbook 'docker', github: 'tduffield/chef-docker'
 

@@ -90,6 +90,16 @@ suites:
         install_dir: /opt/chef
     run_list:
       - omnibus::default
+
+  - name: chef-client-test
+    attributes:
+      omnibus:
+        <<: *attribute_defaults
+        install_dir: /opt/chef
+    run_list:
+      - omnibus::default
+      - client_test::default
+
   - name: chefdk
     attributes:
       omnibus:

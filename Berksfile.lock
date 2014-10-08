@@ -1,5 +1,8 @@
 DEPENDENCIES
   apt (~> 2.3)
+  client_test
+    path: .
+    metadata: true
   docker
     git: git://github.com/tduffield/chef-docker.git
     revision: 218229d8f1a40aa540d2cf1e83fec391e3c6792d
@@ -17,6 +20,7 @@ GRAPH
   build-essential (2.0.6)
   chef-sugar (2.2.0)
   chef_handler (1.1.6)
+  client_test (0.1.0)
   device-mapper (0.1.0)
     apt (>= 0.0.0)
     modules (>= 0.0.0)
