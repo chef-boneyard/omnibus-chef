@@ -14,6 +14,8 @@ driver:
     - ['.', '/home/vagrant/omnibus-chef']
     - ['../omnibus', '/home/vagrant/omnibus']
     - ['../omnibus-software', '/home/vagrant/omnibus-software']
+    # make optional.
+    - ['../chef', '/home/vagrant/chef']
 
 provisioner:
   name: chef_zero
