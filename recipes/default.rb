@@ -9,18 +9,27 @@ BASE    = "/home/vagrant"
 PKG_DIR = "#{BASE}/omnibus-chef/pkg"
 SRC_DIR = "#{BASE}/chef"
 
-bash "build-chef-package" do
-  user "vagrant"
-  group "vagrant"
+%w{omnibus-chef}.each do |omnigem|
+  execute "#{omnigem}-bundle-install" do
+    cwd "#{BASE}/#{omnigem}"
+    command "bundle install"
+    action :run
+  end
+end
+
+# directory PKG_DIR do
+#   action [:delete, :create]
+#   recursive true
+# end
+
+execute "build-chef-package" do
+  # user "vagrant"
+  # group "vagrant"
   cwd "#{BASE}/omnibus-chef"
 
   # these first 2 steps should be doable with resources.
-  code <<-EOS
-  bundle install
-  echo "Wiping pkg/ directory"
-  rm pkg/*
-  bundle exec omnibus build chef --config omnibus-client-test.rb
-  EOS
+  command "bundle exec omnibus build chef -l internal --config omnibus-client-test.rb --override base_dir:local"
+  action :run
 end
 
 ruby_block "store-package-info" do
@@ -28,31 +37,31 @@ ruby_block "store-package-info" do
     require 'json'
     globbed = Dir.glob("#{PKG_DIR}/*.json")
 
-    pkg_info = if globbed.size > 0
+    if globbed.size > 0
       json_file = "#{PKG_DIR}/" + globbed[0]
-      JSON.load(File.open(json_file).read)
+      pkg_info = JSON.load(File.open(json_file).read)
+      pkg_info["package_fullpath"] = "#{PKG_DIR}/#{pkg_info["basename"]}"
+      node['chef-client-test']['pkg_info'] = pkg_info
     else
       {}
     end
-
-    pkg_info["package_fullpath"] = "#{PKG_DIR}/#{pkg_info["basename"]}"
-    node['chef-client-test']['pkg_info'] = pkg_info
   end
   action :run
 end
 
-# # install the built package.
-# bash "install via package file #{pkg_file}" do
-#   code "sudo dpkg -i #{PKG_DIR}/#{pkg_file}"
-
-#   # not_if installed package is same as this file's package.
+# log "node-info" do
+#   level :info
+#   message node.inspect
 # end
 
+
 package "chef" do
-  notifies :run, "ruby_block[store-package-info]", :immediately
+  # notifies :run, "bash[build-chef-package]", :immediately
+  # notifies :run, "ruby_block[store-package-info]", :immediately
   action :upgrade
-  # version node['chef-client-test']['pkg_info']["version"]
-  source node['chef-client-test']['pkg_info']["package_fullpath"]
+  version lazy { node['chef-client-test']['pkg_info']["version"] }
+  source  lazy { node['chef-client-test']['pkg_info']["package_fullpath"] }
+  # source "cheese"
 end
 
 
