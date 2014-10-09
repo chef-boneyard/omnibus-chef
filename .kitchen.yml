@@ -15,7 +15,9 @@ driver:
     - ['../omnibus', '/home/vagrant/omnibus']
     - ['../omnibus-software', '/home/vagrant/omnibus-software']
     # make optional.
+<% if Dir.exists?("../chef") %>
     - ['../chef', '/home/vagrant/chef']
+<% end %>
 
 provisioner:
   name: chef_zero
