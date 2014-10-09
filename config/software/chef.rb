@@ -17,7 +17,11 @@
 name "chef"
 default_version "master"
 
-source git: "git://github.com/opscode/chef"
+if ENV['USE_LOCAL_CHEF']
+  source path: ENV['USE_LOCAL_CHEF']
+else
+  source git: "git://github.com/opscode/chef"
+end
 
 relative_path "chef"
 
