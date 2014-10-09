@@ -1,80 +1,45 @@
+
 # terrible hack because the omnibus-chef build tries to write into /opt/rubies.
-%w{ /opt/chef /opt/rubies }.each do |dir|
-  execute "chown -R vagrant:vagrant #{dir}" do
+%w{/opt/chef /opt/rubies}.each do |dir|
+  execute "chown -R vagrant #{dir}" do
     only_if { ::Dir.exists?(dir) }
   end
 end
 
 BASE    = "/home/vagrant"
-PKG_DIR = "#{BASE}/omnibus-chef/pkg"
+OMNICHEF_DIR = "#{BASE}/omnibus-chef"
+PKG_DIR = "#{OMNICHEF_DIR}/pkg"
 SRC_DIR = "#{BASE}/chef"
 
-%w{omnibus-chef}.each do |omnigem|
-  execute "#{omnigem}-bundle-install" do
-    cwd "#{BASE}/#{omnigem}"
-    command "bundle install"
-    action :run
-  end
-end
+bash "build-omnibus-chef" do
+  user "vagrant"
+  group "vagrant"
+  cwd OMNICHEF_DIR
 
-# directory PKG_DIR do
-#   action [:delete, :create]
-#   recursive true
-# end
-
-execute "build-chef-package" do
-  # user "vagrant"
-  # group "vagrant"
-  cwd "#{BASE}/omnibus-chef"
+  ENV['PATH'] = "/usr/local/bin:/home/vagrant/.gem/ruby/2.1.2/bin:/opt/rubies/ruby-2.1.2/lib/ruby/gems/2.1.0/bin:/opt/rubies/ruby-2.1.2/bin:/opt/chef/embedded/bin:/opt/chef/embedded/bin:#{ENV['PATH']}"
+  ENV['USE_LOCAL_CHEF'] ||= "/home/vagrant/chef"
 
   # these first 2 steps should be doable with resources.
-  command "bundle exec omnibus build chef -l internal --config omnibus-client-test.rb --override base_dir:local"
-  action :run
+  code <<-EOS
+  env > lastrun-env.sh
+
+  bundle install
+  bundle exec omnibus clean chef --purge
+  bundle exec omnibus build chef --config omnibus-client-test.rb
+  EOS
 end
 
-ruby_block "store-package-info" do
-  block do
-    require 'json'
-    globbed = Dir.glob("#{PKG_DIR}/*.json")
+# require 'json'
+# json_file = Dir.glob("#{PKG_DIR}/*.json")[0]
+# pkg_file = JSON.load(File.open(json_file).read)["basename"]
 
-    if globbed.size > 0
-      json_file = "#{PKG_DIR}/" + globbed[0]
-      pkg_info = JSON.load(File.open(json_file).read)
-      pkg_info["package_fullpath"] = "#{PKG_DIR}/#{pkg_info["basename"]}"
-      node['chef-client-test']['pkg_info'] = pkg_info
-    else
-      {}
-    end
-  end
-  action :run
-end
+# # install the built package.
+# bash "install via package file #{pkg_file}" do
+#   code "sudo dpkg -i #{PKG_DIR}/#{pkg_file}"
 
-# log "node-info" do
-#   level :info
-#   message node.inspect
+#   # not_if installed package is same as this file's package.
 # end
 
-
-package "chef" do
-  # notifies :run, "bash[build-chef-package]", :immediately
-  # notifies :run, "ruby_block[store-package-info]", :immediately
-  action :upgrade
-  version lazy { node['chef-client-test']['pkg_info']["version"] }
-  source  lazy { node['chef-client-test']['pkg_info']["package_fullpath"] }
-  # source "cheese"
-end
-
+# make sure /opt/chef etc. are first in PATH.
 
 # run the specs in /home/vagrant/chef.
-# %w{ unit functional integration }.each do |spec_type|
-%w{  }.each do |spec_type|
-  bash "run the #{spec_type} specs in #{SRC_DIR}/spec/#{spec_type}" do
-    user "vagrant"
-    group "vagrant"
-    cwd SRC_DIR
-    code <<-EOS
-    bundle install
-    bundle exec rspec spec/#{spec_type}
-    EOS
-  end
-end
