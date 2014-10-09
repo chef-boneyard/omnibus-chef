@@ -102,7 +102,9 @@ suites:
         install_dir: /opt/chef
     run_list:
       - omnibus::default
-      - client_test::default
+      - client_test::build-pkg
+      - client_test::store-pkg-info
+      - client_test::install-pkg
 
   - name: chefdk
     attributes:
