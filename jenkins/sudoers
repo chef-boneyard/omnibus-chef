@@ -1,0 +1,9 @@
+# User privilege specification
+root	ALL=NOPASSWD:ALL
+vagrant ALL=NOPASSWD:ALL
+
+# Members of the admin group may gain root privileges
+%admin ALL=NOPASSWD:ALL
+
+# Allow members of group sudo to execute any command
+%sudo	ALL=NOPASSWD:ALL
