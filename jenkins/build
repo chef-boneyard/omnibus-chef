@@ -14,6 +14,11 @@ set -e
 set -x
 
 os=`uname -s`
+if [ -n "$OVERRIDE_BUILD_USER" ]; then
+  guest_user=$OVERRIDE_BUILD_USER
+else
+  guest_user="jenkins"
+fi
 
 # Return truthy (which is zero) if a command does not exist
 # (this is deliberately inverted because /bin/sh on Solaris does not support "if ! exists" syntax)
@@ -89,8 +94,8 @@ if [ "x$os" = "xAIX" ]; then
    sudo chown -R root "/opt/${OMNIBUS_PROJECT_NAME}"
    sudo chown -R root "/var/cache/omnibus"
 else
-  sudo chown -R jenkins-node "/opt/${OMNIBUS_PROJECT_NAME}" || sudo chown -R jenkins "/opt/${OMNIBUS_PROJECT_NAME}"
-  sudo chown -R jenkins-node "/var/cache/omnibus" || sudo chown -R jenkins "/var/cache/omnibus"
+  sudo chown -R jenkins-node "/opt/${OMNIBUS_PROJECT_NAME}" || sudo chown -R $guest_user "/opt/${OMNIBUS_PROJECT_NAME}"
+  sudo chown -R jenkins-node "/var/cache/omnibus" || sudo chown -R $guest_user "/var/cache/omnibus"
 fi
 
 # horrible hack for solaris 9 to get ffi to compile in the bundle
