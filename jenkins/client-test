@@ -17,6 +17,22 @@ is_smartos() {
   uname -v | grep "^joyent" 2>&1 >/dev/null
 }
 
+start_workspace() {
+  if [ -z "$OMNICHEF_DIR" ]; then
+    mv $BUILD_NUMBER/build_timestamp $WORKSPACE/
+    cd $BUILD_NUMBER
+  else
+    cd $OMNICHEF_DIR
+  fi
+}
+
+clean_workspace() {
+  if [ -z "$OMNICHEF_DIR" ]; then
+    cd $WORKSPACE
+    rm -rf $BUILD_NUMBER
+  fi
+}
+
 if is_smartos; then
     PREFIX="/opt/local"
 else
@@ -24,8 +40,7 @@ else
 fi
 
 # copy off the timestamp for fingerprinting before we blow it away later
-mv $BUILD_NUMBER/build_timestamp $WORKSPACE/
-cd $BUILD_NUMBER
+start_workspace
 
 # determine install method via the package suffix
 if test -n "`ls pkg/chef*.deb 2>/dev/null || true`"; then
@@ -151,8 +166,7 @@ export PATH
 sudo env PATH=$PATH TERM=xterm bundle exec rspec -r rspec_junit_formatter -f RspecJunitFormatter -o $WORKSPACE/test.xml -f documentation spec
 
 # clean up the workspace to save disk space
-cd $WORKSPACE
-rm -rf $BUILD_NUMBER
+clean_workspace
 
 # remove the package, break the build if the postrm fails
 case "$filetype" in
