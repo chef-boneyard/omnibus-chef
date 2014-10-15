@@ -14,31 +14,35 @@
   # }
 # end
 
-file "/etc/sudoers" do
-  owner "root"
-  group "root"
-  mode '0440'
-  content File.open("#{node.default['client-test']['omnichef_dir']}/jenkins/sudoers").read
+if windows?
+  ENV['OMNICHEF_DIR'] = node.default['client-test']['omnichef_dir']
+  ENV['CLEAN'] = true
+else
+  file "/etc/sudoers" do
+    owner "root"
+    group "root"
+    mode '0440'
+    content File.open("#{node.default['client-test']['omnichef_dir']}/jenkins/sudoers").read
+  end
+
+  bash "build-omnibus-chef" do
+    user "vagrant"
+    group "vagrant"
+    cwd node.default['client-test']['omnichef_dir']
+
+    ENV['USE_LOCAL_CHEF'] ||= "/home/vagrant/chef"
+    ENV['OMNIBUS_PROJECT_NAME'] = "chef"
+    ENV['OVERRIDE_BUILD_USER'] = "vagrant"
+    ENV['OMNICHEF_DIR'] = node.default['client-test']['omnichef_dir']
+    ENV['BUILD_ID'] = Time.now.strftime('%Y-%m-%d_%H-%m-%S')
+
+    code <<-EOS
+    env > lastrun-env.sh
+    export BUILD_TAG=`git log --oneline -n1 | awk '{print $1}'`
+
+    $OMNICHEF_DIR/jenkins/build
+    EOS
+
+    not_if { File.exists?("#{node.default['client-test']['omnichef_dir']}/nobuild") }
+  end
 end
-
-bash "build-omnibus-chef" do
-  user "vagrant"
-  group "vagrant"
-  cwd node.default['client-test']['omnichef_dir']
-
-  ENV['USE_LOCAL_CHEF'] ||= "/home/vagrant/chef"
-  ENV['OMNIBUS_PROJECT_NAME'] = "chef"
-  ENV['OVERRIDE_BUILD_USER'] = "vagrant"
-
-  # these first 2 steps should be doable with resources.
-  code <<-EOS
-  env > lastrun-env.sh
-  export BUILD_TAG=`git log --oneline -n1 | awk '{print $1}'`
-  export BUILD_ID=`date '+%Y-%m-%d_%H-%m-%S'`
-
-  #{node.default['client-test']['omnichef_dir']}/jenkins/build
-  EOS
-
-  not_if { File.exists?("#{node.default['client-test']['omnichef_dir']}/nobuild") }
-end
-

@@ -103,8 +103,7 @@ suites:
     run_list:
       - omnibus::default
       - client_test::build-pkg
-      - client_test::store-pkg-info
-      - client_test::install-pkg
+      - client_test::test-pkg
 
   - name: chefdk
     attributes:
