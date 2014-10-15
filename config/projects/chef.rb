@@ -44,6 +44,10 @@ override :'ruby-windows', version: "2.1.3"
 override :'ruby-windows-devkit', version: "4.7.2-20130224-1151"
 override :rubygems,       version: "2.4.1"
 
+# Pickup Ruby 2.1.3 compat changes from chef
+
+override :chef, version: "sersut/win-ruby-bump"
+
 dependency "preparation"
 dependency "chef"
 dependency "version-manifest"
