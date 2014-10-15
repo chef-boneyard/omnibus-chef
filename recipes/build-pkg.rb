@@ -1,22 +1,13 @@
 
-# terrible hack because the omnibus-chef build tries to write into /opt/rubies.
-# %w{/opt/chef /opt/rubies}.each do |dir|
-#   execute "chown -R vagrant #{dir}" do
-#     only_if { ::Dir.exists?(dir) }
-#   end
-# end
-
-# sudo "overwrite-sudoers" do
-  # node.default['authorization']['sudo'] = {
-  #   'groups' => ['sudo', 'admin'],
-  #   'users'  => ['vagrant'],
-  #   'passwordless' => true,
-  # }
-# end
+# build an omnibus-chef package.
 
 if windows?
   ENV['OMNICHEF_DIR'] = node.default['client-test']['omnichef_dir']
-  ENV['CLEAN'] = true
+  ENV['CLEAN'] = "true"
+  execute "windows-build-omnibus-chef" do
+    cwd ENV['OMNICHEF_DIR']
+    command "#{ENV['OMNICHEF_DIR']}/jenkins/build.bat"
+  end
 else
   file "/etc/sudoers" do
     owner "root"
@@ -35,6 +26,7 @@ else
     ENV['OVERRIDE_BUILD_USER'] = "vagrant"
     ENV['OMNICHEF_DIR'] = node.default['client-test']['omnichef_dir']
     ENV['BUILD_ID'] = Time.now.strftime('%Y-%m-%d_%H-%m-%S')
+    ENV['CLEAN'] = "true"
 
     code <<-EOS
     env > lastrun-env.sh

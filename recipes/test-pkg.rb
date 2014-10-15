@@ -1,3 +1,5 @@
+# install and test an omnibus-chef package.
+
 bash "test-omnibus-chef-pkg" do
   user "vagrant"
   group "vagrant"
