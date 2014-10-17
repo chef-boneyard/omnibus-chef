@@ -9,6 +9,8 @@ if windows?
     command "#{ENV['OMNICHEF_DIR']}/jenkins/build.bat"
   end
 else
+
+  # avoid weird errors about not being allowed to sudo without a terminal.
   file "/etc/sudoers" do
     owner "root"
     group "root"
@@ -28,9 +30,12 @@ else
     ENV['BUILD_ID'] = Time.now.strftime('%Y-%m-%d_%H-%m-%S')
     ENV['CLEAN'] = "true"
 
+    # that Perl command is gross, but otherwise that test fails when run through TK.
     code <<-EOS
     env > lastrun-env.sh
     export BUILD_TAG=`git log --oneline -n1 | awk '{print $1}'`
+
+    perl -i.orig -npe 's/8889/8890/g' #{ENV['USE_LOCAL_CHEF']}/spec/integration/knife/serve_spec.rb
 
     $OMNICHEF_DIR/jenkins/build
     EOS
