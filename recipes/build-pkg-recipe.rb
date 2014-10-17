@@ -31,6 +31,11 @@ if windows?
   end
 else
 
+  # otherwise doing bundle install as non-root fails.
+  ["chef", "rubies"].each do |dir|
+    execute "chown -R vagrant /opt/#{dir}"
+  end
+
   # avoid weird errors about not being allowed to sudo without a terminal. the sudo resource
   # failed validation even when called without parameters.
   file "/etc/sudoers" do
@@ -40,7 +45,7 @@ else
     content File.open("#{node.default['client-test']['omnichef_dir']}/jenkins/sudoers").read
   end
 
-  bash "clean-directories" do
+  bash "clean-cache-directories" do
     if ENV['CLEAN']
       code "sudo rm -rf /var/cache/omnibus/* || true"
     else
@@ -51,6 +56,14 @@ else
       EOS
     end
   end
+
+  # bash "clean-install-directories" do
+  #   code <<-EOS
+  #   sudo rm -rf "/opt/#{ENV['OMNIBUS_PROJECT_NAME']}" || true
+  #   sudo mkdir -p "/opt/#{ENV['OMNIBUS_PROJECT_NAME']}"
+  #   sudo rm -f pkg/* || true
+  #   EOS
+  # end
 
   execute "bundle-install" do
     cwd node.default['client-test']['omnichef_dir']
@@ -65,7 +78,7 @@ else
 
   # without this, the test fails when run through TK.
   execute "unholy-port-substitution" do
-    action :nothing
+    # action :nothing
     command <<-EOS
     find #{ENV['USE_LOCAL_CHEF']}/spec -name "*.rb" \
              | xargs perl -i.orig -npe 's/8889/8890/g' #{ENV['USE_LOCAL_CHEF']}/spec
@@ -74,7 +87,8 @@ else
 
 
   bash "build-omnibus-chef" do
-    action :nothing
+    # action :nothing
+
     user "vagrant"
     group "vagrant"
     cwd node.default['client-test']['omnichef_dir']
@@ -95,7 +109,7 @@ else
     EOS
 
 
-    # only_if { File.exists?(node[:client_test][:manifest_file]) }
+    only_if { File.exists?(ENV['MANIFEST_FILE']) }
   end
 
 end
