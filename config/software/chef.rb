@@ -67,9 +67,26 @@ build do
     }.each do |target, to|
       copy "#{install_dir}/embedded/mingw/bin/#{to}", "#{install_dir}/bin/#{target}"
     end
+
+    gem "build chef-x86-mingw32.gemspec", env: env
+    gem "install chef*mingw32.gem" \
+        " --no-ri --no-rdoc" \
+        " --verbose"
+
+    bundle "install --without server docgen", env: env
+
+  else
+
+    # install the whole bundle first
+    bundle "install --without server docgen", env: env
+
+    gem "build chef.gemspec", env: env
+
+    # Don't use -n #{install_dir}/bin. Appbundler will take care of them later
+    gem "install chef*.gem " \
+        " --no-ri --no-rdoc", env: env
+
   end
-  # install the whole bundle first
-  bundle "install --without server docgen", env: env
 
   auxiliary_gems = {}
   auxiliary_gems['ruby-shadow'] = '>= 0.0.0' unless aix? || windows?
