@@ -49,6 +49,7 @@ override :ruby,           version: "2.1.3"
 override :'ruby-windows', version: "2.0.0-p451"
 ######
 override :rubygems,       version: "2.4.1"
+override :chef, version: "jdmundrawala/windows-service"
 
 dependency "preparation"
 dependency "chef"
@@ -73,8 +74,7 @@ package :msi do
   install_path = Pathname.new(install_dir)
 
   # Find path in which the Chef gem is installed
-  search_pattern = "#{install_path}/**/gems/chef-[0-9]*"
-  chef_gem_path  = Pathname.glob(search_pattern).find { |path| path.directory? }
+  chef_gem_path = Pathname.new("#{install_path}/embedded/apps/chef")
 
   if chef_gem_path.nil?
     raise "Could not find a chef gem in `#{search_pattern}'!"
