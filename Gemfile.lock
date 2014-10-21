@@ -160,6 +160,7 @@ PLATFORMS
 DEPENDENCIES
   berkshelf (~> 3.0)
   kitchen-vagrant (~> 0.15)
+  mixlib-shellout!
   omnibus!
   omnibus-software!
   test-kitchen (~> 1.2)

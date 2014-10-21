@@ -33,6 +33,11 @@ else
   dependency "libffi"
 end
 
+# Before we can actually install gems on AIX, we need to monkeypatch
+# ruby's mkmf so that XLC gets the system libiconv instead of the 
+# embedded one in the LIBPATH
+dependency "ruby-customization" if aix?
+
 dependency "openssl-customization"
 dependency "bundler"
 dependency "ohai"
