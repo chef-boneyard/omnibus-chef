@@ -70,6 +70,7 @@ build do
     end
 
     gem "build chef-x86-mingw32.gemspec", env: env
+    gem "install win32-eventlog"
     gem "install chef*mingw32.gem" \
         " --no-ri --no-rdoc" \
         " --verbose"
