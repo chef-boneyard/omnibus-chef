@@ -50,6 +50,9 @@ override :'ruby-windows', version: "2.0.0-p451"
 ######
 override :rubygems,       version: "2.4.1"
 
+# Testing:
+override :chef,       version: "jdmundrawala/12-evt-log"
+
 dependency "preparation"
 dependency "chef"
 dependency "version-manifest"
@@ -66,4 +69,5 @@ compress :dmg
 
 package :msi do
   upgrade_code "D607A85C-BDFA-4F08-83ED-2ECB4DCD6BC5"
+  wix_candle_extension 'WixUtilExtension'
 end
