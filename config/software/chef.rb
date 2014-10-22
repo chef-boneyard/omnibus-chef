@@ -74,7 +74,7 @@ build do
         " --no-ri --no-rdoc" \
         " --verbose"
 
-    rake 'build_eventlog'
+    rake '-rdevkit build_eventlog'
 
     bundle "install --without server docgen", env: env
 
