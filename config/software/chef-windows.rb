@@ -82,14 +82,15 @@ build do
 
   block do
     require 'rubygems/format'
-    %w{chef ohai}.each do |gem|
-      gem_file = Dir["#{install_dir.gsub(/\\/, '/')}/embedded/lib/ruby/gems/**/cache/#{gem}*.gem"].first
+    Dir["#{install_dir.gsub(/\\/, '/')}/embedded/lib/ruby/gems/**/cache/*.gem"].each do |gem_file|
       Gem::Format.from_file_by_path(gem_file).spec.executables.each do |bin|
-        File.open("#{install_dir}/bin/#{bin}.bat", "w") do |f|
-          f.puts <<-EOF
+        if File.exists?("#{install_dir}/bin/#{bin}")
+          File.open("#{install_dir}/bin/#{bin}.bat", "w") do |f|
+            f.puts <<-EOF
 @ECHO OFF
 "%~dp0\\..\\embedded\\bin\\ruby.exe" "%~dpn0" %*
-          EOF
+            EOF
+          end
         end
       end
     end
