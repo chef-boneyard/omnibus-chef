@@ -60,6 +60,7 @@ GEM
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.6)
+    ffi (1.9.6-x86-mingw32)
     ffi-yajl (1.2.0)
       ffi (~> 1.5)
       libyajl2 (~> 1.0)
@@ -160,7 +161,6 @@ PLATFORMS
 DEPENDENCIES
   berkshelf (~> 3.0)
   kitchen-vagrant (~> 0.15)
-  mixlib-shellout!
   omnibus!
   omnibus-software!
   test-kitchen (~> 1.2)
