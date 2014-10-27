@@ -50,6 +50,10 @@ override :'ruby-windows', version: "2.0.0-p451"
 ######
 override :rubygems,       version: "2.4.1"
 
+# Version overrides for testing RC for Chef 12
+override :chef, version: "12-stable"
+override :ohai, version: "7.6.0.rc.1"
+
 dependency "preparation"
 dependency "chef"
 dependency "version-manifest"
