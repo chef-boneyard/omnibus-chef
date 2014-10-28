@@ -50,8 +50,8 @@ override :berkshelf,      version: "v3.1.5"
 override :bundler,        version: "1.7.2"
 override :chef,           version: "11.16.0"
 
-# Release 0.3.1
-override :chefdk,         version: "0.3.1"
+# Release 0.3.2
+override :chefdk,         version: "0.3.2"
 
 # TODO: Can we bump default versions in omnibus-software?
 override :libedit,        version: "20130712-3.1"
