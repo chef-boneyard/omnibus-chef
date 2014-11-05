@@ -50,7 +50,7 @@ ruby_block "kill symlinks" do
 end
 
 package "install-new-pkg" do
-  action :nothing
+  action :install
   source lazy { node.run_state[:client_test][:pkg_file] }
   provider lazy { node.run_state[:client_test][:provider] }
 end
@@ -73,6 +73,6 @@ end
 # uninstall the built package--meant to test postrm scripts?
 package "uninstall-tested-chef" do
   package_name "chef"
-  action :remove
+  action :remove      # or :purge, depending on support.
   provider lazy { node.run_state[:client_test][:provider] }
 end
