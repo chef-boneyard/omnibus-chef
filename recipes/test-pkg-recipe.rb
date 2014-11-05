@@ -1,5 +1,5 @@
 ruby_block "setup" do
-  # action :nothing
+
   block do
 
     node.run_state[:client_test] ||= {}
@@ -15,7 +15,7 @@ ruby_block "setup" do
 
     pkg_provider, extension = value_for_platform_family(
                                 "debian"                   => [ Chef::Provider::Package::Dpkg, "deb" ],
-                                ["rhel", "fedora", "arch"] => [ Chef::Provider::Package::Yum, "rpm" ],
+                                ["rhel", "fedora", "arch"] => [ Chef::Provider::Package::Yum,  "rpm" ],
                               )
 
     pkg_file = Dir.glob("#{node.default['client-test']['omnichef_dir']}/pkg/*.#{extension}").
@@ -33,46 +33,43 @@ ruby_block "setup" do
   end
 end
 
-# :purge is not supported by all providers, but it would be nice to use when it is.
+# not all providers support :purge, so add that to the platform-specific stuff.
 package "uninstall-chef" do
   package_name "chef"
-  action :remove
+  action :purge
   provider lazy { node.run_state[:client_test][:provider] }
 end
 
-ruby_block "kill symlinks" do
+ruby_block "clear-symlinks" do
   block do
     node.run_state[:client_test][:symlinks].each do |symlink|
-      f = Chef::Resource::File.new(symlink, run_context)
-      f.run_action :delete
+      Chef::Resource::File.new(symlink, run_context).run_action :delete
     end
   end
 end
 
-package "install-new-pkg" do
+package "install-pkg-under-test" do
   action :install
   source lazy { node.run_state[:client_test][:pkg_file] }
   provider lazy { node.run_state[:client_test][:provider] }
 end
 
 # run the specs that got installed by the built package.
-# bash "run-specs" do
-#   action :nothing
-#   cwd "/opt/chef/embedded/apps/chef"
+bash "run-specs" do
 
-#   ENV['PATH'] = "/opt/chef/bin:/opt/chef/embedded/bin:ENV['PATH']"
+  cwd "/opt/chef/embedded/apps/chef"
 
-#   # I think PATH here is redundant since we're not sudoing.
-#   code <<-EOS
-#   env PATH=#{ENV['PATH']} TERM=xterm bundle exec rspec -r rspec_junit_formatter \
-#   -f RspecJunitFormatter -o #{ENV['TEMP']}/test.xml -f documentation spec
-#   EOS
-# end
+  code <<-EOS
+  env PATH=/opt/chef/bin:/opt/chef/embedded/bin:#{ENV['PATH']} TERM=xterm bundle exec rspec \
+  -r rspec_junit_formatter \
+  -f RspecJunitFormatter -o #{ENV['TEMP']}/test.xml -f documentation spec
+  EOS
+end
 
 
 # uninstall the built package--meant to test postrm scripts?
-package "uninstall-tested-chef" do
+package "uninstall-pkg-under-test" do
   package_name "chef"
-  action :remove      # or :purge, depending on support.
+  action :purge
   provider lazy { node.run_state[:client_test][:provider] }
 end
