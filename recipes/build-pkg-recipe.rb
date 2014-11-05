@@ -22,7 +22,7 @@ file "build_timestamp" do
   content "#{ENV['BUILD_ID']} / #{ENV['BUILD_TAG']} (#{ENV['BUILD_BRANCH']})"
 end
 
-if windows?
+if false && windows?
   ENV['OMNICHEF_DIR'] = node.default['client-test']['omnichef_dir']
   ENV['CLEAN'] = "true"
   execute "windows-build-omnibus-chef" do
@@ -86,7 +86,7 @@ else
   end
 
 
-  bash "build-omnibus-chef" do
+  bash "build-omnibus-package" do
     # action :nothing
 
     user "vagrant"
