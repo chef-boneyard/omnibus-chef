@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 name "chef"
-default_version "master"
+default_version "chef-provisioning-12-stable"
 
 source git: "git://github.com/opscode/chef"
 
