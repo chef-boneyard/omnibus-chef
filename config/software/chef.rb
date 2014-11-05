@@ -32,6 +32,7 @@ else
   dependency "ruby"
   dependency "rubygems"
   dependency "libffi"
+  dependency "liblzma"
 end
 
 dependency "openssl-customization"
