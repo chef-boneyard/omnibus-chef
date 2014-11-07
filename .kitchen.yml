@@ -21,7 +21,10 @@ driver:
 
 provisioner:
   name: chef_zero
-  require_chef_omnibus: 11.12.4
+  require_chef_omnibus: latest    # was 11.12.4, some TK bug breaks it with the -P.
+  chef_zero_port: 8891
+  chef_omnibus_install_options: -P angrychef
+  chef_omnibus_root: /opt/angrychef
 
 platforms:
   - name: centos-5.10
