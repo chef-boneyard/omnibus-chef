@@ -68,6 +68,7 @@ override :ohai, version: "7.6.0.rc.1"
 
 dependency "preparation"
 dependency "chef"
+dependency "shebang-cleanup"
 dependency "version-manifest"
 
 package :rpm do
