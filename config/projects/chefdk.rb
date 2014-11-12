@@ -78,6 +78,7 @@ override :rubygems,       version: "2.4.1"
 override :'test-kitchen', version: "v121-dep-fix"
 override :yajl,           version: "1.2.1"
 override :zlib,           version: "1.2.8"
+override :chefdk,         version: 'jdmundrawala/unit-tests-windows'
 
 dependency "preparation"
 dependency "chefdk"
