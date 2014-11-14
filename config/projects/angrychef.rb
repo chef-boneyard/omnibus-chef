@@ -1,6 +1,5 @@
 #
-# Copyright:: Copyright (c) 2012 Opscode, Inc.
-# License:: Apache License, Version 2.0
+# Copyright 2012-2014 Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,28 +14,36 @@
 # limitations under the License.
 #
 
-# This is a clone of chef that we can install on build and test machines
-# without interfering with the regular build/test.
+#
+# This is a clone of the Chef project that we can install on the Chef build and
+# test machines. As such this project definition is just a thin wrapper around
+# `config/project/chef.rb`.
+#
+chef_project_contents = IO.read(File.expand_path('../chef.rb', __FILE__))
+self.instance_eval chef_project_contents
 
 name "angrychef"
 friendly_name "Angry Chef Client"
 maintainer "Chef Software, Inc."
-homepage "http://www.getchef.com"
+homepage "https://www.getchef.com"
 
-build_iteration 1
-build_version do
-  # Use chef to determine the build version
-  source :git, from_dependency: 'chef'
-
-  # Output a SemVer compliant version string
-  output_format :semver
+if windows?
+  # NOTE: Ruby DevKit fundamentally CANNOT be installed into "Program Files"
+  #       Native gems will use gcc which will barf on files with spaces,
+  #       which is only fixable if everyone in the world fixes their Makefiles
+  install_dir "#{default_root}/opscode/#{name}"
+  package_name "angrychef"
+else
+  install_dir "#{default_root}/#{name}"
 end
 
-install_dir "/opt/angrychef"
+package :pkg do
+  identifier "com.getchef.pkg.angrychef"
+  signing_identity "Developer ID Installer: Opscode Inc. (9NBR9JL2R2)"
+end
 
-resources_path File.join(files_path, "chef")
-mac_pkg_identifier "com.getchef.pkg.angrychef"
+compress :dmg
 
-dependency "preparation"
-dependency "chef"
-dependency "version-manifest"
+package :msi do
+  upgrade_code "D7FDDC1A-7668-404E-AD2F-61F875632A9C"
+end
