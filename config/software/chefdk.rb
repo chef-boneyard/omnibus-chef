@@ -15,7 +15,7 @@
 #
 
 name "chefdk"
-default_version "master"
+default_version 'jdmundrawala/enhance-verify'
 
 source git: "git://github.com/opscode/chef-dk"
 
