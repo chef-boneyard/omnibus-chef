@@ -34,10 +34,19 @@ dependency "bundler"
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
+  block do
+    env['GEM_HOME'] = dest_dir + `#{dest_dir}/#{install_dir}/embedded/bin/ruby  -r rubygems -e 'p Gem.path.last' | tr -d '"' | tr -d '\n'`
+    env['GEM_PATH'] = env['GEM_HOME']
+    env['BUNDLE_PATH'] = env['GEM_HOME']
+  end
 
-  bundle "install --without development", env: env
+  block do
+    bundle "config build.ffi --global '--with-cflags=\"#{env['CFLAGS']}\" --with-ldflags=\"#{env['LDFLAGS']}\"'", env: env
+    bundle "install --without development", env: env
+  end
 
   gem "build ohai.gemspec", env: env
   gem "install ohai*.gem" \
+      " --bindir '#{dest_dir}/#{install_dir}/bin'" \
       " --no-ri --no-rdoc", env: env
 end
