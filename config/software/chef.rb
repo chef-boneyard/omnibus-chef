@@ -37,7 +37,8 @@ end
 dependency "openssl-customization"
 dependency "bundler"
 dependency "ohai"
-dependency "appbundler"
+# TODO: Revert this back to appbundler once we have a new release of appbundler.
+dependency "appbundler_src"
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
