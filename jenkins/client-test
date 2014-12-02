@@ -85,7 +85,6 @@ sudo rm -f $PREFIX/bin/chef-solo || true
 sudo rm -f $PREFIX/bin/chef-apply || true
 sudo rm -f $PREFIX/bin/chef-shell || true
 sudo rm -f $PREFIX/bin/knife || true
-sudo rm -f $PREFIX/bin/shef || true
 sudo rm -f $PREFIX/bin/ohai || true
 
 

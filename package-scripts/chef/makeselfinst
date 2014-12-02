@@ -11,7 +11,8 @@
 #
 
 PROGNAME=`basename $0`
-INSTALLER_DIR=/opt/chef
+INSTALLER_DIR=`dirname $0`
+DEST_DIR=/opt/chef
 CONFIG_DIR=/etc/chef
 USAGE="usage: $0 [-v validation_key] ([-o organization] || [-u url])"
 
@@ -42,12 +43,17 @@ do
       v)  validation_key="${OPTARG}";;
       o)  organization="${OPTARG}"; chef_url="https://api.opscode.com/organizations/${OPTARG}";;
       u)  chef_url="${OPTARG}";;
-      \?)    # unknown flag
-          echo >&2 ${USAGE}
-    exit 1;;
+      \?)		# unknown flag
+      	  echo >&2 ${USAGE}
+	  exit 1;;
     esac
 done
 shift `expr ${OPTIND} - 1`
+
+rm -rf $DEST_DIR/* || error_exit "Cannot remove contents of $DEST_DIR"
+mkdir -p $DEST_DIR || error_exit "Cannot create $DEST_DIR"
+cp -R $INSTALLER_DIR $DEST_DIR || error_exit "Cannot install to $DEST_DIR"
+rm -f $DEST_DIR/$PROGNAME
 
 if [ "" != "$chef_url" ]; then
   mkdir -p ${CONFIG_DIR} || error_exit "Cannot create ${CONFIG_DIR}!"
@@ -71,32 +77,12 @@ if [ "" != "$validation_key" ]; then
   chmod 600 ${CONFIG_DIR}/validation.pem
 fi
 
-# rm -f before ln -sf is required for solaris 9
-rm -f $PREFIX/bin/chef-client
-rm -f $PREFIX/bin/chef-solo
-rm -f $PREFIX/bin/chef-apply
-rm -f $PREFIX/bin/chef-shell
-rm -f $PREFIX/bin/knife
-rm -f $PREFIX/bin/ohai
-
-ln -sf $INSTALLER_DIR/bin/chef-solo $PREFIX/bin || error_exit "Cannot link chef-solo to $PREFIX/bin"
-if [ -f "$INSTALLER_DIR/bin/chef-apply" ]; then
-  ln -sf $INSTALLER_DIR/bin/chef-apply $PREFIX/bin || error_exit "Cannot link chef-apply to $PREFIX/bin"
-fi
-if [ -f "$INSTALLER_DIR/bin/chef-shell" ]; then
-  ln -sf $INSTALLER_DIR/bin/chef-shell $PREFIX/bin || error_exit "Cannot link chef-shell to $PREFIX/bin"
-fi
-ln -sf $INSTALLER_DIR/bin/knife $PREFIX/bin || error_exit "Cannot link knife to $PREFIX/bin"
-ln -sf $INSTALLER_DIR/bin/ohai $PREFIX/bin || error_exit "Cannot link ohai to $PREFIX/bin"
-
-# We test for the presence of /usr/bin/chef-client to know if this script succeeds, so this
-# must appear as the last real action in the script
-ln -sf $INSTALLER_DIR/bin/chef-client $PREFIX/bin || error_exit "Cannot link chef-client to $PREFIX/bin"
-
-# Ensure all files/directories in $INSTALLER_DIR are owned by root. This
-# has been fixed on new installs but upgrades from old installs need to
-# be manually fixed.
-chown -Rh 0:0 $INSTALLER_DIR
+ln -sf $DEST_DIR/bin/chef-client $PREFIX/bin || error_exit "Cannot link chef-client to $PREFIX/bin"
+ln -sf $DEST_DIR/bin/chef-solo $PREFIX/bin || error_exit "Cannot link chef-solo to $PREFIX/bin"
+ln -sf $DEST_DIR/bin/chef-apply $PREFIX/bin || error_exit "Cannot link chef-apply to $PREFIX/bin"
+ln -sf $DEST_DIR/bin/chef-shell $PREFIX/bin || error_exit "Cannot link chef-shell to $PREFIX/bin"
+ln -sf $DEST_DIR/bin/knife $PREFIX/bin || error_exit "Cannot link knife to $PREFIX/bin"
+ln -sf $DEST_DIR/bin/ohai $PREFIX/bin || error_exit "Cannot link ohai to $PREFIX/bin"
 
 echo "Thank you for installing Chef!"
 
