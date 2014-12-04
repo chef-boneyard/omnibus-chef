@@ -24,6 +24,12 @@ name "gem-cleanup"
 default_version "0.0.1"
 
 build do
+  env = with_standard_compiler_flags(with_embedded_path).merge(
+    # Rubocop pulls in nokogiri 1.5.11, so needs PKG_CONFIG_PATH and
+    # NOKOGIRI_USE_SYSTEM_LIBRARIES until rubocop stops doing that
+    "PKG_CONFIG_PATH" => "#{install_dir}/embedded/lib/pkgconfig",
+    "NOKOGIRI_USE_SYSTEM_LIBRARIES" => "true",
+  )
   gem "uninstall chef --version 11.16.4 -q", env: env, returns: [0, 1]
   gem "uninstall chef --version 11.6.2 -q", env: env, returns: [0, 1]
   gem "uninstall chef --version 10.34.6 -q", env: env, returns: [0, 1]
