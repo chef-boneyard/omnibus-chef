@@ -30,9 +30,11 @@ build do
     "PKG_CONFIG_PATH" => "#{install_dir}/embedded/lib/pkgconfig",
     "NOKOGIRI_USE_SYSTEM_LIBRARIES" => "true",
   )
-  gem "uninstall chef --version 11.16.4 -q", env: env, returns: [0, 1]
-  gem "uninstall chef --version 11.6.2 -q", env: env, returns: [0, 1]
+  gem "uninstall chef --version 0.8.10 -q", env: env, returns: [0, 1]
   gem "uninstall chef --version 10.34.6 -q", env: env, returns: [0, 1]
+  gem "uninstall chef --version 11.6.0 -q", env: env, returns: [0, 1]
+  gem "uninstall chef --version 11.6.2 -q", env: env, returns: [0, 1]
+  gem "uninstall chef --version 11.16.4 -q", env: env, returns: [0, 1]
   gem "uninstall ohai --version 6.18.0 -q", env: env, returns: [0, 1]
   gem "uninstall ohai --version 6.24.2 -q", env: env, returns: [0, 1]
 end
