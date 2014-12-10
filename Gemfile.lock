@@ -4,8 +4,10 @@ GIT
   specs:
     omnibus-software (4.0.0)
 
-PATH
-  remote: ../omnibus
+GIT
+  remote: git://github.com/opscode/omnibus.git
+  revision: 95f1f3f620720184a6c0e788929d0b1f813e24d7
+  branch: jdm/watch
   specs:
     omnibus (4.0.0.rc.2)
       chef-sugar (~> 2.2)
@@ -102,6 +104,10 @@ GEM
       mixlib-shellout (~> 1.2)
       systemu (~> 2.6.4)
       wmi-lite (~> 1.0)
+    pry (0.10.1)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
     pry (0.10.1-x86-mingw32)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)

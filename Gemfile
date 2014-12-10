@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 #gem 'omnibus', github: 'opscode/omnibus'
-gem 'omnibus', path: '../omnibus'
+gem 'omnibus', github: 'opscode/omnibus', branch: 'jdm/watch'
 gem 'omnibus-software', github: 'opscode/omnibus-software'
 
 # This development group is installed by default when you run `bundle install`,
