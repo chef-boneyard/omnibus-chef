@@ -34,6 +34,12 @@ else
   install_dir "#{default_root}/#{name}"
 end
 
+watch "#{install_dir}/embedded/lib/ruby/gems/2.0.0/cache/"
+
+
+
+
+
 # As of 27 October 2014, the newest CA cert bundle does not work with AWS's
 # root cert. See:
 # * https://github.com/opscode/chef-dk/issues/199

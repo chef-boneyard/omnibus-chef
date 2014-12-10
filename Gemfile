@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'omnibus', github: 'opscode/omnibus'
+#gem 'omnibus', github: 'opscode/omnibus'
+gem 'omnibus', path: '../omnibus'
 gem 'omnibus-software', github: 'opscode/omnibus-software'
 
 # This development group is installed by default when you run `bundle install`,
@@ -15,4 +16,5 @@ group :development do
   gem 'test-kitchen',      '~> 1.2'
   gem 'kitchen-vagrant',   '~> 0.15'
   gem 'windows_chef_zero', '~> 2.0'
+  gem 'pry'
 end
