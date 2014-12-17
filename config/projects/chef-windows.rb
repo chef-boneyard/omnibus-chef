@@ -36,10 +36,7 @@ end
 
 package_name    "chef-client"
 
-# Chef-11 on chef-11-stable branch must be pinned to 2.1.11,
-# the 2.2.x branch will be a breaking change
-override :rubygems, version: "2.1.11"
-override :bundler,  version: "1.7.5"
+override :rubygems, version: "1.8.29"
 
 # Override chef version for release
 override :"chef-windows", version: "11.16.4"
