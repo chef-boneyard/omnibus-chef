@@ -4,7 +4,7 @@
 
 name "sgdk"
 default_version "master"
-source git: "git://github.com:sendgrid/sgdk.git"
+source git: "https://github.com/sendgrid/sgdk.git"
 
 build do
   command "bin/configure"
