@@ -9,5 +9,5 @@ source git: "https://github.com/sendgrid/sgdk.git"
 build do
   command "bin/configure"
   copy "#{project_dir}", "#{install_dir}/embedded"
-  link "#{install_dir}/embedded/#{name}/bin/#{name}-bootstrap", "#{install_dir}/bin"
+  link "#{install_dir}/embedded/#{name}/bin/bootstrap", "#{install_dir}/bin"
 end
