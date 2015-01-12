@@ -50,20 +50,11 @@ end
 # Software does).
 override :cacerts, version: '2014.08.20'
 
-override :bundler,        version: "1.7.2"
-override :ruby,           version: "2.1.4"
-######
-# Ruby 2.1.3 is currently not working on windows due to:
-# https://github.com/ffi/ffi/issues/375
-# Enable below once above issue is fixed.
-# override :'ruby-windows', version: "2.1.3"
-# override :'ruby-windows-devkit', version: "4.7.2-20130224-1151"
-override :'ruby-windows', version: "2.0.0-p451"
-######
-override :rubygems,       version: "2.4.1"
+override :bundler,        version: "1.7.5"
+override :rubygems,       version: "2.1.11"
 
 # Chef Release version pinning
-override :chef, version: "12.0.3"
+override :chef, version: "11.16.4"
 # Due to a hiccup in the tagging process during the release of ohai
 # we've forgot to bump the version before tagging. For one time only
 # we are releasing ohai with SHA which points to tag 8.0.1 + version
