@@ -28,6 +28,10 @@
 # ------------------------------
 # use_git_caching false
 
+# Disable appending timestamp to package name
+# ------------------------------
+append_timestamp false
+
 # Enable S3 asset caching
 # ------------------------------
 use_s3_caching true
