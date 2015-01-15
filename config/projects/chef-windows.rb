@@ -42,7 +42,7 @@ override :rubygems, version: "2.1.11"
 override :bundler,  version: "1.7.5"
 
 # Override chef version for release
-override :"chef-windows", version: "11.16.4"
+override :"chef-windows", version: "11.18.0"
 
 dependency "preparation"
 dependency "chef-windows"
