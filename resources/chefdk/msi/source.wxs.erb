@@ -40,6 +40,8 @@
                 <Component Id="ChefDkPath" Guid="{AEA5727E-DAD2-48CC-ADB8-38DD0EB46C62}" >
                   <Environment Id="Environment"
                                Name="PATH" Action="set" Part="last" System="yes" Value="[PROJECTLOCATION]bin" />
+                  <Environment Id="EnvironmentRuby"
+                    Name="CHEF_RUBY" Action="set" System="yes" Value="[EMBEDDEDBIN]ruby.exe" />
                 </Component>
               </Directory>
             </Directory>

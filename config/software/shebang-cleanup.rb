@@ -33,14 +33,18 @@ build do
                        require 'rubygems/format'
                        Gem::Format.method(:from_file_by_path)
                      end
+      BATFILE = <<-EOF
+@ECHO OFF
+"%CHEF_RUBY%" "%~dpn0" %*
+      EOF
+
       Dir["#{install_dir.gsub(/\\/, '/')}/embedded/lib/ruby/gems/**/cache/*.gem"].each do |gem_file|
         load_gemspec.call(gem_file).spec.executables.each do |bin|
-          if File.exists?("#{install_dir}/bin/#{bin}")
-            File.open("#{install_dir}/bin/#{bin}.bat", "w") do |f|
-              f.puts <<-EOF
-  @ECHO OFF
-  "%~dp0\\..\\embedded\\bin\\ruby.exe" "%~dpn0" %*
-              EOF
+          ["#{install_dir}/bin/#{bin}.bat", "#{install_dir}/embedded/bin/#{bin}.bat"].each do |filename|
+            if File.exists?(filename)
+              File.open(filename, "w") do |f|
+                f.puts BATFILE
+              end
             end
           end
         end

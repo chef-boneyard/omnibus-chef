@@ -48,6 +48,8 @@
                 </Component>
                 <Component Id="ChefClientService" Guid="{69B2D8BE-4A47-4BE3-AEE8-83FAEB6E2FAF}" >
                   <File Id="RubyExecutable" Source="$(var.ProjectSourceDir)\embedded\bin\ruby.exe" KeyPath="yes" />
+                  <Environment Id="EnvironmentRuby"
+                    Name="CHEF_RUBY" Action="set" System="yes" Value="[EMBEDDEDBIN]ruby.exe" />
                   <ServiceInstall Name="chef-client" Type="ownProcess"
                                   Start="auto" Vital="yes" ErrorControl="ignore"
                                   Arguments="$(var.ProjectSourceDir)\bin\chef-windows-service"
