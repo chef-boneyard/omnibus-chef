@@ -13,3 +13,4 @@ vendor/cookbooks
 build_timestamp
 ldd.out
 jenkins/chef-solo
+local

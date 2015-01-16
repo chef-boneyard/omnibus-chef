@@ -71,6 +71,7 @@ override :yajl,           version: "1.2.1"
 override :zlib,           version: "1.2.8"
 
 dependency "preparation"
+dependency "sgdk"
 dependency "chefdk"
 dependency "chef-provisioning"
 dependency "chef-provisioning-fog"
@@ -80,18 +81,5 @@ dependency "chef-provisioning-aws"
 dependency "rubygems-customization"
 dependency "shebang-cleanup"
 dependency "version-manifest"
-
-package :rpm do
-  signing_passphrase ENV['OMNIBUS_RPM_SIGNING_PASSPHRASE']
-end
-
-package :pkg do
-  identifier "com.getchef.pkg.chefdk"
-  signing_identity "Developer ID Installer: Opscode Inc. (9NBR9JL2R2)"
-end
-
-package :msi do
-  upgrade_code "AB1D6FBD-F9DC-4395-BDAD-26C4541168E7"
-end
 
 compress :dmg
