@@ -47,9 +47,9 @@ end
 override :cacerts, version: '2014.08.20'
 
 override :chefdk,         version: "0.3.6"
-override :berkshelf,      version: "v3.2.1"
+override :berkshelf,      version: "v3.2.3"
 override :bundler,        version: "1.7.5"
-override :chef,           version: "11.18.0.rc.1"
+override :chef,           version: "11.18.0"
 
 # TODO: Can we bump default versions in omnibus-software?
 override :libedit,        version: "20130712-3.1"
@@ -67,7 +67,7 @@ override :ruby,           version: "2.1.4"
 override :'ruby-windows', version: "2.0.0-p451"
 ######
 override :rubygems,       version: "2.4.4"
-override :'test-kitchen', version: "v121-dep-fix"
+override :'test-kitchen', version: "v1.3.1"
 override :yajl,           version: "1.2.1"
 override :zlib,           version: "1.2.8"
 
