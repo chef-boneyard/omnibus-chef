@@ -1,38 +1,23 @@
 #
-# Copyright 2014 Chef Software, Inc.
+# Author:: Ty Alexander (ty.alexander@sendgrid.com)
+# Project Definition:: sgdk
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# Copyright (C) 2014 SendGrid
+# All rights reserved - Do Not Redistribute
 #
 
-name "chefdk"
-friendly_name "Chef Development Kit"
-maintainer "Chef Software, Inc."
-homepage "https://www.getchef.com"
+name "sgdk"
+friendly_name "SendGrid Development Kit"
+maintainer "SendGrid Engineering Services"
+homepage "https://github.com/sendgrid/sgdk"
 
 build_iteration 1
 build_version do
-  source :git, from_dependency: 'chefdk'
+  source :git, from_dependency: 'sgdk'
   output_format :semver
 end
 
-if windows?
-  # NOTE: Ruby DevKit fundamentally CANNOT be installed into "Program Files"
-  #       Native gems will use gcc which will barf on files with spaces,
-  #       which is only fixable if everyone in the world fixes their Makefiles
-  install_dir "#{default_root}/opscode/#{name}"
-else
-  install_dir "#{default_root}/#{name}"
-end
+install_dir "#{default_root}/#{name}"
 
 # As of 27 October 2014, the newest CA cert bundle does not work with AWS's
 # root cert. See:
@@ -46,9 +31,9 @@ end
 # Software does).
 override :cacerts, version: '2014.08.20'
 
-override :berkshelf,      version: "v3.2.3"
+override :berkshelf,      version: "v3.2.1"
 override :bundler,        version: "1.7.5"
-override :chef,           version: "11.18.0"
+override :chef,           version: "11.18.0.rc.1"
 
 # TODO: Can we bump default versions in omnibus-software?
 override :libedit,        version: "20130712-3.1"
@@ -66,7 +51,7 @@ override :ruby,           version: "2.1.4"
 override :'ruby-windows', version: "2.0.0-p451"
 ######
 override :rubygems,       version: "2.4.4"
-override :'test-kitchen', version: "v1.3.1"
+override :'test-kitchen', version: "v121-dep-fix"
 override :yajl,           version: "1.2.1"
 override :zlib,           version: "1.2.8"
 
@@ -81,5 +66,9 @@ dependency "chef-provisioning-aws"
 dependency "rubygems-customization"
 dependency "shebang-cleanup"
 dependency "version-manifest"
+
+package :pkg do
+  identifier "com.sendgrid.pkg.sgdk"
+end
 
 compress :dmg

@@ -13,7 +13,7 @@
 #
 # Uncomment this line to change the default base directory to "local"
 # -------------------------------------------------------------------
-# base_dir './local'
+#base_dir './local'
 #
 # Alternatively you can tune the individual values
 # ------------------------------------------------
@@ -27,6 +27,10 @@
 # Disable git caching
 # ------------------------------
 # use_git_caching false
+
+# Disable appending timestamp to package name
+# ------------------------------
+append_timestamp false
 
 # Enable S3 asset caching
 # ------------------------------
