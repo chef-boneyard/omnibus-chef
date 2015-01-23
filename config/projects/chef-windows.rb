@@ -43,6 +43,7 @@ override :bundler,  version: "1.7.5"
 
 # Override chef version for release
 override :"chef-windows", version: "11.18.0"
+override :cacerts, version: '2014.08.20'
 
 dependency "preparation"
 dependency "chef-windows"
