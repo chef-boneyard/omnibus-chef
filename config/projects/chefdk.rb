@@ -46,7 +46,7 @@ end
 # Software does).
 override :cacerts, version: '2014.08.20'
 
-override :chefdk,         version: "0.3.6"
+override :chefdk,         version: "0.4.0"
 override :berkshelf,      version: "v3.2.3"
 override :bundler,        version: "1.7.12"
 override :chef,           version: "12.0.3"
