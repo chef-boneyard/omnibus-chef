@@ -60,7 +60,7 @@ override :ruby,           version: "2.1.4"
 # override :'ruby-windows-devkit', version: "4.7.2-20130224-1151"
 override :'ruby-windows', version: "2.0.0-p451"
 ######
-override :rubygems,       version: "2.4.1"
+override :rubygems,       version: "2.4.4"
 
 # Chef Release version pinning
 override :chef, version: "12.0.3"

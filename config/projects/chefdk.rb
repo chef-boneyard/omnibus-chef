@@ -16,7 +16,7 @@
 
 name "chefdk"
 friendly_name "Chef Development Kit"
-maintainer "Chef Software, Inc."
+maintainer "Chef Software, Inc. <maintainers@chef.io>"
 homepage "https://www.getchef.com"
 
 build_iteration 1
@@ -46,9 +46,10 @@ end
 # Software does).
 override :cacerts, version: '2014.08.20'
 
-override :berkshelf,      version: "v3.2.1"
-override :bundler,        version: "1.7.5"
-override :chef,           version: "11.18.0.rc.1"
+override :berkshelf,      version: "v3.2.3"
+override :bundler,        version: "1.7.12"
+override :chef,           version: "12.0.3"
+override :'chef-vault',   version: "v2.4.0"
 
 # TODO: Can we bump default versions in omnibus-software?
 override :libedit,        version: "20130712-3.1"
@@ -65,13 +66,31 @@ override :ruby,           version: "2.1.4"
 # override :'ruby-windows-devkit', version: "4.7.2-20130224-1151"
 override :'ruby-windows', version: "2.0.0-p451"
 ######
-override :rubygems,       version: "2.4.1"
-override :'test-kitchen', version: "v121-dep-fix"
-override :yajl,           version: "1.2.0"
+
+######
+# rubygems 2.4.5 is not working on windows.
+# See https://github.com/rubygems/rubygems/issues/1120
+# Once this is fixed, we can bump the version
+override :rubygems,       version: "2.4.4"
+######
+
+override :'test-kitchen', version: "v1.3.1"
+override :yajl,           version: "1.2.1"
 override :zlib,           version: "1.2.8"
+
+override :'chef-provisioning', version: "v0.18"
+override :'chef-provisioning-fog', version: "v0.12"
+override :'chef-provisioning-vagrant', version: "v0.8.1"
+override :'chef-provisioning-azure', version: "v0.1"
+override :'chef-provisioning-aws', version: "v0.2.1"
 
 dependency "preparation"
 dependency "chefdk"
+dependency "chef-provisioning"
+dependency "chef-provisioning-fog"
+dependency "chef-provisioning-vagrant"
+dependency "chef-provisioning-azure"
+dependency "chef-provisioning-aws"
 dependency "rubygems-customization"
 dependency "shebang-cleanup"
 dependency "version-manifest"
