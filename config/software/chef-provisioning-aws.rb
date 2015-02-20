@@ -14,10 +14,10 @@
 # limitations under the License.
 #
 
-name "foodcritic"
-default_version "v4.0.0"
+name "chef-provisioning-aws"
+default_version "master"
 
-source git: "git://github.com/acrmp/foodcritic.git"
+source git: "git://github.com/opscode/chef-provisioning-aws.git"
 
 if windows?
   dependency "ruby-windows"
@@ -28,15 +28,14 @@ else
 end
 
 dependency "bundler"
-dependency "nokogiri"
-dependency "chef"
+dependency "chef-provisioning"
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
   bundle "install --without development", env: env
 
-  gem "build foodcritic.gemspec", env: env
-  gem "install foodcritic-*.gem" \
+  gem "build chef-provisioning-aws.gemspec", env: env
+  gem "install chef-provisioning-aws-*.gem" \
       " --no-ri --no-rdoc", env: env
 end
