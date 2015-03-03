@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'omnibus', github: 'opscode/omnibus'
+gem 'omnibus', github: 'opscode/omnibus', branch: 'yzl/rhel7'
 gem 'omnibus-software', github: 'opscode/omnibus-software'
 
 # This development group is installed by default when you run `bundle install`,
