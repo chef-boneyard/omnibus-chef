@@ -63,12 +63,8 @@ override :'ruby-windows', version: "2.0.0-p451"
 override :rubygems,       version: "2.4.4"
 
 # Chef Release version pinning
-override :chef, version: "12.1.0.rc.0"
-# Due to a hiccup in the tagging process during the release of ohai
-# we've forgot to bump the version before tagging. For one time only
-# we are releasing ohai with SHA which points to tag 8.0.1 + version
-# bump.
-override :ohai, version: "af1622c48d7b70c8cd1ab929559f06c9b4aacbea"
+override :chef, version: "12.1.0"
+override :ohai, version: "8.1.1"
 
 dependency "preparation"
 dependency "chef"
