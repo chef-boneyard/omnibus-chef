@@ -61,6 +61,7 @@ override :ruby,           version: "2.1.4"
 override :'ruby-windows', version: "2.0.0-p451"
 ######
 override :rubygems,       version: "2.4.4"
+override :'openssl-windows', version: "1.0.0q"
 
 dependency "preparation"
 dependency "chef"
