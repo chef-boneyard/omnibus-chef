@@ -15,4 +15,5 @@ group :development do
   gem 'test-kitchen',      '~> 1.2'
   gem 'kitchen-vagrant',   '~> 0.15'
   gem 'windows_chef_zero', '~> 2.0'
+  gem 'chef-sugar',        '~> 2.2'
 end
