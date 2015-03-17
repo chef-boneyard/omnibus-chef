@@ -50,7 +50,7 @@ GRAPH
     dpkg_autostart (~> 0.1.10)
   modules (0.2.0)
   ohai (2.0.1)
-  omnibus (2.5.2)
+  omnibus (2.5.5)
     7-zip (~> 1.0)
     build-essential (~> 2.0)
     chef-sugar (~> 2.0)
