@@ -42,9 +42,9 @@ else
 end
 
 override :bundler,        version: "1.7.2"
-override :ruby,           version: "1.9.3-p547"
-override :'ruby-windows', version: "1.9.3-p484"
-override :rubygems,       version: "2.4.1"
+override :ruby,           version: "2.1.4"
+override :'ruby-windows', version: "2.0.0-p451"
+override :rubygems,       version: "2.4.4"
 
 dependency "preparation"
 dependency "opscode-pushy-client"
