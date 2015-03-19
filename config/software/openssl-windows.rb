@@ -27,7 +27,7 @@
 #   https://www.openssl.org/news/secadv_20140806.txt
 
 name "openssl-windows"
-default_version "1.0.0q"
+default_version "1.0.0r"
 
 dependency "ruby-windows"
 
