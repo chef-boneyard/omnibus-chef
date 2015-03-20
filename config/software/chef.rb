@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 name "chef"
-default_version "master"
+default_version "btm/lower-json-nest-tests"
 
 source git: "git://github.com/opscode/chef"
 
