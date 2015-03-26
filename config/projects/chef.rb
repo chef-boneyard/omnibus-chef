@@ -66,8 +66,8 @@ override :'ruby-windows', version: "2.0.0-p451"
 override :rubygems,       version: "2.4.4"
 
 # Chef Release version pinning
-override :chef, version: "12.2.0.rc.1"
-override :ohai, version: "8.1.1"
+override :chef, version: "12.2.0.rc.2"
+override :ohai, version: "8.2.0"
 
 dependency "preparation"
 dependency "chef"
