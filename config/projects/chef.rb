@@ -62,6 +62,8 @@ override :'ruby-windows', version: "2.0.0-p451"
 ######
 override :rubygems,       version: "2.4.4"
 
+override :chef, version: "lcg/ffi-yajl-master"
+
 dependency "preparation"
 dependency "chef"
 dependency "shebang-cleanup"
