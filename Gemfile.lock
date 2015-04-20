@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/opscode/omnibus-software.git
-  revision: ebe47c86eb3368e6d86a183b8162c266b5c52c1d
+  revision: c00f24389c25e72bf2f0788fd01dbe04ca3895bb
+  branch: lcg/remove-libffi
   specs:
     omnibus-software (4.0.0)
 
