@@ -31,7 +31,6 @@ if windows?
 else
   dependency "ruby"
   dependency "rubygems"
-  dependency "libffi"
 end
 
 dependency "openssl-customization"
