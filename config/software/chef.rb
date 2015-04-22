@@ -41,7 +41,11 @@ dependency "appbundler"
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
-
+  block do
+    env['GEM_HOME'] = dest_dir + `#{dest_dir}/#{install_dir}/embedded/bin/ruby  -r rubygems -e 'p Gem.path.last' | tr -d '"' | tr -d '\n'`
+    env['GEM_PATH'] = env['GEM_HOME']
+    env['BUNDLE_PATH'] = env['GEM_HOME']
+  end
   block do
     if File.exist?("#{project_dir}/chef")
       # We are on Chef 10 and need to adjust the relative path. In Chef 10, the
@@ -66,7 +70,7 @@ build do
       'libbz2-2.dll'     => 'libbz2-2.dll',
       'libz-1.dll'       => 'libz-1.dll',
     }.each do |target, to|
-      copy "#{install_dir}/embedded/mingw/bin/#{to}", "#{install_dir}/bin/#{target}"
+      copy "#{dest_dir}/#{install_dir}/embedded/mingw/bin/#{to}", "#{dest_dir}/#{install_dir}/bin/#{target}"
     end
 
     gem "build chef-x86-mingw32.gemspec", env: env
@@ -74,18 +78,24 @@ build do
         " --no-ri --no-rdoc" \
         " --verbose", env: env
 
-    bundle "install --without server docgen", env: env
+    block do
+      bundle "config build.ffi --global '--with-cflags=\"#{env['CFLAGS']}\" --with-ldflags=\"#{env['LDFLAGS']}\"'", env: env
+      bundle "install --without server docgen", env: env
+    end
 
     block "Build Event Log Dll" do
       Dir.chdir software.project_dir do
-        rake = windows_safe_path("#{install_dir}/embedded/bin/rake")
+        rake = windows_safe_path("#{dest_dir}/#{install_dir}/embedded/bin/rake")
         %x|#{rake} -rdevkit build_eventlog"| if File.exists? "#{software.project_dir}/ext/win32-eventlog"
       end
     end
   else
 
-    # install the whole bundle first
-    bundle "install --without server docgen", env: env
+    block do
+      bundle "config build.ffi --global '--with-cflags=\"#{env['CFLAGS']}\" --with-ldflags=\"#{env['LDFLAGS']}\"'", env: env
+        # install the whole bundle first
+      bundle "install --without server docgen", env: env
+    end
 
     gem "build chef.gemspec", env: env
 
@@ -105,15 +115,15 @@ build do
         " --verbose", env: env
   end
 
-  appbundle 'chef'
-  appbundle 'ohai'
+  appbundle 'chef', env: env
+  appbundle 'ohai', env: env
 
   # Clean up
-  delete "#{install_dir}/embedded/docs"
-  delete "#{install_dir}/embedded/share/man"
-  delete "#{install_dir}/embedded/share/doc"
-  delete "#{install_dir}/embedded/share/gtk-doc"
-  delete "#{install_dir}/embedded/ssl/man"
-  delete "#{install_dir}/embedded/man"
-  delete "#{install_dir}/embedded/info"
+  delete "#{dest_dir}/#{install_dir}/embedded/docs"
+  delete "#{dest_dir}/#{install_dir}/embedded/share/man"
+  delete "#{dest_dir}/#{install_dir}/embedded/share/doc"
+  delete "#{dest_dir}/#{install_dir}/embedded/share/gtk-doc"
+  delete "#{dest_dir}/#{install_dir}/embedded/ssl/man"
+  delete "#{dest_dir}/#{install_dir}/embedded/man"
+  delete "#{dest_dir}/#{install_dir}/embedded/info"
 end

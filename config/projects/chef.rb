@@ -67,6 +67,8 @@ dependency "chef"
 dependency "shebang-cleanup"
 dependency "version-manifest"
 
+compress :tgz
+
 package :rpm do
   signing_passphrase ENV['OMNIBUS_RPM_SIGNING_PASSPHRASE']
 end
