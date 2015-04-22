@@ -59,6 +59,10 @@ override :'ruby-windows',             version: "1.9.3-p484"
 override :'ruby-windows-devkit',      version: "4.5.2-20111229-1559"
 override :'ruby-windows-devkit-bash', version: "3.1.23-4-msys-1.0.18"
 
+# Chef Release version pinning
+override :chef, version: "11.18.8"
+override :ohai, version: "7.4-stable"
+
 dependency "preparation"
 dependency "chef"
 dependency "shebang-cleanup"
