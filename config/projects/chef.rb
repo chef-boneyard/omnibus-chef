@@ -40,7 +40,7 @@ override :rubygems, version: "2.1.11"
 override :bundler,  version: "1.7.5"
 
 # Override chef version for release
-override :chef, version: "11.18.6"
+override :chef, version: "11.18.8"
 override :cacerts, version: '2014.08.20'
 
 dependency "preparation"
