@@ -18,7 +18,7 @@
     <Package InstallerVersion="200" InstallPrivileges="elevated"
              Compressed="yes" InstallScope="perMachine" />
 
-    <Media Id="1" Cabinet="ChefClient.cab" EmbedCab="yes" CompressionLevel="high" />
+         <MediaTemplate EmbedCab="yes" CompressionLevel="high" MaximumUncompressedMediaSize="20" />
 
     <!-- Major upgrade -->
     <Upgrade Id="$(var.UpgradeCode)">
