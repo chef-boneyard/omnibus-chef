@@ -63,10 +63,11 @@ override :'ruby-windows', version: "2.0.0-p451"
 override :rubygems,       version: "2.4.4"
 
 dependency "preparation"
-dependency "chef", version: "adamedx/x-ps-exitstatus-rebase"
+dependency "chef"
 dependency "shebang-cleanup"
 dependency "version-manifest"
 dependency "openssl-customization"
+override 'chef', version: "adamedx/x-ps-exitstatus-rebase"
 
 package :rpm do
   signing_passphrase ENV['OMNIBUS_RPM_SIGNING_PASSPHRASE']
