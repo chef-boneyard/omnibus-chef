@@ -63,7 +63,7 @@ override :'ruby-windows', version: "2.0.0-p451"
 override :rubygems,       version: "2.4.4"
 
 dependency "preparation"
-dependency "chef"
+dependency "chef", branch: "adamedx/x-ps-exitstatus-rebase"
 dependency "shebang-cleanup"
 dependency "version-manifest"
 dependency "openssl-customization"
