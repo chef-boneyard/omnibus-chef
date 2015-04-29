@@ -65,6 +65,7 @@ override :rubygems,       version: "2.4.4"
 # Chef Release version pinning
 # override :chef, version: "12.3.0"
 # override :ohai, version: "8.3.0"
+override :libffi, version: "3.2.1" if ppc64? || ppc64le?
 
 dependency "preparation"
 dependency "chef"
