@@ -16,8 +16,12 @@
 #
 
 name "opscode-pushy-client"
+#friendly_name "Chef Push Client"
+#maintainer "Chef Software, Inc. <maintainers@chef.io>"
+#homepage "https://www.getchef.com"
 
-default_version "master"
+
+default_version "ma/zmq4-master"
 
 source git: "git://github.com/opscode/opscode-pushy-client"
 
@@ -34,6 +38,8 @@ else
   dependency "libzmq"
 end
 
+
+
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
@@ -42,15 +48,6 @@ build do
                 else
                   "#{install_dir}/embedded/lib"
                 end
-
-  # Install the ZMQ gem separately so the native extenstion
-  # compiles correctly.
-  gem "install zmq" \
-      " --no-ri --no-rdoc" \
-      " --verbose" \
-      " --" \
-      " --with-zmq-dir=#{install_dir}/embedded" \
-      " --with-zmq-lib=#{zmq_lib_dir}", env: env
 
   bundle "install", env: env
   gem "build opscode-pushy-client.gemspec", env: env
