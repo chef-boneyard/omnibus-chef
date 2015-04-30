@@ -49,6 +49,7 @@ end
 # if you have this version of the CA bundle stored via S3 caching (which Chef
 # Software does).
 override :cacerts, version: '2014.08.20'
+override :libffi, version: "3.2.1" if ppc64? || ppc64le?
 
 override :bundler,        version: "1.7.2"
 override :ruby,           version: "2.1.4"
@@ -65,7 +66,6 @@ override :rubygems,       version: "2.4.4"
 # Chef Release version pinning
 # override :chef, version: "12.3.0"
 # override :ohai, version: "8.3.0"
-override :libffi, version: "3.2.1" if ppc64? || ppc64le?
 
 dependency "preparation"
 dependency "chef"
