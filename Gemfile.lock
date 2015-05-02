@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/opscode/omnibus-software.git
-  revision: d964e445de1c917e1c3246322166d724f64079df
+  revision: 35b04b76a7a54dbfcc4fdb09cb9caa864b259d34
+  branch: schisamo/fix-chef-software-def
   specs:
     omnibus-software (4.0.0)
 
