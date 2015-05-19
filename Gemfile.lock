@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/opscode/omnibus-software.git
-  revision: 918147777e418192a77172160f0ef445285cd45b
+  revision: 1a053206bb5ef4ad11d0e12069f0e885eea2bd29
+  branch: fix-chefconfig-appbundle
   specs:
     omnibus-software (4.0.0)
 
