@@ -33,7 +33,7 @@ dependency "chef"
 dependency "openssl-customization"
 
 if windows?
-  dependency "libzmq-windows"
+  dependency "libzmq4x-windows"
 else
   dependency "libzmq"
 end
