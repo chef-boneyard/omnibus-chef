@@ -71,6 +71,7 @@ dependency "chef"
 dependency "shebang-cleanup"
 dependency "version-manifest"
 dependency "openssl-customization"
+override 'chef', version: "btm/execute-timeout-timeout"
 
 package :rpm do
   signing_passphrase ENV['OMNIBUS_RPM_SIGNING_PASSPHRASE']
