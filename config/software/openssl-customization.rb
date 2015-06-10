@@ -60,7 +60,7 @@ build do
       # to pick up our script which find the CA bundle in omnibus installations and points SSL_CERT_FILE to it
       # if it's not already set
       source_openssl_rb = File.join(embedded_ruby_lib_dir, "openssl.rb")
-      File.open(source_openssl_rb, "a") do |f|
+      File.open(source_openssl_rb, "r+") do |f|
         f.write("\nrequire 'ssl_env_hack'\n")
       end
     end
