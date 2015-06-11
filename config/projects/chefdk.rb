@@ -91,7 +91,7 @@ override :'openssl-windows', version: "1.0.1m"
 #     	from /opt/chefdk/embedded/lib/ruby/site_ruby/2.1.0/rubygems.rb:291:in `new'
 #     	from /opt/chefdk/embedded/lib/ruby/site_ruby/2.1.0/rubygems.rb:291:in `configuration'
 #
-override :rubygems,       version: "2.4.4.debug.1"
+override :rubygems,       version: "v2.4.4_plus_debug"
 ######
 
 override :'test-kitchen', version: "v1.4.0"

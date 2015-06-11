@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/opscode/omnibus-software.git
-  revision: 5346519d91eb28a7c71b9fba5954d8740dad98a2
+  revision: 02e0a947bef3bcc210c5336dede37885e80ff901
   branch: debug-rubygems
   specs:
     omnibus-software (4.0.0)
