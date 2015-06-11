@@ -33,9 +33,9 @@ dependency "nokogiri"
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
-  bundle "install --without development", env: env
+  #bundle "install --without development", env: env
 
   gem "build chef-provisioning-fog.gemspec", env: env
   gem "install chef-provisioning-fog-*.gem" \
-      " --no-ri --no-rdoc", env: env
+      " --no-ri --no-rdoc --conservative", env: env
 end

@@ -32,9 +32,9 @@ dependency "bundler"
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
-  bundle "install --without development", env: env
+  #bundle "install --without development", env: env
 
   gem "build chef-provisioning-azure.gemspec", env: env
   gem "install chef-provisioning-azure-*.gem" \
-      " --no-ri --no-rdoc", env: env
+      " --no-ri --no-rdoc  --conservative", env: env
 end
