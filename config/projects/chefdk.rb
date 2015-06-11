@@ -73,7 +73,25 @@ override :'openssl-windows', version: "1.0.1m"
 # rubygems 2.4.5 is not working on windows.
 # See https://github.com/rubygems/rubygems/issues/1120
 # Once this is fixed, we can bump the version
-override :rubygems,       version: "2.4.4"
+#
+# Additionally: we're using a patched version of rubygems that we hope will
+# help us discover the cause of errors like:
+#     /opt/chefdk/embedded/lib/ruby/site_ruby/2.1.0/rubygems/specification.rb:762:in `block in _resort!': undefined method `name' for nil:NilClass (NoMethodError)
+#     	from /opt/chefdk/embedded/lib/ruby/site_ruby/2.1.0/rubygems/specification.rb:761:in `sort!'
+#     	from /opt/chefdk/embedded/lib/ruby/site_ruby/2.1.0/rubygems/specification.rb:761:in `_resort!'
+#     	from /opt/chefdk/embedded/lib/ruby/site_ruby/2.1.0/rubygems/specification.rb:713:in `_all'
+#     	from /opt/chefdk/embedded/lib/ruby/site_ruby/2.1.0/rubygems/specification.rb:896:in `each'
+#     	from /opt/chefdk/embedded/lib/ruby/site_ruby/2.1.0/rubygems/dependency.rb:300:in `find_all'
+#     	from /opt/chefdk/embedded/lib/ruby/site_ruby/2.1.0/rubygems/dependency.rb:300:in `to_specs'
+#     	from /opt/chefdk/embedded/lib/ruby/site_ruby/2.1.0/rubygems/dependency.rb:324:in `to_spec'
+#     	from /opt/chefdk/embedded/lib/ruby/site_ruby/2.1.0/rubygems/core_ext/kernel_gem.rb:58:in `gem'
+#     	from /opt/chefdk/embedded/lib/ruby/site_ruby/2.1.0/rubygems.rb:595:in `load_yaml'
+#     	from /opt/chefdk/embedded/lib/ruby/site_ruby/2.1.0/rubygems/config_file.rb:328:in `load_file'
+#     	from /opt/chefdk/embedded/lib/ruby/site_ruby/2.1.0/rubygems/config_file.rb:197:in `initialize'
+#     	from /opt/chefdk/embedded/lib/ruby/site_ruby/2.1.0/rubygems.rb:291:in `new'
+#     	from /opt/chefdk/embedded/lib/ruby/site_ruby/2.1.0/rubygems.rb:291:in `configuration'
+#
+override :rubygems,       version: "2.4.4.debug.1"
 ######
 
 override :'test-kitchen', version: "v1.4.0"
