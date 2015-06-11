@@ -21,7 +21,7 @@ name "opscode-pushy-client"
 #homepage "https://www.getchef.com"
 
 
-default_version "ma/zmq4-master"
+default_version "master"
 
 source git: "git://github.com/opscode/opscode-pushy-client"
 
