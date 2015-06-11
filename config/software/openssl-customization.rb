@@ -61,7 +61,10 @@ build do
       # if it's not already set
       source_openssl_rb = File.join(embedded_ruby_lib_dir, "openssl.rb")
       File.open(source_openssl_rb, "r+") do |f|
+        unpatched_openssl_rm = f.read
+        f.rewind
         f.write("\nrequire 'ssl_env_hack'\n")
+        f.write(unpatched_openssl_rm)
       end
     end
   end
