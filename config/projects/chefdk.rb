@@ -38,7 +38,7 @@ end
 # require was occuring after `DEFAULT_CERT_STORE.set_default_paths` was ran from
 # openssl/ssl.rb.  This meant the DEFAULT_CERT_STORE was not pointing at our
 # packaged cacert.pem file.
-override :chefdk, version: '0.6.1'
+override :chefdk, version: '0.6.2'
 
 # As of 27 October 2014, the newest CA cert bundle does not work with AWS's
 # root cert. See:
