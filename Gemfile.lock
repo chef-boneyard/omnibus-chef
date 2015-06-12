@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/opscode/omnibus-software.git
-  revision: 4cd853ab3d486ff00be44aeb24cab05ca3601f28
+  revision: 2ce8f1d15cf73de5a6d45736bc33f5a4a5cd1f36
   branch: ma/winzmq
   specs:
     omnibus-software (4.0.0)
@@ -165,6 +165,7 @@ GEM
       buff-extensions (~> 1.0)
       hashie (>= 2.0.2, < 3.0.0)
     win32-api (1.5.3-universal-mingw32)
+    win32-api (1.5.3-x86-mingw32)
     win32-process (0.7.5)
       ffi (>= 1.0.0)
     windows-api (0.4.4)
