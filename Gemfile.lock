@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/opscode/omnibus-software.git
-  revision: 73da8ea8c9a6ff53c1e3d04c1a25131d45e29e15
+  revision: a4848e947854095978fc4916a4ce269c9696dd6b
+  branch: debug-rubygems
   specs:
     omnibus-software (4.0.0)
 
@@ -196,3 +197,6 @@ DEPENDENCIES
   omnibus-software!
   test-kitchen (~> 1.4.0.rc.1)
   winrm-transport (~> 1.0)
+
+BUNDLED WITH
+   1.10.0
