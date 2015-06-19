@@ -14,7 +14,7 @@ GIT
 
 GIT
   remote: https://github.com/chef/omnibus-software.git
-  revision: 395b14bd595b97cd1a4364bbf34cbdcaadec6af2
+  revision: 9ccce672aeac382eeccef8dfcac5bc653ba9aef6
   branch: if/aix-ncurses
   specs:
     omnibus-software (4.0.0)
