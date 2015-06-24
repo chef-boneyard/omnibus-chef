@@ -24,7 +24,7 @@ replace  "opscode-push-jobs-client"
 conflict "opscode-push-jobs-client"
 
 build_iteration 1
-build_version "1.3.1-rc.0"
+build_version "1.3.1"
 
 if windows?
   # NOTE: Ruby DevKit fundamentally CANNOT be installed into "Program Files"

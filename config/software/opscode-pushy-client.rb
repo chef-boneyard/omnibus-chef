@@ -17,7 +17,7 @@
 
 name "opscode-pushy-client"
 
-default_version "1.3-stable"
+default_version "1.3.1"
 
 source git: "git://github.com/opscode/opscode-pushy-client"
 
