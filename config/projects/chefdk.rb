@@ -34,6 +34,9 @@ else
   install_dir "#{default_root}/#{name}"
 end
 
+# TODO remove when 0.7.0 changes are in master
+override :chefdk,      version: "tball/070rc"
+
 # As of 27 October 2014, the newest CA cert bundle does not work with AWS's
 # root cert. See:
 # * https://github.com/opscode/chef-dk/issues/199
@@ -44,7 +47,7 @@ end
 # For now we resolve it by using an older version of the cert. This only works
 # if you have this version of the CA bundle stored via S3 caching (which Chef
 # Software does).
-override :cacerts, version: '2014.08.20'
+override :cacerts, version: '2015.04.22'
 
 # Uncomment to pin the chef version
 override :chef,           version: "12.4.0"
