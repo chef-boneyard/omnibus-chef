@@ -25,7 +25,7 @@ relative_path "opscode-pushy-client"
 
 dependency "bundler"
 dependency "appbundler"
-dependency "chef"
+#dependency "chef"
 dependency "openssl-customization"
 
 if windows?
