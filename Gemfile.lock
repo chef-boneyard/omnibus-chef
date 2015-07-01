@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/opscode/omnibus-software.git
-  revision: f91a9921366bc85ef5f55e3452f7d921879aa243
+  revision: 2d1b0f827c0304d5e59b6da09b057f4fcbcf639e
   branch: cleanup-ruby-from-git
   specs:
     omnibus-software (4.0.0)
