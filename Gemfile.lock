@@ -6,7 +6,8 @@ GIT
 
 GIT
   remote: git://github.com/opscode/omnibus.git
-  revision: 01f64177c9cb002cdeea9269df9895f51aa51514
+  revision: 6619300cb596a0c33b7373defbfbf281631aa0ca
+  branch: jdm/freebsd-whitelist
   specs:
     omnibus (4.0.0)
       chef-sugar (~> 3.0)
@@ -54,7 +55,7 @@ GEM
     celluloid-io (0.16.2)
       celluloid (>= 0.16.0)
       nio4r (>= 1.1.0)
-    chef-sugar (3.1.0)
+    chef-sugar (3.1.1)
     cleanroom (1.0.0)
     dep-selector-libgecode (1.0.2)
     dep_selector (1.0.3)
@@ -63,8 +64,8 @@ GEM
     erubis (2.7.0)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
-    ffi (1.9.8)
-    ffi (1.9.8-x86-mingw32)
+    ffi (1.9.10)
+    ffi (1.9.10-x86-mingw32)
     ffi-yajl (1.4.0)
       ffi (~> 1.5)
       libyajl2 (~> 1.2)
@@ -163,7 +164,7 @@ GEM
     varia_model (0.4.0)
       buff-extensions (~> 1.0)
       hashie (>= 2.0.2, < 3.0.0)
-    win32-api (1.5.3-x86-mingw32)
+    win32-api (1.5.3-universal-mingw32)
     win32-process (0.7.5)
       ffi (>= 1.0.0)
     windows-api (0.4.4)
@@ -196,3 +197,6 @@ DEPENDENCIES
   omnibus-software!
   test-kitchen (~> 1.4.0.rc.1)
   winrm-transport (~> 1.0)
+
+BUNDLED WITH
+   1.10.5
