@@ -17,7 +17,7 @@
 
 name "opscode-pushy-client"
 
-default_version "ma/opt_params"
+default_version "ma/capture_output"
 
 source git: "git://github.com/opscode/opscode-pushy-client"
 
