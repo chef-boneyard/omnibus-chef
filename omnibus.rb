@@ -29,7 +29,7 @@
 # use_git_caching false
 
 # For now, override windows builds to x86
-windows_arch :x86
+windows_arch   ENV['OMNIBUS_WINDOWS_ARCH'] || :x86
 
 # Enable S3 asset caching
 # ------------------------------
