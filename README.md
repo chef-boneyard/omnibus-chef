@@ -84,6 +84,17 @@ development. Test Kitchen also exposes the ability to provision instances using
 various cloud providers like AWS, DigitalOcean, or OpenStack. For more
 information, please see the [Test Kitchen documentation](http://kitchen.ci).
 
+For Windows instances, you need to take two extra steps:
+
+1. Modify .kitchen.yml so that the "chef" project has the correct chef_omnibus_root:
+   ```
+   - name: chef
+     provisioner:
+       chef_omnibus_install_options: -P angrychef
+       chef_omnibus_root: /opscode/angrychef
+   ```
+2. Remove the password requirements on the box: http://windows.microsoft.com/en-us/windows/change-password-policy-settings#1TC=windows-7
+
 Once you have tweaked your `.kitchen.yml` (or `.kitchen.local.yml`) to your
 liking, you can bring up an individual build environment using the `kitchen`
 command.
