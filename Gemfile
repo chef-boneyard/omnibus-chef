@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'omnibus', github: 'chef/omnibus'
-gem 'omnibus-software', github: 'chef/omnibus-software'
+gem 'omnibus', github: 'chef/omnibus', branch: 'jdm/windows_arch-default'
+gem 'omnibus-software', github: 'chef/omnibus-software', branch: 'jdm/backcompat'
 
 # This development group is installed by default when you run `bundle install`,
 # but if you are using Omnibus in a CI-based infrastructure, you do not need

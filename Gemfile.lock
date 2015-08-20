@@ -1,12 +1,14 @@
 GIT
   remote: git://github.com/chef/omnibus-software.git
-  revision: 5d2d0f9ffdc9d3997359ceeb447c958bd3bd014f
+  revision: 8d413a4ec5700b88aaf9d18ea5f79f9daf82ba5d
+  branch: jdm/backcompat
   specs:
     omnibus-software (4.0.0)
 
 GIT
   remote: git://github.com/chef/omnibus.git
-  revision: 41cfeee13cdb77815e5c03fc4ae012419d2bedde
+  revision: 28bd3843005fe3779ac008f59244de183032f86d
+  branch: jdm/windows_arch-default
   specs:
     omnibus (4.0.0)
       chef-sugar (~> 3.0)
