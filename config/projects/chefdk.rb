@@ -43,7 +43,7 @@ override :chefdk,         version: '0.7.0'
 # branch we made that pins the dependency until its fixed
 # https://github.com/berkshelf/berkshelf/issues/1448
 override :berkshelf,      version: "3.2.4-plus-lock-celluloid", source: { git: "git://github.com/danielsdeleo/berkshelf" }
-override :bundler,        version: "1.10.0"
+override :bundler,        version: "1.10.6"
 override :'chef-vault',   version: "v2.6.1"
 
 # TODO: Can we bump default versions in omnibus-software?
