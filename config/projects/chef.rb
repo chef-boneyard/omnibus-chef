@@ -28,7 +28,7 @@ build_version do
   output_format :semver
 end
 
-override :chef, version: "jdm/fix-mixlib-shellout"
+override :chef, version: "jdm/bundle-exec"
 
 if windows?
   # NOTE: Ruby DevKit fundamentally CANNOT be installed into "Program Files"
