@@ -42,7 +42,7 @@ override :bundler,        version: "1.7.2"
 override :ruby,           version: "2.1.6"
 
 override :'ruby-windows', version: "2.0.0-p645"
-override :rubygems,       version: "2.4.4"
+override :rubygems,       version: "2.4.7"
 
 # Chef Release version pinning
 override :chef, version: ENV['CHEF_VERSION'] || "master"
