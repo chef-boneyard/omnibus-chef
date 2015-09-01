@@ -28,6 +28,8 @@ build_version do
   output_format :semver
 end
 
+override :chef, version: "jdm/fix-mixlib-shellout"
+
 if windows?
   # NOTE: Ruby DevKit fundamentally CANNOT be installed into "Program Files"
   #       Native gems will use gcc which will barf on files with spaces,
