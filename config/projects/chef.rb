@@ -46,7 +46,6 @@ override :rubygems,       version: "2.4.4"
 
 # Chef Release version pinning
 override :chef, version: ENV['CHEF_VERSION'] || "master"
-override :chef, version: "jdm/bundle-exec"
 override :ohai, version: ENV['OHAI_VERSION'] || "master"
 
 
