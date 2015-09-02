@@ -28,8 +28,6 @@ build_version do
   output_format :semver
 end
 
-override :chef, version: "master"
-
 if windows?
   # NOTE: Ruby DevKit fundamentally CANNOT be installed into "Program Files"
   #       Native gems will use gcc which will barf on files with spaces,
@@ -48,6 +46,7 @@ override :rubygems,       version: "2.4.4"
 
 # Chef Release version pinning
 override :chef, version: ENV['CHEF_VERSION'] || "master"
+override :chef, version: "jdm/bundle-exec"
 override :ohai, version: ENV['OHAI_VERSION'] || "master"
 override :'mixlib-shellout', version: 'jdm/2.2.0'
 
