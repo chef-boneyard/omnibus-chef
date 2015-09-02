@@ -48,11 +48,9 @@ override :rubygems,       version: "2.4.4"
 override :chef, version: ENV['CHEF_VERSION'] || "master"
 override :chef, version: "jdm/bundle-exec"
 override :ohai, version: ENV['OHAI_VERSION'] || "master"
-override :'mixlib-shellout', version: 'jdm/2.2.0'
 
 
 dependency "preparation"
-dependency "mixlib-shellout"
 dependency "chef"
 dependency "shebang-cleanup"
 dependency "version-manifest"
