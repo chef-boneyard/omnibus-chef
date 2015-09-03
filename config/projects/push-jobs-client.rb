@@ -52,10 +52,7 @@ override :'ruby-windows-devkit', version: "4.7.2-20130224-1151"
 override :libzmq, version: "4.0.5"
 
 ######
-# rubygems 2.4.5 is not working on windows.
-# See https://github.com/rubygems/rubygems/issues/1120
-# Once this is fixed, we can bump the version
-override :rubygems,       version: "2.4.4"
+override :rubygems,       version: "2.4.7"
 ######
 
 dependency "preparation"
