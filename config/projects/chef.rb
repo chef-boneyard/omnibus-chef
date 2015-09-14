@@ -35,7 +35,7 @@ end
 override :bundler,        version: "1.10.6"
 override :ruby,           version: "2.1.6"
 
-override :'ruby-windows', version: "2.0.0-p645"
+override :'ruby-windows', version: "2.0.0-p647-fips"
 override :rubygems,       version: "2.4.4"
 
 # Chef Release version pinning
