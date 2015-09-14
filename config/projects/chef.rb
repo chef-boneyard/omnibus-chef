@@ -35,7 +35,7 @@ end
 override :bundler,        version: "1.10.7.depsolverfix.0"
 override :ruby,           version: "2.1.6"
 
-override :'ruby-windows', version: "2.0.0-p645"
+override :'ruby-windows', version: "2.0.0-p647-fips"
 # Leave dev-kit pinned to 4.5 because 4.7 is 20MB larger and we don't want
 # to unnecessarily make the client any fatter.
 if windows_arch_i386?
