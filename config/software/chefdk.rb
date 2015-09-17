@@ -52,7 +52,11 @@ build do
     "NOKOGIRI_USE_SYSTEM_LIBRARIES" => "true",
   )
 
-  bundle "install", env: env
+  # We use Gemfile.omnibus-chef to work around a bug where it
+  # accidentally picks up an old version of Chef. We use the "copy" here to
+  # put the Gemfile.lock where appbundle can see it.
+  bundle "install --gemfile Gemfile.omnibus-chef", env: env
+  copy "Gemfile.omnibus-chef.lock", "Gemfile.lock"
   gem "build chef-dk.gemspec", env: env
   gem "install chef-dk*.gem" \
       " --no-ri --no-rdoc" \
