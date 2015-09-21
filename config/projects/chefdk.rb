@@ -31,6 +31,8 @@ else
   install_dir "#{default_root}/#{name}"
 end
 
+override :chefdk, version: 'cd/load-provisioning'
+
 # Uncomment to pin the chef version
 override :chef,           version: "stable"
 override :ohai,           version: '8.5.1'
