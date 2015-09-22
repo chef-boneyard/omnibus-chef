@@ -53,9 +53,8 @@ else
 end
 
 # Chef Release version pinning
-override :chef, version: 'master'
-override :ohai, version: 'master'
-
+override :chef, 'jdm/fips'
+override :ohai, version: ENV['OHAI_VERSION'] || "master"
 
 dependency "preparation"
 dependency "chef"
