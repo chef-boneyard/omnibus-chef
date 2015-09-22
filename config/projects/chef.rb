@@ -39,7 +39,7 @@ override :'ruby-windows', version: "2.0.0-p647-fips"
 override :rubygems,       version: "2.4.4"
 
 # Chef Release version pinning
-override :chef, version: ENV['CHEF_VERSION'] || "master"
+override :chef, 'jdm/fips'
 override :ohai, version: ENV['OHAI_VERSION'] || "master"
 
 
