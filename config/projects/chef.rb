@@ -19,8 +19,8 @@ friendly_name "Chef Client"
 maintainer "Chef Software, Inc. <maintainers@chef.io>"
 homepage "https://www.chef.io"
 
-build_iteration 1
-build_version '12.5.0'
+build_iteration 2
+build_version '12.4.2'
 
 if windows?
   # NOTE: Ruby DevKit fundamentally CANNOT be installed into "Program Files"
@@ -34,6 +34,7 @@ end
 
 override :bundler,        version: "1.10.7.depsolverfix.0"
 override :ruby,           version: "2.1.6"
+override :appbundler,     version: "0.4.0"
 
 override :'ruby-windows', version: "2.0.0-p645"
 ######
@@ -47,8 +48,8 @@ else
 end
 
 # Chef Release version pinning
-override :chef, version: 'master'
-override :ohai, version: 'master'
+override :chef, version: 'stable'
+override :ohai, version: '8.5.1'
 
 
 dependency "preparation"
