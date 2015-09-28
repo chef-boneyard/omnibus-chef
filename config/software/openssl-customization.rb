@@ -47,6 +47,13 @@ build do
       config_dir
     end
 
+    fips_additions = [
+      "OpenSSL.fips_mode = true",
+      "require 'digest'",
+      "require 'digest/sha1'",
+      "Digest::SHA1 = OpenSSL::Digest::SHA1"
+    ].join('\n')
+
     if windows?
       embedded_ruby_site_dir = get_sanitized_rbconfig('sitelibdir')
       embedded_ruby_lib_dir  = get_sanitized_rbconfig('rubylibdir')
@@ -65,7 +72,7 @@ build do
         f.rewind
         f.write("\nrequire 'ssl_env_hack'\n")
         f.write(unpatched_openssl_rb)
-        f.write("\nOpenSSL.fips_mode = true\n")
+        f.write(fips_additions)
       end
     else
       embedded_ruby_lib_dir  = get_sanitized_rbconfig('rubylibdir')
@@ -74,8 +81,7 @@ build do
         unpatched_openssl_rb = f.read
         f.rewind
         f.write(unpatched_openssl_rb)
-        f.write("\nOpenSSL.fips_mode = true\n")
-
+        f.write(fips_additions)
       end
     end
   end
