@@ -52,7 +52,7 @@ build do
       "require 'digest'",
       "require 'digest/sha1'",
       "Digest::SHA1 = OpenSSL::Digest::SHA1"
-    ].join('\n')
+    ].join("\n")
 
     if windows?
       embedded_ruby_site_dir = get_sanitized_rbconfig('sitelibdir')
