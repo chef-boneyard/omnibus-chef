@@ -53,7 +53,7 @@ else
 end
 
 # Chef Release version pinning
-override :chef, version: 'master'
+override :chef, version: 'kyleen/addExpandedRunList'
 override :ohai, version: 'master'
 
 
