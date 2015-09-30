@@ -37,6 +37,7 @@ dependency "chef"
 dependency "berkshelf"
 dependency "chef-vault"
 dependency "foodcritic"
+dependency "chefspec"
 dependency "ohai"
 dependency "test-kitchen"
 dependency "kitchen-vagrant"
@@ -63,7 +64,6 @@ build do
 
   # Perform multiple gem installs to better isolate/debug failures
   {
-    'chefspec'          => '4.3.0',
     'fauxhai'           => '2.3.0',
     'rubocop'           => '0.31.0',
     'knife-spork'       => '1.5.0',
