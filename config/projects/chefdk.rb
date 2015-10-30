@@ -88,6 +88,11 @@ dependency "shebang-cleanup"
 dependency "version-manifest"
 dependency "openssl-customization"
 
+# Over-ride the default platform packager
+if windows?
+  packager_override :fastmsi
+end
+
 package :rpm do
   signing_passphrase ENV['OMNIBUS_RPM_SIGNING_PASSPHRASE']
 end
@@ -97,7 +102,7 @@ package :pkg do
   signing_identity "Developer ID Installer: Chef Software, Inc. (EU3VF8YLX2)"
 end
 
-package :msi do
+package :fastmsi do
   upgrade_code "AB1D6FBD-F9DC-4395-BDAD-26C4541168E7"
   signing_identity "F74E1A68005E8A9C465C3D2FF7B41F3988F0EA09", machine_store: true
   wix_light_extension "WixUtilExtension"
