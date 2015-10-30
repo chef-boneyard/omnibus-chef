@@ -28,6 +28,7 @@
 
     <InstallExecuteSequence>
       <RemoveExistingProducts After="InstallValidate" />
+      <Custom Action="FastUnzip" After="InstallFiles"/>
     </InstallExecuteSequence>
 
     <CustomActionRef Id="WixBroadcastSettingChange" />
