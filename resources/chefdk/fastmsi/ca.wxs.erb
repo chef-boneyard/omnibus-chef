@@ -1,7 +1,19 @@
 <?xml version='1.0'?>
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
    <Fragment>
-      <CustomAction Id="FastUnzip" BinaryKey="CustomActionFastMsiDLL" DllEntry="FastUnzip" Execute="deferred" Return="check" Impersonate="yes" />
-      <Binary Id="CustomActionFastMsiDLL" SourceFile="CustomActionFastMsi.CA.dll" />
+     <SetProperty Id="FastUnzip"
+                  Value="FASTZIPDIR=[INSTALLLOCATION];FASTZIPAPPNAME=chefdk"
+                  Sequence="execute"
+                  Before="FastUnzip" />
+
+      <CustomAction Id="FastUnzip"
+                    BinaryKey="CustomActionFastMsiDLL"
+                    DllEntry="FastUnzip"
+                    Execute="deferred"
+                    Return="check"
+                    Impersonate="no" />
+
+      <Binary Id="CustomActionFastMsiDLL"
+              SourceFile="CustomActionFastMsi.CA.dll" />
    </Fragment>
 </Wix>

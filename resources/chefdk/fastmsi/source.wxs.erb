@@ -28,8 +28,12 @@
 
     <InstallExecuteSequence>
       <RemoveExistingProducts After="InstallValidate" />
-      <Custom Action="FastUnzip" After="InstallFiles"/>
+      <Custom Action="FastUnzip" After="InstallFiles">NOT Installed</Custom>
     </InstallExecuteSequence>
+
+    <UI>
+      <ProgressText Action="FastUnzip">Extracting files... please wait</ProgressText>
+    </UI>
 
     <CustomActionRef Id="WixBroadcastSettingChange" />
     <CustomActionRef Id="WixBroadcastEnvironmentChange" />
