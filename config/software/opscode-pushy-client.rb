@@ -17,7 +17,7 @@
 
 name "opscode-pushy-client"
 
-default_version "1.3.3"
+default_version "ma/no_reconfigure_backport"
 
 source git: "git://github.com/opscode/opscode-pushy-client"
 
