@@ -36,7 +36,9 @@ override :chef,           version: "12.5.1-omnibus"
 override :ohai,           version: "v8.7.0"
 override :chefdk,         version: "master"
 
-override :berkshelf,      version: "v4.0.1"
+# Pinning until we can get https://github.com/berkshelf/berkshelf-api/pull/200 merged
+# override :berkshelf,      version: "v4.0.1"
+override :berkshelf,      version: "master", source: {git: "git://github.com/tyler-ball/berkshelf"}
 override :bundler,        version: "1.10.6"
 override :'chef-vault',   version: "v2.6.1"
 
