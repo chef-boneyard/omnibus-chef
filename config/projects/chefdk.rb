@@ -89,9 +89,9 @@ dependency "version-manifest"
 dependency "openssl-customization"
 
 # Over-ride the default platform packager
-#if windows?
-#  packager_override :fastmsi
-#end
+if windows?
+  packager_override :fastmsi
+end
 
 package :rpm do
   signing_passphrase ENV['OMNIBUS_RPM_SIGNING_PASSPHRASE']
