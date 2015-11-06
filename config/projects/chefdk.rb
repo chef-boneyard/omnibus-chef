@@ -31,14 +31,8 @@ else
   install_dir "#{default_root}/#{name}"
 end
 
-# Uncomment to pin the chef version
-override :chef,           version: "12.5.1-omnibus"
-override :ohai,           version: "v8.7.0"
-override :chefdk,         version: "master"
-
-override :berkshelf,      version: "v4.0.1"
+override :chefdk,         version: "jk/ive-seen-everything"
 override :bundler,        version: "1.10.6"
-override :'chef-vault',   version: "v2.6.1"
 
 # TODO: Can we bump default versions in omnibus-software?
 override :libedit,        version: "20130712-3.1"
@@ -65,28 +59,10 @@ else
   override :rubygems,     version: "2.4.8"
 end
 
-#override :inspec, version: "0.9.1"
-override :inspec, version: "master"
-
-override :'test-kitchen', version: "v1.4.2"
-override :'kitchen-inspec', version: "master" # will set when release is tagged
-override :'kitchen-vagrant', version: "v0.19.0"
-override :yajl,           version: "1.2.1"
 override :zlib,           version: "1.2.8"
-
-# NOTE: the base chef-provisioning gem is a dependency of chef-dk (the app).
-# Manage the chef-provisioning version via chef-dk.gemspec.
-override :'chef-provisioning-aws', version: "v1.6.1"
-override :'chef-provisioning-azure', version: "v0.4.0"
-override :'chef-provisioning-fog', version: "v0.15.0"
-override :'chef-provisioning-vagrant', version: "v0.10.0"
 
 dependency "preparation"
 dependency "chefdk"
-dependency "chef-provisioning-aws"
-dependency "chef-provisioning-fog"
-dependency "chef-provisioning-vagrant"
-dependency "chef-provisioning-azure"
 dependency "rubygems-customization"
 dependency "shebang-cleanup"
 dependency "version-manifest"

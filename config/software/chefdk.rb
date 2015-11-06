@@ -24,26 +24,22 @@ relative_path "chef-dk"
 
 if windows?
   dependency "ruby-windows"
+  dependency "openssl-windows" # FROM chef
   dependency "ruby-windows-devkit"
+  dependency "ruby-windows-devkit-bash"
+  dependency "cacerts"
 else
-  dependency "libffi" if debian?
   dependency "ruby"
+  dependency "libffi"
+  dependency "libarchive"
 end
 
 dependency "rubygems"
 dependency "bundler"
 dependency "appbundler"
-dependency "chef"
-dependency "berkshelf"
-dependency "chef-vault"
-dependency "foodcritic"
-dependency "ohai"
-dependency "inspec"
-dependency "test-kitchen"
-dependency "kitchen-inspec"
-dependency "kitchen-vagrant"
+dependency "nokogiri"
+dependency "dep-selector-libgecode"
 dependency "openssl-customization"
-
 dependency "chefdk-env-customization" if windows?
 
 build do
@@ -54,37 +50,85 @@ build do
     "NOKOGIRI_USE_SYSTEM_LIBRARIES" => "true",
   )
 
+  #
+  # FROM chef: copy tar and some other windows DLLs
+  #
+  if windows?
+    # Normally we would symlink the required unix tools.
+    # However with the introduction of git-cache to speed up omnibus builds,
+    # we can't do that anymore since git on windows doesn't support symlinks.
+    # https://groups.google.com/forum/#!topic/msysgit/arTTH5GmHRk
+    # Therefore we copy the tools to the necessary places.
+    # We need tar for 'knife cookbook site install' to function correctly
+    {
+      'tar.exe'          => 'bsdtar.exe',
+      'libarchive-2.dll' => 'libarchive-2.dll',
+      'libexpat-1.dll'   => 'libexpat-1.dll',
+      'liblzma-1.dll'    => 'liblzma-1.dll',
+      'libbz2-2.dll'     => 'libbz2-2.dll',
+      'libz-1.dll'       => 'libz-1.dll',
+    }.each do |target, to|
+      copy "#{install_dir}/embedded/mingw/bin/#{to}", "#{install_dir}/bin/#{target}"
+    end
+  end
+
+  #
+  # Install the chef-dk and its attendant gems.
+  #
   bundle "install", env: env
   gem "build chef-dk.gemspec", env: env
   gem "install chef-dk*.gem" \
       " --no-ri --no-rdoc" \
       " --verbose", env: env
 
-  # TODO: These gems should have software definitions created and in turn
-  #       be properly appbundled.
-
-  # Perform multiple gem installs to better isolate/debug failures
-  {
-    'chefspec'          => '4.4.0',
-    'fauxhai'           => '2.3.0',
-    'rubocop'           => '0.31.0',
-    'knife-spork'       => '1.5.0',
-    'winrm-transport'   => '1.0.2',
-    'knife-windows'     => '1.1.1',
-    # Strainer build is hosed on windows
-    # 'strainer'        => '0.15.0',
-  }.each do |name, version|
-    gem "install #{name}" \
-        " --version '#{version}'" \
-        " --no-user-install" \
-        " --bindir '#{install_dir}/bin'" \
-        " --no-ri --no-rdoc" \
-        " --verbose", env: env
+  # FROM chef
+  # Always deploy the powershell modules in the correct place.
+  if windows?
+    mkdir "#{install_dir}/modules/chef"
+    block do
+      copy "#{gem_path('chef-[0-9]*')}/distro/powershell/chef/*", "#{install_dir}/modules/chef"
+    end
   end
 
-  appbundle 'berkshelf'
-  appbundle 'chef-dk'
-  appbundle 'chef-vault'
-  appbundle 'foodcritic'
-  appbundle 'test-kitchen'
+  #
+  # FROM chef: install ruby-shadow
+  #
+  unless aix? || windows?
+    gem "install ruby-shadow --no-ri --no-rdoc --verbose", env: env
+  end
+
+  #
+  # Appbundle all the things
+  #
+  # To do this, we go into each app, call bundle install --local to lock it to
+  # the ChefDK's dependencies.
+  #
+  # TODO add insspec. But beware, it wants rubocop 0.32 (might not truly be a hard
+  # requirement, but it's in the Gemfile).
+  #
+  %w(chef berkshelf chef-dk chef-vault test-kitchen).each do |gem_name|
+    block do
+      path = gem_path("#{gem_name}-[0-9]*")
+      bundle "install --local --gemfile \"#{path}\""
+      appbundle path
+    end
+  end
+  # Install these without development or test, since chef verify won't be running it.
+  %w(foodcritic test-kitchen chefspec fauxhai rubocop knife-spork winrm-transport).each do |gem_name|
+    block do
+      path = gem_path("#{gem_name}-[0-9]*")
+      bundle "install --local --without development --without test --gemfile \"#{path}\""
+      appbundle path
+    end
+  end
+
+  # FROM chef
+  # Clean up
+  delete "#{install_dir}/embedded/docs"
+  delete "#{install_dir}/embedded/share/man"
+  delete "#{install_dir}/embedded/share/doc"
+  delete "#{install_dir}/embedded/share/gtk-doc"
+  delete "#{install_dir}/embedded/ssl/man"
+  delete "#{install_dir}/embedded/man"
+  delete "#{install_dir}/embedded/info"
 end
