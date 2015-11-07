@@ -61,6 +61,8 @@ end
 
 override :zlib,           version: "1.2.8"
 
+override :appbundler,     version: "jk/separate_lock"
+
 dependency "preparation"
 dependency "chefdk"
 dependency "rubygems-customization"

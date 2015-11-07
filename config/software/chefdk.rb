@@ -36,9 +36,9 @@ end
 
 dependency "rubygems"
 dependency "bundler"
-dependency "appbundler"
 dependency "nokogiri"
 dependency "dep-selector-libgecode"
+dependency "appbundler"
 dependency "openssl-customization"
 dependency "chefdk-env-customization" if windows?
 
@@ -75,11 +75,9 @@ build do
   #
   # Install the chef-dk and its attendant gems.
   #
-  bundle "install", env: env
+  bundle "install --gemfile omnibus.gemfile", env: env
   gem "build chef-dk.gemspec", env: env
-  gem "install chef-dk*.gem" \
-      " --no-ri --no-rdoc" \
-      " --verbose", env: env
+  gem "install chef-dk*.gem --no-ri --no-rdoc --verbose", env: env
 
   # FROM chef
   # Always deploy the powershell modules in the correct place.
@@ -98,6 +96,27 @@ build do
   end
 
   #
+  # Go through all gems installed via git, and install them directly so that we
+  # can get rid of the git checkouts
+  #
+  block do
+    Dir[ "#{install_dir}/embedded/lib/ruby/gems/*/bundler/gems/*" ].each do |gem_path|
+      gem_name = File.basename(gem_path).rpartition("-")[0]
+      gemspec_path = "#{gem_path}/#{gem_name}.gemspec"
+      if windows?
+        if File.exist?("#{gem_path}/#{gem_name}-windows.gemspec")
+          gemspec_path = "#{gem_path}/#{gem_name}-windows.gemspec"
+        elsif File.exist?("#{gem_path}/#{gem_name}-universal-mingw32.gemspec")
+          gemspec_path = "#{gem_path}/#{gem_name}-universal-mingw32.gemspec"
+        end
+      end
+      gem "build #{gemspec_path}", cwd: gem_path, env: env
+      gem "install --no-ri --no-rdoc" \
+          "--local --ignore-dependencies *.gem", cwd: gem_path, env: env
+    end
+  end
+
+  #
   # Appbundle all the things
   #
   # To do this, we go into each app, call bundle install --local to lock it to
@@ -106,20 +125,10 @@ build do
   # TODO add insspec. But beware, it wants rubocop 0.32 (might not truly be a hard
   # requirement, but it's in the Gemfile).
   #
-  %w(chef berkshelf chef-dk chef-vault test-kitchen).each do |gem_name|
-    block do
-      path = gem_path("#{gem_name}-[0-9]*")
-      bundle "install --local --gemfile \"#{path}\""
-      appbundle path
-    end
-  end
-  # Install these without development or test, since chef verify won't be running it.
-  %w(foodcritic test-kitchen chefspec fauxhai rubocop knife-spork winrm-transport).each do |gem_name|
-    block do
-      path = gem_path("#{gem_name}-[0-9]*")
-      bundle "install --local --without development --without test --gemfile \"#{path}\""
-      appbundle path
-    end
+  %w(chef berkshelf chef-dk chef-vault test-kitchen
+     foodcritic test-kitchen chefspec fauxhai rubocop
+     knife-spork winrm-transport).each do |gem_name|
+    appbundle "chef-dk/omnibus.gemfile.lock", name: gem_name, env: env
   end
 
   # FROM chef
@@ -131,4 +140,6 @@ build do
   delete "#{install_dir}/embedded/ssl/man"
   delete "#{install_dir}/embedded/man"
   delete "#{install_dir}/embedded/info"
+  delete "#{install_dir}/embedded/lib/ruby/gems/*/cache"
+  delete "#{install_dir}/embedded/lib/ruby/gems/*/bundler/gems"
 end

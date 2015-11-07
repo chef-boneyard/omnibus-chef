@@ -1,12 +1,13 @@
 GIT
   remote: git://github.com/chef/omnibus-software.git
-  revision: fdf09dfcc35b4e66d7235e6c383385b352360ffe
+  revision: dba104d558860640da249972e3d30574a554cf96
+  branch: jk/gem_path
   specs:
     omnibus-software (4.0.0)
 
 GIT
   remote: git://github.com/chef/omnibus.git
-  revision: d72cbf317c06f954fdaaac9b2924a374982f8963
+  revision: c171f0378a06f0bbc6ad31cf5a72404efb821d80
   branch: jk/gem_path
   specs:
     omnibus (4.1.0)
