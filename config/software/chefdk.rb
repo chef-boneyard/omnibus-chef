@@ -82,11 +82,6 @@ build do
   # FROM chef
   # Always deploy the powershell modules in the correct place.
   block do
-    if windows?
-      mkdir "#{install_dir}/modules/chef"
-      copy "#{gem_path('chef-[0-9]*')}/distro/powershell/chef/*", "#{install_dir}/modules/chef"
-    end
-
     #
     # FROM chef: install ruby-shadow
     #
@@ -99,6 +94,7 @@ build do
     # can get rid of the git checkouts
     #
     Dir[ "#{install_dir}/embedded/lib/ruby/gems/*/bundler/gems/*" ].each do |gem_path|
+      next if File.basename(gem_path) == "extensions"
       gem_name = File.basename(gem_path).rpartition("-")[0]
       gemspec_path = "#{gem_path}/#{gem_name}.gemspec"
       if windows?
@@ -139,5 +135,13 @@ build do
     delete "#{install_dir}/embedded/info"
     delete "#{install_dir}/embedded/lib/ruby/gems/*/cache"
     delete "#{install_dir}/embedded/lib/ruby/gems/*/bundler/gems"
+
+    # Copy over the powershell modules
+    if windows?
+      block do
+        mkdir "#{install_dir}/modules/chef"
+        copy "#{gem_path('chef-[0-9]*')}/distro/powershell/chef/*", "#{install_dir}/modules/chef"
+      end
+    end
   end
 end

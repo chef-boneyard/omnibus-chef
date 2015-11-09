@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: git://github.com/chef/omnibus.git
-  revision: c171f0378a06f0bbc6ad31cf5a72404efb821d80
+  revision: bcdbf82ee60a7fbdca83a4e5fa9cedc8c1a1a29e
   branch: jk/gem_path
   specs:
     omnibus (4.1.0)
