@@ -118,7 +118,7 @@ build do
     # TODO add insspec. But beware, it wants rubocop 0.32 (might not truly be a hard
     # requirement, but it's in the Gemfile).
     #
-    %w(chef berkshelf chef-dk chef-vault test-kitchen
+    %w(chef ohai berkshelf chef-dk chef-vault test-kitchen
        foodcritic test-kitchen chefspec fauxhai rubocop
        knife-spork winrm-transport).each do |gem_name|
       appbundle "chef-dk/omnibus.gemfile.lock", name: gem_name, env: env
