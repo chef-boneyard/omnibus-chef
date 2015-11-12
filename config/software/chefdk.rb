@@ -68,7 +68,7 @@ build do
     'chefspec'          => '4.4.0',
     'fauxhai'           => '2.3.0',
     'rubocop'           => '0.31.0',
-    'knife-spork'       => '1.5.0',
+    'knife-spork'       => '1.6.1',
     'winrm-transport'   => '1.0.2',
     'knife-windows'     => '1.1.1',
     # Strainer build is hosed on windows
