@@ -44,9 +44,14 @@ build_retries 3
 fetcher_retries 3
 fetcher_read_timeout 120
 
-# We limit this to 10 workers to eliminate transient timing issues in the
-# way Ruby (and other components) compiles on some more esoteric *nixes.
-workers 10
+# Work around for solaris zones, provide a less-bad number of workers
+if solaris? && Ohai['cpu']['total'] == 0
+  workers 10
+end
+
+# Some platforms do not have a UTF-8 locale, so we need to enforce one
+# or else the cacert chain will break among other things
+Encoding.default_external = Encoding::UTF_8
 
 # Load additional software
 # ------------------------------
