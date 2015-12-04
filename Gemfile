@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'omnibus', github: 'chef/omnibus'
+gem 'omnibus', github: 'chef/omnibus', ref: 'c078b22c0b77b96b00e4f529af7466c919d25529'
 gem 'omnibus-software', github: 'chef/omnibus-software', branch: 'salam/openssl'
 
 # This development group is installed by default when you run `bundle install`,
