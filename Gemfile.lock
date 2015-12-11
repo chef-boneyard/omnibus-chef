@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/opscode/omnibus-software.git
-  revision: 918147777e418192a77172160f0ef445285cd45b
+  revision: 8d62af3ad511ddd90ba5a4fd87886336009b0bec
+  branch: jdm/fix-11-stable
   specs:
     omnibus-software (4.0.0)
 
@@ -196,3 +197,6 @@ DEPENDENCIES
   omnibus-software!
   test-kitchen (~> 1.4.0.rc.1)
   winrm-transport (~> 1.0)
+
+BUNDLED WITH
+   1.10.6
