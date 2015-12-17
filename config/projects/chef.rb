@@ -53,7 +53,7 @@ else
 end
 
 # Chef Release version pinning
-override :chef, version: '12.6-release'
+override :chef, version: 'ksubrama/wtf'
 override :ohai, version: '8.8.1'
 
 
