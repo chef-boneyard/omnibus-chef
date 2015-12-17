@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'omnibus', github: 'chef/omnibus', branch: 'jdm/win-ldflags'
+gem 'omnibus', github: 'chef/omnibus', branch: 'ksubrama/win_path'
 gem 'omnibus-software', github: 'chef/omnibus-software'
 
 # This development group is installed by default when you run `bundle install`,

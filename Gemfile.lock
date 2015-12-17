@@ -6,8 +6,8 @@ GIT
 
 GIT
   remote: git://github.com/chef/omnibus.git
-  revision: fcb0c32882692610a6f9877e683bc80118127f91
-  branch: jdm/win-ldflags
+  revision: c693a8cc9b2b6e761f97e2af60410df611b42cb6
+  branch: ksubrama/win_path
   specs:
     omnibus (5.0.0)
       aws-sdk (~> 2)
