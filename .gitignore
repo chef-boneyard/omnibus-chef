@@ -13,3 +13,6 @@ vendor/cookbooks
 build_timestamp
 ldd.out
 jenkins/chef-solo
+package-scripts/angrychef/*
+package-scripts/chef-fips/*
+package-scripts/chef/*
