@@ -35,6 +35,8 @@ end
 override :chef,             version: "tball/netssh"
 override :ohai,             version: "master"
 override :chefdk,           version: "master"
+# TODO delete this when r-train is released
+override :'r-train',        version: "tball/netssh"
 override :inspec,           version: "master"
 override :'kitchen-inspec', version: "v0.10.0"
 # We should do a gem release of berkshelf and TK
