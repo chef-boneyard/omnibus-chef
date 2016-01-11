@@ -1,13 +1,13 @@
 GIT
   remote: git://github.com/chef/omnibus-software.git
-  revision: 6f395a4eaf9dea8f74d1bbb822829f7380f50672
+  revision: df3eb046b2d5da8a725c6cbe406b5276e6a97584
+  branch: lcg/solaris-libxml-fix
   specs:
     omnibus-software (4.0.0)
 
 GIT
   remote: git://github.com/chef/omnibus.git
-  revision: 4333f8b4e63194325c45f7968b993bafecbf43bc
-  branch: lcg/whitelist-libmd
+  revision: 245cd7005caff87b2220ee51ba00fc5cef104a27
   specs:
     omnibus (5.0.0)
       aws-sdk (~> 2)
