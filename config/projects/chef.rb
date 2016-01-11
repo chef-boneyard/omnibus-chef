@@ -59,6 +59,7 @@ override :ohai, version: 'master'
 
 dependency "preparation"
 dependency "chef"
+dependency "chef-addons"
 dependency "shebang-cleanup"
 dependency "version-manifest"
 dependency "openssl-customization"
