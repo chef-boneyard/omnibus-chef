@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/chef/omnibus-software.git
-  revision: df3eb046b2d5da8a725c6cbe406b5276e6a97584
+  revision: 6a86a98f83f8def08ad844ba06f8073bde246936
   branch: lcg/solaris-libxml-fix
   specs:
     omnibus-software (4.0.0)
@@ -64,7 +64,7 @@ GEM
     chef-config (12.6.0)
       mixlib-config (~> 2.0)
       mixlib-shellout (~> 2.0)
-    chef-sugar (3.2.0)
+    chef-sugar (3.3.0)
     cleanroom (1.0.0)
     dep-selector-libgecode (1.0.2)
     dep_selector (1.0.3)
