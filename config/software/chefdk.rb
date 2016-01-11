@@ -50,6 +50,7 @@ dependency "knife-windows"
 dependency "knife-spork"
 dependency "fauxhai"
 dependency "chefspec"
+dependency "chef-provisioning"
 
 dependency "chefdk-env-customization" if windows?
 

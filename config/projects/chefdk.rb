@@ -32,7 +32,7 @@ else
 end
 
 # Uncomment to pin the chef version
-override :chef,             version: "master"
+override :chef,             version: "tball/netssh"
 override :ohai,             version: "master"
 override :chefdk,           version: "master"
 override :inspec,           version: "master"
@@ -84,6 +84,9 @@ override :zlib,           version: "1.2.8"
 
 # NOTE: the base chef-provisioning gem is a dependency of chef-dk (the app).
 # Manage the chef-provisioning version via chef-dk.gemspec.
+# TODO delete this when chef-provisioning is released and go back
+# to managing the dependency through chef-dk gemspec
+override :'chef-provisioning', version: "tball/netssh"
 override :'chef-provisioning-aws', version: "v1.7.0"
 override :'chef-provisioning-azure', version: "v0.4.0"
 override :'chef-provisioning-fog', version: "v0.15.0"
