@@ -10,8 +10,9 @@ if "%OMNIBUS_PROJECT_NAME%"=="" (
 IF "%CLEAN%"=="true" (
   rmdir /Q /S c:\opscode
   rmdir /Q /S c:\omnibus-ruby
-  rmdir /Q /S .\pkg
 )
+
+rmdir /Q /S .\pkg
 
 set PATH=C:\Ruby193\bin;%PATH%
 set SSL_CERT_FILE=C:\Ruby193\ssl\certs\cacert.pem
