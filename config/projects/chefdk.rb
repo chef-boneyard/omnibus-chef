@@ -35,14 +35,15 @@ end
 override :chef,             version: "tball/netssh"
 override :ohai,             version: "master"
 override :chefdk,           version: "master"
-# TODO delete this when r-train is released
+# TODO delete this and the software def when r-train is released
 override :'r-train',        version: "tball/netssh"
 override :inspec,           version: "master"
 override :'kitchen-inspec', version: "v0.10.0"
 # We should do a gem release of berkshelf and TK
 # before releasing chefdk.
-override :berkshelf,      version: "master"
-override :'test-kitchen', version: "master"
+# Tyler's master branch pins TK to master
+override :berkshelf,        version: "master", source: { git: "git://github.com/tyler-ball/berkshelf" }
+override :'test-kitchen',   version: "master"
 
 override :'knife-windows', version: "v1.1.1"
 override :'knife-spork',   version: "1.5.0"
