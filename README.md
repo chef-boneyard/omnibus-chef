@@ -7,18 +7,18 @@ The omnibus project definitions for Chef, ChefDK and Push Jobs client used to
 live in this repo. They have now been migrated into their primary git
 repositories under an `omnibus` directory.
 
-* (Chef Client omnibus directory)[https://github.com/chef/chef/tree/master/omnibus]
-* (ChefDK omnibus directory)[https://github.com/chef/chef-dk/tree/master/omnibus]
-* (Push Jobs Client omnibus directory)[https://github.com/chef/opscode-pushy-client/tree/master/omnibus]
+* [Chef Client omnibus directory](https://github.com/chef/chef/tree/master/omnibus)
+* [ChefDK omnibus directory](https://github.com/chef/chef-dk/tree/master/omnibus)
+* [Push Jobs Client omnibus directory](https://github.com/chef/opscode-pushy-client/tree/master/omnibus)
 
 Jenkins test scripts were moved into a corresponding `ci` directory under each
 project.
 
-* (Chef Client ci directory)[https://github.com/chef/chef/tree/master/ci]
-* (ChefDK ci directory)[https://github.com/chef/chef-dk/tree/master/ci]
+* [Chef Client ci directory](https://github.com/chef/chef/tree/master/ci)
+* [ChefDK ci directory](https://github.com/chef/chef-dk/tree/master/ci)
 
 All common software definitions were moved into the
-(omnibus-software)[https://github.com/chef/omnibus-software] git repository.
+[omnibus-software](https://github.com/chef/omnibus-software) git repository.
 
 This repository has been left here to support legacy chef-11 builds and other
 historical builds.
