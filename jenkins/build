@@ -34,7 +34,7 @@ exists() {
 }
 
 # The key used to sign RPM packages is passphrase-less
-OMNIBUS_RPM_SIGNING_PASSPHRASE=notset
+[ -z "${OMNIBUS_RPM_SIGNING_PASSPHRASE}" ] && OMNIBUS_RPM_SIGNING_PASSPHRASE=notset
 export OMNIBUS_RPM_SIGNING_PASSPHRASE
 
 if [ "x$os" = "xAIX" ]; then
