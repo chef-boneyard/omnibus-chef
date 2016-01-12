@@ -64,7 +64,7 @@ GEM
     chef-config (12.6.0)
       mixlib-config (~> 2.0)
       mixlib-shellout (~> 2.0)
-    chef-sugar (3.3.0)
+    chef-sugar (3.2.0)
     cleanroom (1.0.0)
     dep-selector-libgecode (1.0.2)
     dep_selector (1.0.3)
