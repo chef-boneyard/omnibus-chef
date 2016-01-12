@@ -1,130 +1,27 @@
-Client Tools Omnibus project
+Client Tools Omnibus project (Deprecated)
 ============================
-This project creates full-stack platform-specific packages for the following projects:
 
-* AngryChef
-* Chef
-* ChefDK
-* Push Jobs Client
+DO NOT SUBMIT PATCHES OR CONTRIBUTE TO THIS REPOSITORY.
 
-Installation
-------------
-You must have a sane Ruby 1.9+ environment with Bundler installed. Ensure all
-the required gems are installed:
+The omnibus project definitions for Chef, ChefDK and Push Jobs client used to
+live in this repo. They have now been migrated into their primary git
+repositories under an `omnibus` directory.
 
-```shell
-$ bundle install --without development
-```
+* (Chef Client omnibus directory)[https://github.com/chef/chef/tree/master/omnibus]
+* (ChefDK omnibus directory)[https://github.com/chef/chef-dk/tree/master/omnibus]
+* (Push Jobs Client omnibus directory)[https://github.com/chef/opscode-pushy-client/tree/master/omnibus]
 
-Usage
------
-### Build
+Jenkins test scripts were moved into a corresponding `ci` directory under each
+project.
 
-You create a platform-specific package using the `build project` command:
+* (Chef Client ci directory)[https://github.com/chef/chef/tree/master/ci]
+* (ChefDK ci directory)[https://github.com/chef/chef-dk/tree/master/ci]
 
-```shell
-$ bundle exec omnibus build <PROJECT>
-```
+All common software definitions were moved into the
+(omnibus-software)[https://github.com/chef/omnibus-software] git repository.
 
-The platform/architecture type of the package created will match the platform
-where the `build project` command is invoked. For example, running this command
-on a MacBook Pro will generate a Mac OS X package. After the build completes
-packages will be available in the `pkg/` folder.
-
-### Clean
-
-You can clean up all temporary files generated during the build process with
-the `clean` command:
-
-```shell
-$ bundle exec omnibus clean <PROJECT>
-```
-
-Adding the `--purge` purge option removes __ALL__ files generated during the
-build including the project install directory (`/opt/chef`) and
-the package cache directory (`/var/cache/omnibus/pkg`):
-
-```shell
-$ bundle exec omnibus clean <PROJECT> --purge
-```
-
-### Publish
-
-Omnibus has a built-in mechanism for releasing to a variety of "backends", such
-as Amazon S3 and Artifactory. You must set the proper credentials in your `omnibus.rb`
-config file or specify them via the command line.
-
-```shell
-$ bundle exec omnibus publish path/to/*.deb --backend s3
-```
-
-### Help
-
-Full help for the Omnibus command line interface can be accessed with the
-`help` command:
-
-```shell
-$ bundle exec omnibus help
-```
-
-Kitchen-based Build Environment
--------------------------------
-Every Omnibus project ships will a project-specific
-[Berksfile](http://berkshelf.com/) that will allow you to build your omnibus projects on all of the projects listed
-in the `.kitchen.yml`. You can add/remove additional platforms as needed by
-changing the list found in the `.kitchen.yml` `platforms` YAML stanza.
-
-This build environment is designed to get you up-and-running quickly. However,
-there is nothing that restricts you to building on other platforms. Simply use
-the [omnibus cookbook](https://github.com/opscode-cookbooks/omnibus) to setup
-your desired platform and execute the build steps listed above.
-
-The default build environment requires Test Kitchen and VirtualBox for local
-development. Test Kitchen also exposes the ability to provision instances using
-various cloud providers like AWS, DigitalOcean, or OpenStack. For more
-information, please see the [Test Kitchen documentation](http://kitchen.ci).
-
-Once you have tweaked your `.kitchen.yml` (or `.kitchen.local.yml`) to your
-liking, you can bring up an individual build environment using the `kitchen`
-command.
-
-```shell
-$ bundle exec kitchen converge <PROJECT>-ubuntu-1204
-```
-
-Then login to the instance and build the project as described in the Usage
-section:
-
-```shell
-$ bundle exec kitchen login <PROJECT>-ubuntu-1204
-[vagrant@ubuntu...] $ cd omnibus-chef
-[vagrant@ubuntu...] $ bundle install --without development # Don't install dev tools!
-[vagrant@ubuntu...] $ ...
-[vagrant@ubuntu...] $ bundle exec omnibus build <PROJECT> -l internal
-```
-
-You can also login to Windows instances but will have to manually call the
-`load-omnibus-toolchain.bat` script which initializes the build environment.
-Please note the mounted code directory is also at `C:\home\vagrant\omnibus-chef`
-as opposed to `C:\Users\vagrant\omnibus-chef`.
-
-```shell
-$ bundle exec kitchen login <PROJECT>-windows-81-professional
-Last login: Sat Sep 13 10:19:04 2014 from 172.16.27.1
-Microsoft Windows [Version 6.3.9600]
-(c) 2013 Microsoft Corporation. All rights reserved.
-
-C:\Users\vagrant>load-omnibus-toolchain.bat
-
-C:\Users\vagrant>cd C:\home\vagrant\omnibus-chef
-
-C:\home\vagrant\omnibus-chef>bundle install --without development
-
-C:\home\vagrant\omnibus-chef>bundle exec omnibus build <PROJECT> -l internal
-```
-
-For a complete list of all commands and platforms, run `kitchen list` or
-`kitchen help`.
+This repository has been left here to support legacy chef-11 builds and other
+historical builds.
 
 License
 -------
